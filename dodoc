@@ -1,5 +1,0 @@
-sphinx-apidoc -f -o docs pybvc
-cd docs
-make html
-open _build/html/index.html
-cd ..
