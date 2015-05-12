@@ -1,0 +1,1079 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pybvc.controller.controller &mdash; pybvc 1.0.4 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pybvc 1.0.4 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pybvc 1.0.4 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pybvc.controller.controller</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">controller.py: Controller&#39;s properties and communication methods</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">xmltodict</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">requests.auth</span> <span class="kn">import</span> <span class="n">HTTPBasicAuth</span>
+<span class="kn">from</span> <span class="nn">requests.exceptions</span> <span class="kn">import</span> <span class="n">ConnectionError</span><span class="p">,</span> <span class="n">Timeout</span>
+<span class="kn">from</span> <span class="nn">pybvc.common.status</span> <span class="kn">import</span> <span class="n">OperStatus</span><span class="p">,</span> <span class="n">STATUS</span>
+<span class="kn">from</span> <span class="nn">pybvc.common.utils</span> <span class="kn">import</span> <span class="n">find_dict_in_list</span>
+
+
+<div class="viewcode-block" id="Controller"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller">[docs]</a><span class="k">class</span> <span class="nc">Controller</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Class that represents a Controller device.&quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ipAddr</span><span class="p">,</span> <span class="n">portNum</span><span class="p">,</span> <span class="n">adminName</span><span class="p">,</span> <span class="n">adminPassword</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initializes this object properties.&quot;&quot;&quot;</span>        
+        <span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span> <span class="o">=</span> <span class="n">ipAddr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span> <span class="o">=</span> <span class="n">portNum</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">adminName</span> <span class="o">=</span> <span class="n">adminName</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">adminPassword</span> <span class="o">=</span> <span class="n">adminPassword</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">timeout</span>
+<span class="c">#        self.nodes = []</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    def add_node(self,node):</span>
+<span class="sd">        self.nodes.append(node)</span>
+
+<span class="sd">    def get_nodes(self):</span>
+<span class="sd">        return self.nodes</span>
+<span class="sd">    </span>
+<span class="sd">    def get_node(self, nodeName):</span>
+<span class="sd">        node = None</span>
+<span class="sd">        for item in self.nodes:</span>
+<span class="sd">            if(isinstance(item, NetconfNode) and item.name == nodeName):</span>
+<span class="sd">                node = item</span>
+<span class="sd">                break</span>
+<span class="sd">        return node</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Controller.to_string"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns string representation of this object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.to_json"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns JSON representation of this object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="Controller.brief_json"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.brief_json">[docs]</a>    <span class="k">def</span> <span class="nf">brief_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns JSON representation of this object (brief info).&quot;&quot;&quot;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;ipAddr&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> 
+             <span class="s">&#39;portNum&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">,</span> 
+             <span class="s">&#39;adminName&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">adminName</span><span class="p">,</span> 
+             <span class="s">&#39;adminPassword&#39;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">adminPassword</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        print vars(self)</span>
+<span class="sd">        print dir(self)</span>
+<span class="sd">        d = self.__dict__</span>
+<span class="sd">        d1 = {self.ipAddr: self.ipAddr}</span>
+<span class="sd">        print d1</span>
+<span class="sd">        print d</span>
+<span class="sd">        pass</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.http_get_request"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.http_get_request">[docs]</a>    <span class="k">def</span> <span class="nf">http_get_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sends HTTP GET request to a remote server and returns the response.</span>
+<span class="sd">        </span>
+<span class="sd">        :param string url: The complete url including protocol: http://www.example.com/path/to/resource</span>
+<span class="sd">        :param string data:  The data to include in the body of the request.  Typically set to None.</span>
+<span class="sd">        :param dict headers:  The headers to include in the request.</span>
+<span class="sd">        :return: The response from the http request.</span>
+<span class="sd">        :rtype: None or `requests.response &lt;http://docs.python-requests.org/en/latest/api/#requests.Response&gt;`_</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span>
+                                <span class="n">auth</span><span class="o">=</span><span class="n">HTTPBasicAuth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adminName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">adminPassword</span><span class="p">),</span> 
+                                <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="n">ConnectionError</span><span class="p">,</span> <span class="n">Timeout</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Error: &quot;</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+        
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.http_post_request"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.http_post_request">[docs]</a>    <span class="k">def</span> <span class="nf">http_post_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sends HTTP POST request to a remote server and returns the response.        </span>
+
+<span class="sd">        :param string url: The complete url including protocol: http://www.example.com/path/to/resource</span>
+<span class="sd">        :param string data:  The data to include in the body of the request.  Typically set to None.</span>
+<span class="sd">        :param dict headers:  The headers to include in the request.</span>
+<span class="sd">        :return: The response from the http request.</span>
+<span class="sd">        :rtype: None or `requests.response &lt;http://docs.python-requests.org/en/latest/api/#requests.Response&gt;`_</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span>
+                                 <span class="n">auth</span><span class="o">=</span><span class="n">HTTPBasicAuth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adminName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">adminPassword</span><span class="p">),</span>
+                                 <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="n">ConnectionError</span><span class="p">,</span> <span class="n">Timeout</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Error: &quot;</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.http_put_request"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.http_put_request">[docs]</a>    <span class="k">def</span> <span class="nf">http_put_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sends HTTP PUT request to a remote server and returns the response.        </span>
+<span class="sd">        </span>
+<span class="sd">        :param string url: The complete url including protocol: http://www.example.com/path/to/resource</span>
+<span class="sd">        :param string data:  The data to include in the body of the request.  Typically set to None.</span>
+<span class="sd">        :param dict headers:  The headers to include in the request.</span>
+<span class="sd">        :return: The response from the http request.</span>
+<span class="sd">        :rtype: None or `requests.response &lt;http://docs.python-requests.org/en/latest/api/#requests.Response&gt;`_</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">url</span><span class="p">,</span>
+                                <span class="n">auth</span><span class="o">=</span><span class="n">HTTPBasicAuth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adminName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">adminPassword</span><span class="p">),</span>
+                                <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="n">ConnectionError</span><span class="p">,</span> <span class="n">Timeout</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Error: &quot;</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.http_delete_request"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.http_delete_request">[docs]</a>    <span class="k">def</span> <span class="nf">http_delete_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sends HTTP DELETE request to a remote server and returns the response.        </span>
+<span class="sd">        </span>
+<span class="sd">        :param string url: The complete url including protocol: http://www.example.com/path/to/resource</span>
+<span class="sd">        :param string data:  The data to include in the body of the request.  Typically set to None.</span>
+<span class="sd">        :param dict headers:  The headers to include in the request.</span>
+<span class="sd">        :return: The response from the http request.</span>
+<span class="sd">        :rtype: None or `requests.response &lt;http://docs.python-requests.org/en/latest/api/#requests.Response&gt;`_</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">url</span><span class="p">,</span>
+                                   <span class="n">auth</span><span class="o">=</span><span class="n">HTTPBasicAuth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adminName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">adminPassword</span><span class="p">),</span>
+                                   <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="n">ConnectionError</span><span class="p">,</span> <span class="n">Timeout</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Error: &quot;</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.get_nodes_operational_list"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.get_nodes_operational_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_nodes_operational_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/operational/opendaylight-inventory:nodes&quot;</span>        
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">)</span>
+        <span class="n">nlist</span> <span class="o">=</span> <span class="p">[]</span> 
+        
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;nodes&#39;</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;node&#39;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">):</span>
+                <span class="n">elemlist</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">elemlist</span><span class="p">:</span>
+                    <span class="n">p3</span> <span class="o">=</span> <span class="s">&#39;id&#39;</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">p3</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">):</span>
+                        <span class="n">nlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">elem</span><span class="p">[</span><span class="n">p3</span><span class="p">]))</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">nlist</span><span class="p">)</span>     
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.get_node_info"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.get_node_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_node_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodeId</span><span class="p">):</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/operational/opendaylight-inventory:nodes/node/{}&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">,</span> <span class="n">nodeId</span><span class="p">)</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="p">[]</span> 
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;node&#39;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">):</span>
+                <span class="n">info</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.check_node_config_status"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.check_node_config_status">[docs]</a>    <span class="k">def</span> <span class="nf">check_node_config_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodeId</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the configuration status of the node:  </span>
+
+<span class="sd">        :param string nodeId: Identifier for the node for which to get the config status </span>
+<span class="sd">        :return: Configuration status of the node. </span>
+<span class="sd">        :rtype: None or :class:`pybvc.common.status.OperStatus` </span>
+
+<span class="sd">        - STATUS.CONN_ERROR: if the controller did not respond.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: if the controller responded but did not provide any status.</span>
+<span class="sd">        - STATUS.NODE_CONFIGURED: if the node is configured.  </span>
+<span class="sd">        - STATUS.DATA_NOT_FOUND: if node is not configured. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/config/opendaylight-inventory:nodes&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">)</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">NODE_CONFIGURED</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.check_node_conn_status"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.check_node_conn_status">[docs]</a>    <span class="k">def</span> <span class="nf">check_node_conn_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodeId</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the connection status of the node to the controller:  </span>
+
+<span class="sd">        :param string nodeId: Identifier for the node for which to get the config status </span>
+<span class="sd">        :return: Status of the node&#39;s connection to the controller.  Note currently OpenFlow nodes are always shown disconnected.</span>
+<span class="sd">        :rtype: None or :class:`pybvc.common.status.OperStatus` </span>
+
+<span class="sd">        - STATUS.CONN_ERROR: if the controller did not respond.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: if the controller responded but did not provide any status.</span>
+<span class="sd">        - STATUS.NODE_CONNECTED: if the node is connected.  </span>
+<span class="sd">        - STATUS.NODE_DISCONNECTED: if the node is not connected </span>
+<span class="sd">        - STATUS.DATA_NOT_FOUND: if node is not configured. </span>
+<span class="sd">        - STATUS.HTTP_ERROR: if the controller responded with an error status code. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/operational/opendaylight-inventory:nodes&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">)</span>
+        
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">found</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">connected</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;nodes&#39;</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;node&#39;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">):</span>            
+                <span class="n">itemlist</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>            
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">itemlist</span><span class="p">:</span>
+                    <span class="n">p3</span> <span class="o">=</span> <span class="s">&#39;id&#39;</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">p3</span> <span class="ow">in</span> <span class="n">item</span> <span class="ow">and</span> <span class="n">item</span><span class="p">[</span><span class="n">p3</span><span class="p">]</span> <span class="o">==</span> <span class="n">nodeId</span><span class="p">):</span>
+                        <span class="n">found</span> <span class="o">=</span> <span class="bp">True</span>
+                        <span class="n">p4</span> <span class="o">=</span> <span class="s">&#39;netconf-node-inventory:connected&#39;</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">p4</span> <span class="ow">in</span> <span class="n">item</span> <span class="ow">and</span> <span class="n">item</span><span class="p">[</span><span class="n">p4</span><span class="p">]</span> <span class="o">==</span> <span class="bp">True</span><span class="p">):</span>
+                            <span class="n">connected</span> <span class="o">=</span> <span class="bp">True</span>
+                        <span class="k">break</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">connected</span><span class="p">):</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">NODE_CONNECTED</span><span class="p">)</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">found</span><span class="p">):</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">NODE_DISONNECTED</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">NODE_NOT_FOUND</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+                
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.get_all_nodes_in_config"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.get_all_nodes_in_config">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_nodes_in_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of nodes in the controller&#39;s config data store  </span>
+
+<span class="sd">        :return: A tuple:  Status, list of nodes in the config data store of the controller</span>
+<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, list</span>
+
+<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. List is empty.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. List is empty.</span>
+<span class="sd">        - STATUS.OK:  Success. List is valid.  </span>
+<span class="sd">        - STATUS.DATA_NOT_FOUND:  Success.  List is empty.</span>
+<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/config/opendaylight-inventory:nodes&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">)</span>        
+        <span class="n">nlist</span> <span class="o">=</span> <span class="p">[]</span> 
+        
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;nodes&#39;</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;node&#39;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">):</span>
+                <span class="n">elemlist</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">elemlist</span><span class="p">:</span>
+                    <span class="n">p3</span> <span class="o">=</span> <span class="s">&#39;id&#39;</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">p3</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">):</span>
+                        <span class="n">nlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">elem</span><span class="p">[</span><span class="n">p3</span><span class="p">]))</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">nlist</span><span class="p">)</span>
+
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.get_all_nodes_conn_status"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.get_all_nodes_conn_status">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_nodes_conn_status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of nodes and the status of their connection to the controller.</span>
+
+<span class="sd">        :return: A tuple:  Status, list of nodes the status of their connection to the controller</span>
+<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, list of dict [{node:&lt;node id&gt;, connected:&lt;boolean&gt;},...]</span>
+
+<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. List is empty.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. List is empty.</span>
+<span class="sd">        - STATUS.OK:  Success. List is valid.  </span>
+<span class="sd">        - STATUS.DATA_NOT_FOUND:  Success.  List is empty.</span>
+<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/operational/opendaylight-inventory:nodes&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">)</span>
+        <span class="n">nlist</span> <span class="o">=</span> <span class="p">[]</span> 
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;nodes&#39;</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;node&#39;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">):</span>            
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+                <span class="n">itemlist</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">itemlist</span><span class="p">:</span>
+                    <span class="n">p3</span> <span class="o">=</span> <span class="s">&#39;id&#39;</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">p3</span> <span class="ow">in</span> <span class="n">item</span><span class="p">):</span>
+                        <span class="n">nd</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+                        <span class="n">nd</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">p2</span> <span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="n">p3</span><span class="p">]})</span>
+                        <span class="n">p4</span> <span class="o">=</span> <span class="s">&#39;netconf-node-inventory:connected&#39;</span>
+                        <span class="n">p5</span> <span class="o">=</span> <span class="s">&#39;connected&#39;</span>
+                        <span class="k">if</span> <span class="p">((</span><span class="n">p4</span> <span class="ow">in</span> <span class="n">item</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="n">p4</span><span class="p">]</span> <span class="o">==</span> <span class="bp">True</span><span class="p">)):</span>
+                            <span class="n">nd</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">p5</span> <span class="p">:</span> <span class="bp">True</span><span class="p">})</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">nd</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">p5</span> <span class="p">:</span> <span class="bp">False</span><span class="p">})</span>
+                        <span class="n">nlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nd</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">nlist</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.get_schemas"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.get_schemas">[docs]</a>    <span class="k">def</span> <span class="nf">get_schemas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodeName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of YANG schemas for the node.</span>
+
+<span class="sd">        :param string nodeName: name of the node from the :py:meth:get_all_nodes_in_config </span>
+<span class="sd">        :return: A tuple:  Status, list of YANG schemas for the node.</span>
+<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, JSON listing information about the YANG schemas for the node</span>
+
+<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. List is empty.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. List is empty.</span>
+<span class="sd">        - STATUS.OK:  Success. List is valid.  </span>
+<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/operational/opendaylight-inventory:nodes/node/{}/yang-ext:mount/ietf-netconf-monitoring:netconf-state/schemas&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">,</span> <span class="n">nodeName</span><span class="p">)</span>
+        <span class="n">slist</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;schemas&#39;</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;schema&#39;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">):</span>            
+                <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
+                <span class="n">slist</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">slist</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.get_schema"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.get_schema">[docs]</a>    <span class="k">def</span> <span class="nf">get_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodeName</span><span class="p">,</span> <span class="n">schemaId</span><span class="p">,</span> <span class="n">schemaVersion</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a YANG schema for the indicated schema on the indicated node.</span>
+
+<span class="sd">        :param string nodeName: name of the node from the :py:meth:get_all_nodes_in_config </span>
+<span class="sd">        :param string schemaId: id of schema</span>
+<span class="sd">        :param string schemaVersion: version of the schema</span>
+<span class="sd">        :return: A tuple:  Status, YANG schema.</span>
+<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, YANG schema </span>
+
+<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. schema is empty.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. schema is empty.</span>
+<span class="sd">        - STATUS.OK:  Success. result is valid.  </span>
+<span class="sd">        - STATUS.DATA_NOT_FOUND:  Data missing or in unexpected format.  </span>
+<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/operations/opendaylight-inventory:nodes/node/{}/yang-ext:mount/ietf-netconf-monitoring:get-schema&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">,</span> <span class="n">nodeName</span><span class="p">)</span> 
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;content-type&#39;</span><span class="p">:</span> <span class="s">&#39;application/yang.data+json&#39;</span><span class="p">,</span> <span class="s">&#39;accept&#39;</span><span class="p">:</span> <span class="s">&#39;text/json, text/html, application/xml, */*&#39;</span><span class="p">}</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;input&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;identifier&#39;</span> <span class="p">:</span> <span class="n">schemaId</span><span class="p">,</span> <span class="s">&#39;version&#39;</span> <span class="p">:</span> <span class="n">schemaVersion</span><span class="p">,</span> <span class="s">&#39;format&#39;</span> <span class="p">:</span> <span class="s">&#39;yang&#39;</span><span class="p">}}</span>
+        <span class="n">schema</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_post_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">),</span> <span class="n">headers</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;content-type&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;application/xml&quot;</span><span class="p">):</span>
+                <span class="n">doc</span> <span class="o">=</span> <span class="n">xmltodict</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;get-schema&#39;</span>
+                    <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;output&#39;</span>
+                    <span class="n">p3</span> <span class="o">=</span> <span class="s">&#39;data&#39;</span>
+                    <span class="n">schema</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="n">p1</span><span class="p">][</span><span class="n">p2</span><span class="p">][</span><span class="n">p3</span><span class="p">]</span>
+                    <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+                <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="k">print</span> <span class="nb">repr</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                    <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
+                <span class="k">print</span> <span class="s">&quot;TBD: not implemented content type parser&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.get_netconf_operations"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.get_netconf_operations">[docs]</a>    <span class="k">def</span> <span class="nf">get_netconf_operations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodeName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of operations supported by the indicated node.</span>
+
+<span class="sd">        :param string nodeName: name of the node from the :py:meth:get_all_nodes_in_config </span>
+<span class="sd">        :return: A tuple:  Status, operations supported by indicated node.</span>
+<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, JSON listing the operations </span>
+
+<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. operations info is empty.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. operations info is empty.</span>
+<span class="sd">        - STATUS.OK:  Success. operations info is valid.  </span>
+<span class="sd">        - STATUS.DATA_NOT_FOUND:  Data missing or in unexpected format.  </span>
+<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/operations/opendaylight-inventory:nodes/node/{}/yang-ext:mount/&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">,</span> <span class="n">nodeName</span><span class="p">)</span> 
+        <span class="n">olist</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;operations&#39;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">):</span>
+                <span class="n">olist</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">olist</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.get_all_modules_operational_state"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.get_all_modules_operational_state">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_modules_operational_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of modules and their operational state.</span>
+
+<span class="sd">        :return: A tuple:  Status, modules and their operational state.</span>
+<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, JSON listing modules and their operational state </span>
+
+<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. state info is empty.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. state info is empty.</span>
+<span class="sd">        - STATUS.OK:  Success. state info is valid.  </span>
+<span class="sd">        - STATUS.DATA_NOT_FOUND:  Data missing or in unexpected format.  </span>
+<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/operational/opendaylight-inventory:nodes/node/controller-config/yang-ext:mount/config:modules&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">)</span>
+        <span class="n">mlist</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;modules&#39;</span>
+                <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;module&#39;</span>
+                <span class="n">mlist</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\\\n</span><span class="s">&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span><span class="k">as</span>  <span class="n">e</span><span class="p">:</span>
+                <span class="k">print</span> <span class="nb">repr</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
+                
+                
+            <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            p1 = &#39;modules&#39;</span>
+<span class="sd">            p2 = &#39;module&#39;</span>
+<span class="sd">            if(p1 in resp.content and p2 in resp.content):</span>
+<span class="sd">                mlist = json.loads(resp.content).get(p1).get(p2)</span>
+<span class="sd">                status.set_status(STATUS.OK)</span>
+<span class="sd">            else:</span>
+<span class="sd">                status.set_status(STATUS.DATA_NOT_FOUND)</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">mlist</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.get_module_operational_state"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.get_module_operational_state">[docs]</a>    <span class="k">def</span> <span class="nf">get_module_operational_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">moduleType</span><span class="p">,</span> <span class="n">moduleName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return operational state for specified module.</span>
+
+<span class="sd">        :param string moduleType: module type</span>
+<span class="sd">        :param string moduleName: module name</span>
+<span class="sd">        :return: A tuple:  Status, operational state for specified module.</span>
+<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, JSON providing operational state </span>
+
+<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. state info is empty.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. state info is empty.</span>
+<span class="sd">        - STATUS.OK:  Success. state info is valid.  </span>
+<span class="sd">        - STATUS.DATA_NOT_FOUND:  Data missing or in unexpected format.  </span>
+<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/operational/opendaylight-inventory:nodes/node/controller-config/yang-ext:mount/config:modules/module/{}/{}&quot;</span>              
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">,</span> <span class="n">moduleType</span><span class="p">,</span> <span class="n">moduleName</span><span class="p">)</span>         
+        <span class="n">module</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;module&#39;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">):</span>
+                <span class="n">module</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">module</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.get_sessions_info"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.get_sessions_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_sessions_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodeName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return sessions for indicated node.</span>
+
+<span class="sd">        :param string nodeName: name of the node from the :py:meth:get_all_nodes_in_config </span>
+<span class="sd">        :return: A tuple:  Status, list of sessions for indicated node </span>
+<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, JSON providing sessions</span>
+
+<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. session info is empty.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. session info is empty.</span>
+<span class="sd">        - STATUS.OK:  Success. session info is valid.  </span>
+<span class="sd">        - STATUS.DATA_NOT_FOUND:  Data missing or in unexpected format.  </span>
+<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/operational/opendaylight-inventory:nodes/node/{}/yang-ext:mount/ietf-netconf-monitoring:netconf-state/sessions&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">,</span> <span class="n">nodeName</span><span class="p">)</span>
+        <span class="n">slist</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;sessions&#39;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">):</span>
+                <span class="n">slist</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>                
+        
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">slist</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.get_streams_info"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.get_streams_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_streams_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return streams available for subscription.</span>
+
+<span class="sd">        :return: A tuple:  Status, list of streams </span>
+<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, JSON providing list of streams</span>
+
+<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. stream info is empty.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. stream info is empty.</span>
+<span class="sd">        - STATUS.OK:  Success. stream info is valid.  </span>
+<span class="sd">        - STATUS.DATA_NOT_FOUND:  Data missing or in unexpected format.  </span>
+<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/streams&quot;</span>        
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">)</span>
+        <span class="n">slist</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;streams&#39;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">):</span>
+                <span class="n">slist</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>                
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">slist</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.get_service_providers_info"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.get_service_providers_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_service_providers_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a list of service providers available.</span>
+
+<span class="sd">        :return: A tuple:  Status, list of service providers </span>
+<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, JSON providing list of service providers</span>
+<span class="sd">        </span>
+<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. provider info is empty.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. provider info is empty.</span>
+<span class="sd">        - STATUS.OK:  Success. provide info is valid.  </span>
+<span class="sd">        - STATUS.DATA_NOT_FOUND:  Data missing or in unexpected format.  </span>
+<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/config/opendaylight-inventory:nodes/node/controller-config/yang-ext:mount/config:services&quot;</span>        
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">)</span>
+        <span class="n">slist</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;services&#39;</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;service&#39;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">):</span>
+                <span class="n">slist</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">slist</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.get_service_provider_info"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.get_service_provider_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_service_provider_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return info about a single service provider.</span>
+
+<span class="sd">        :param string name: name of the provider from the :py:meth:get_service_providers_info </span>
+<span class="sd">        :return: A tuple:  Status, info about the service provider </span>
+<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, JSON providing info about the service provider</span>
+
+<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. provider info is empty.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. provider info is empty.</span>
+<span class="sd">        - STATUS.OK:  Success. provide info is valid.  </span>
+<span class="sd">        - STATUS.DATA_NOT_FOUND:  Data missing or in unexpected format.  </span>
+<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/config/opendaylight-inventory:nodes/node/controller-config/yang-ext:mount/config:services/service/{}&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>         
+        <span class="n">service</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;service&#39;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">):</span>
+                <span class="n">service</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>                          
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>        
+        
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">service</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.add_netconf_node"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.add_netconf_node">[docs]</a>    <span class="k">def</span> <span class="nf">add_netconf_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Connect a netconf device to the controller (for example connect vrouter to controller via NetConf)</span>
+
+<span class="sd">        :param node: :class:`pybvc.controller.netconfnode.NetconfNode`</span>
+<span class="sd">        :return: A tuple:  Status, JSON response from controller. </span>
+<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, JSON providing response from adding netconf noed.</span>
+
+<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. provider info is empty.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. provider info is empty.</span>
+<span class="sd">        - STATUS.OK:  Success. provide info is valid.  </span>
+<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/config/opendaylight-inventory:nodes/node/controller-config/yang-ext:mount/config:modules&quot;</span>        
+        <span class="n">xmlPayloadTemplate</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;</span>
+<span class="s">        &lt;module xmlns=&quot;urn:opendaylight:params:xml:ns:yang:controller:config&quot;&gt;</span>
+<span class="s">          &lt;type xmlns:prefix=&quot;urn:opendaylight:params:xml:ns:yang:controller:md:sal:connector:netconf&quot;&gt;prefix:sal-netconf-connector&lt;/type&gt;</span>
+<span class="s">          &lt;name&gt;{}&lt;/name&gt;</span>
+<span class="s">          &lt;address xmlns=&quot;urn:opendaylight:params:xml:ns:yang:controller:md:sal:connector:netconf&quot;&gt;{}&lt;/address&gt;</span>
+<span class="s">          &lt;port xmlns=&quot;urn:opendaylight:params:xml:ns:yang:controller:md:sal:connector:netconf&quot;&gt;{}&lt;/port&gt;</span>
+<span class="s">          &lt;username xmlns=&quot;urn:opendaylight:params:xml:ns:yang:controller:md:sal:connector:netconf&quot;&gt;{}&lt;/username&gt;</span>
+<span class="s">          &lt;password xmlns=&quot;urn:opendaylight:params:xml:ns:yang:controller:md:sal:connector:netconf&quot;&gt;{}&lt;/password&gt;</span>
+<span class="s">          &lt;tcp-only xmlns=&quot;urn:opendaylight:params:xml:ns:yang:controller:md:sal:connector:netconf&quot;&gt;{}&lt;/tcp-only&gt;</span>
+<span class="s">          &lt;event-executor xmlns=&quot;urn:opendaylight:params:xml:ns:yang:controller:md:sal:connector:netconf&quot;&gt;</span>
+<span class="s">            &lt;type xmlns:prefix=&quot;urn:opendaylight:params:xml:ns:yang:controller:netty&quot;&gt;prefix:netty-event-executor&lt;/type&gt;</span>
+<span class="s">            &lt;name&gt;global-event-executor&lt;/name&gt;</span>
+<span class="s">          &lt;/event-executor&gt;</span>
+<span class="s">          &lt;binding-registry xmlns=&quot;urn:opendaylight:params:xml:ns:yang:controller:md:sal:connector:netconf&quot;&gt;</span>
+<span class="s">            &lt;type xmlns:prefix=&quot;urn:opendaylight:params:xml:ns:yang:controller:md:sal:binding&quot;&gt;prefix:binding-broker-osgi-registry&lt;/type&gt;</span>
+<span class="s">            &lt;name&gt;binding-osgi-broker&lt;/name&gt;</span>
+<span class="s">          &lt;/binding-registry&gt;</span>
+<span class="s">          &lt;dom-registry xmlns=&quot;urn:opendaylight:params:xml:ns:yang:controller:md:sal:connector:netconf&quot;&gt;</span>
+<span class="s">            &lt;type xmlns:prefix=&quot;urn:opendaylight:params:xml:ns:yang:controller:md:sal:dom&quot;&gt;prefix:dom-broker-osgi-registry&lt;/type&gt;</span>
+<span class="s">            &lt;name&gt;dom-broker&lt;/name&gt;</span>
+<span class="s">          &lt;/dom-registry&gt;</span>
+<span class="s">          &lt;client-dispatcher xmlns=&quot;urn:opendaylight:params:xml:ns:yang:controller:md:sal:connector:netconf&quot;&gt;</span>
+<span class="s">            &lt;type xmlns:prefix=&quot;urn:opendaylight:params:xml:ns:yang:controller:config:netconf&quot;&gt;prefix:netconf-client-dispatcher&lt;/type&gt;</span>
+<span class="s">            &lt;name&gt;global-netconf-dispatcher&lt;/name&gt;</span>
+<span class="s">          &lt;/client-dispatcher&gt;</span>
+<span class="s">          &lt;processing-executor xmlns=&quot;urn:opendaylight:params:xml:ns:yang:controller:md:sal:connector:netconf&quot;&gt;</span>
+<span class="s">            &lt;type xmlns:prefix=&quot;urn:opendaylight:params:xml:ns:yang:controller:threadpool&quot;&gt;prefix:threadpool&lt;/type&gt;</span>
+<span class="s">            &lt;name&gt;global-netconf-processing-executor&lt;/name&gt;</span>
+<span class="s">          &lt;/processing-executor&gt;</span>
+<span class="s">        &lt;/module&gt;</span>
+<span class="s">        &#39;&#39;&#39;</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">xmlPayloadTemplate</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">portNum</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">adminName</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">adminPassword</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">tcpOnly</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">)</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;content-type&#39;</span><span class="p">:</span> <span class="s">&#39;application/xml&#39;</span><span class="p">,</span> <span class="s">&#39;accept&#39;</span><span class="p">:</span> <span class="s">&#39;application/xml&#39;</span><span class="p">}</span>
+        
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_post_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">or</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">204</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.delete_netconf_node"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.delete_netconf_node">[docs]</a>    <span class="k">def</span> <span class="nf">delete_netconf_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">netconfdev</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Disconnect a netconf device from the controller</span>
+
+<span class="sd">        :param netconfdev: :class:`pybvc.controller.netconfnode.NetconfNode`</span>
+<span class="sd">        :return: A tuple:  Status, None. </span>
+<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, JSON providing response from adding netconf noed.</span>
+
+<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. </span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. </span>
+<span class="sd">        - STATUS.OK:  Success. </span>
+<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/config/opendaylight-inventory:nodes/node/controller-config/yang-ext:mount/config:modules/module/odl-sal-netconf-connector-cfg:sal-netconf-connector/{}&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">,</span> <span class="n">netconfdev</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_delete_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># TBD: </span>
+    <span class="c"># NOTE: It is unclear which NETCONF node attributes are allowed for dynamic</span>
+    <span class="c">#       configuration changes. For now just follow an example that is</span>
+    <span class="c">#       published on ODL wiki:</span>
+    <span class="c">#       https://wiki.opendaylight.org/view/OpenDaylight_Controller:Config:Examples:Netconf</span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.modify_netconf_node_in_config"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.modify_netconf_node_in_config">[docs]</a>    <span class="k">def</span> <span class="nf">modify_netconf_node_in_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">netconfdev</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Modify connected netconf device&#39;s info in the controller</span>
+
+<span class="sd">        :param netconfdev: :class:`pybvc.controller.netconfnode.NetconfNode`</span>
+<span class="sd">        :return: A tuple:  Status, None. </span>
+<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, JSON providing response from adding netconf noed.</span>
+
+<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. </span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. </span>
+<span class="sd">        - STATUS.OK:  Success. </span>
+<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/config/opendaylight-inventory:nodes/node/controller-config/yang-ext:mount/config:modules&quot;</span>      
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">)</span>
+        <span class="n">xmlPayloadTemplate</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;</span>
+<span class="s">        &lt;module xmlns=&quot;urn:opendaylight:params:xml:ns:yang:controller:config&quot;&gt;</span>
+<span class="s">          &lt;type xmlns:prefix=&quot;urn:opendaylight:params:xml:ns:yang:controller:md:sal:connector:netconf&quot;&gt;prefix:sal-netconf-connector&lt;/type&gt;</span>
+<span class="s">          &lt;name&gt;{}&lt;/name&gt;</span>
+<span class="s">          &lt;username xmlns=&quot;urn:opendaylight:params:xml:ns:yang:controller:md:sal:connector:netconf&quot;&gt;{}&lt;/username&gt;</span>
+<span class="s">          &lt;password xmlns=&quot;urn:opendaylight:params:xml:ns:yang:controller:md:sal:connector:netconf&quot;&gt;{}&lt;/password&gt;</span>
+<span class="s">        &lt;/module&gt;</span>
+<span class="s">        &#39;&#39;&#39;</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">xmlPayloadTemplate</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">netconfdev</span><span class="o">.</span><span class="n">devName</span><span class="p">,</span> <span class="n">netconfdev</span><span class="o">.</span><span class="n">adminName</span><span class="p">,</span> <span class="n">netconfdev</span><span class="o">.</span><span class="n">adminPassword</span><span class="p">)</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;content-type&#39;</span><span class="p">:</span> <span class="s">&#39;application/xml&#39;</span><span class="p">,</span> <span class="s">&#39;accept&#39;</span><span class="p">:</span> <span class="s">&#39;application/xml&#39;</span><span class="p">}</span>
+        
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_post_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.get_ext_mount_config_url"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.get_ext_mount_config_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_ext_mount_config_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/config/opendaylight-inventory:nodes/node/{}/yang-ext:mount/&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">url</span>    
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.get_ext_mount_operational_url"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.get_ext_mount_operational_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_ext_mount_operational_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/operational/opendaylight-inventory:nodes/node/{}/yang-ext:mount/&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">url</span>    
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.get_node_operational_url"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.get_node_operational_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_node_operational_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/operational/opendaylight-inventory:nodes/node/{}&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">url</span>    
+
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.get_node_config_url"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.get_node_config_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_node_config_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/config/opendaylight-inventory:nodes/node/{}&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">url</span>    
+
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Controller.get_openflow_nodes_operational_list"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.controller.Controller.get_openflow_nodes_operational_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_openflow_nodes_operational_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrl</span> <span class="o">=</span> <span class="s">&quot;http://{}:{}/restconf/operational/opendaylight-inventory:nodes&quot;</span>        
+        <span class="n">url</span> <span class="o">=</span> <span class="n">templateUrl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span><span class="p">)</span>
+        <span class="n">nlist</span> <span class="o">=</span> <span class="p">[]</span> 
+        <span class="n">resp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;nodes&#39;</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;node&#39;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">):</span>
+                <span class="n">elist</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span> <span class="p">(</span><span class="n">elist</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="n">p3</span> <span class="o">=</span> <span class="s">&#39;id&#39;</span>
+                    <span class="n">p4</span> <span class="o">=</span> <span class="s">&#39;openflow&#39;</span>
+                    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">elist</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span> <span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="n">p3</span> <span class="ow">in</span> <span class="n">item</span> <span class="ow">and</span> <span class="n">item</span><span class="p">[</span><span class="n">p3</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">p4</span><span class="p">)):</span>
+                            <span class="n">nlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="n">p3</span><span class="p">])</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+<span class="c">#        print nlist</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">nlist</span><span class="p">)</span>     
+        </div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pybvc 1.0.4 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Author.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pybvc.common package &mdash; pybvc 1.0.0.dev1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0.dev1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pybvc 1.0.0.dev1 documentation" href="index.html" />
+    <link rel="up" title="pybvc package" href="pybvc.html" />
+    <link rel="next" title="pybvc.controller package" href="pybvc.controller.html" />
+    <link rel="prev" title="pybvc package" href="pybvc.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pybvc.controller.html" title="pybvc.controller package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pybvc.html" title="pybvc package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">pybvc 1.0.0.dev1 documentation</a> &raquo;</li>
+          <li><a href="pybvc.html" accesskey="U">pybvc package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="pybvc-common-package">
+<h1>pybvc.common package<a class="headerlink" href="#pybvc-common-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pybvc.common.status">
+<span id="pybvc-common-status-module"></span><h2>pybvc.common.status module<a class="headerlink" href="#module-pybvc.common.status" title="Permalink to this headline">¶</a></h2>
+<p>status.py: Operational Status of a performed HTTP communication session</p>
+<dl class="class">
+<dt id="pybvc.common.status.OperStatus">
+<em class="property">class </em><tt class="descclassname">pybvc.common.status.</tt><tt class="descname">OperStatus</tt><big>(</big><em>status_code=None</em>, <em>http_resp=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/common/status.html#OperStatus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.status.OperStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Operational status of completed HTTP session</p>
+<dl class="method">
+<dt id="pybvc.common.status.OperStatus.brief">
+<tt class="descname">brief</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/common/status.html#OperStatus.brief"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.status.OperStatus.brief" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.common.status.OperStatus.code">
+<tt class="descname">code</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/common/status.html#OperStatus.code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.status.OperStatus.code" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.common.status.OperStatus.detail">
+<tt class="descname">detail</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/common/status.html#OperStatus.detail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.status.OperStatus.detail" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.common.status.OperStatus.eq">
+<tt class="descname">eq</tt><big>(</big><em>status_code</em><big>)</big><a class="reference internal" href="_modules/pybvc/common/status.html#OperStatus.eq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.status.OperStatus.eq" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.common.status.OperStatus.set_status">
+<tt class="descname">set_status</tt><big>(</big><em>status_code</em>, <em>http_resp=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/common/status.html#OperStatus.set_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.status.OperStatus.set_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.common.status.OperStatus.to_string">
+<tt class="descname">to_string</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/common/status.html#OperStatus.to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.status.OperStatus.to_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybvc.common.status.STATUS">
+<tt class="descclassname">pybvc.common.status.</tt><tt class="descname">STATUS</tt><a class="headerlink" href="#pybvc.common.status.STATUS" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">Enum</span></tt></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybvc.common.status.enum">
+<tt class="descclassname">pybvc.common.status.</tt><tt class="descname">enum</tt><big>(</big><em>*args</em><big>)</big><a class="reference internal" href="_modules/pybvc/common/status.html#enum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.status.enum" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pybvc.common.utils">
+<span id="pybvc-common-utils-module"></span><h2>pybvc.common.utils module<a class="headerlink" href="#module-pybvc.common.utils" title="Permalink to this headline">¶</a></h2>
+<p>utils.py: Helper utilities</p>
+<dl class="function">
+<dt id="pybvc.common.utils.load_dict_from_file">
+<tt class="descclassname">pybvc.common.utils.</tt><tt class="descname">load_dict_from_file</tt><big>(</big><em>f</em>, <em>d</em><big>)</big><a class="reference internal" href="_modules/pybvc/common/utils.html#load_dict_from_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.utils.load_dict_from_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pybvc.common.utils.progress_wait_secs">
+<tt class="descclassname">pybvc.common.utils.</tt><tt class="descname">progress_wait_secs</tt><big>(</big><em>msg=None</em>, <em>waitTime=None</em>, <em>sym='.'</em><big>)</big><a class="reference internal" href="_modules/pybvc/common/utils.html#progress_wait_secs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.utils.progress_wait_secs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pybvc.common.utils.remove_empty_from_dict">
+<tt class="descclassname">pybvc.common.utils.</tt><tt class="descname">remove_empty_from_dict</tt><big>(</big><em>d</em><big>)</big><a class="reference internal" href="_modules/pybvc/common/utils.html#remove_empty_from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.utils.remove_empty_from_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-pybvc.common">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pybvc.common" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">pybvc.common package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pybvc.common.status">pybvc.common.status module</a></li>
+<li><a class="reference internal" href="#module-pybvc.common.utils">pybvc.common.utils module</a></li>
+<li><a class="reference internal" href="#module-pybvc.common">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pybvc.html"
+                        title="previous chapter">pybvc package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pybvc.controller.html"
+                        title="next chapter">pybvc.controller package</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/pybvc.common.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pybvc.controller.html" title="pybvc.controller package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pybvc.html" title="pybvc package"
+             >previous</a> |</li>
+        <li><a href="index.html">pybvc 1.0.0.dev1 documentation</a> &raquo;</li>
+          <li><a href="pybvc.html" >pybvc package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Author.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
