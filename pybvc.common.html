@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pybvc.common package &mdash; pybvc 1.0.4 documentation</title>
+    <title>pybvc.common package &mdash; pybvc 1.1.1 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.0.4',
+        VERSION:     '1.1.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="pybvc 1.0.4 documentation" href="index.html" />
+    <link rel="top" title="pybvc 1.1.1 documentation" href="index.html" />
     <link rel="up" title="pybvc package" href="pybvc.html" />
     <link rel="next" title="pybvc.controller package" href="pybvc.controller.html" />
     <link rel="prev" title="pybvc package" href="pybvc.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pybvc.html" title="pybvc package"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">pybvc 1.0.4 documentation</a> &raquo;</li>
+        <li><a href="index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
           <li><a href="pybvc.html" accesskey="U">pybvc package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -59,8 +59,123 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
+<div class="section" id="module-pybvc.common.constants">
+<span id="pybvc-common-constants-module"></span><h2>pybvc.common.constants module<a class="headerlink" href="#module-pybvc.common.constants" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015</p>
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors
+may be used to endorse or promote products derived from this software
+without specific prior written permission.</li>
+</ul>
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#8220;AS IS&#8221;
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<p>&#64;authors: Sergei Garbuzov
+&#64;status: Development
+&#64;version: 1.1.0</p>
+<p>constants.py: Standardized (well known) numbers</p>
+</div>
+<div class="section" id="module-pybvc.common.result">
+<span id="pybvc-common-result-module"></span><h2>pybvc.common.result module<a class="headerlink" href="#module-pybvc.common.result" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015</p>
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors
+may be used to endorse or promote products derived from this software
+without specific prior written permission.</li>
+</ul>
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#8220;AS IS&#8221;
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<p>&#64;authors: Sergei Garbuzov
+&#64;status: Development
+&#64;version: 1.1.0</p>
+<p>result.py: Result of HTTP communication session (status and data)</p>
+<dl class="class">
+<dt id="pybvc.common.result.Result">
+<em class="property">class </em><tt class="descclassname">pybvc.common.result.</tt><tt class="descname">Result</tt><big>(</big><em>status=None</em>, <em>data=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/common/result.html#Result"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.result.Result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Result of completed HTTP session (status and data)</p>
+<dl class="method">
+<dt id="pybvc.common.result.Result.get_data">
+<tt class="descname">get_data</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/common/result.html#Result.get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.result.Result.get_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.common.result.Result.get_status">
+<tt class="descname">get_status</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/common/result.html#Result.get_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.result.Result.get_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-pybvc.common.status">
 <span id="pybvc-common-status-module"></span><h2>pybvc.common.status module<a class="headerlink" href="#module-pybvc.common.status" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015</p>
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors
+may be used to endorse or promote products derived from this software
+without specific prior written permission.</li>
+</ul>
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#8220;AS IS&#8221;
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<p>&#64;authors: Sergei Garbuzov
+&#64;status: Development
+&#64;version: 1.1.0</p>
 <p>status.py: Operational Status of a performed HTTP communication session</p>
 <dl class="class">
 <dt id="pybvc.common.status.OperStatus">
@@ -73,13 +188,8 @@
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="pybvc.common.status.OperStatus.code">
-<tt class="descname">code</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/common/status.html#OperStatus.code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.status.OperStatus.code" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pybvc.common.status.OperStatus.detail">
-<tt class="descname">detail</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/common/status.html#OperStatus.detail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.status.OperStatus.detail" title="Permalink to this definition">¶</a></dt>
+<dt id="pybvc.common.status.OperStatus.detailed">
+<tt class="descname">detailed</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/common/status.html#OperStatus.detailed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.status.OperStatus.detailed" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -88,8 +198,28 @@
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="pybvc.common.status.OperStatus.get_status_code">
+<tt class="descname">get_status_code</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/common/status.html#OperStatus.get_status_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.status.OperStatus.get_status_code" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.common.status.OperStatus.get_status_response">
+<tt class="descname">get_status_response</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/common/status.html#OperStatus.get_status_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.status.OperStatus.get_status_response" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pybvc.common.status.OperStatus.set_status">
 <tt class="descname">set_status</tt><big>(</big><em>status_code</em>, <em>http_resp=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/common/status.html#OperStatus.set_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.status.OperStatus.set_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.common.status.OperStatus.set_status_code">
+<tt class="descname">set_status_code</tt><big>(</big><em>status_code</em><big>)</big><a class="reference internal" href="_modules/pybvc/common/status.html#OperStatus.set_status_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.status.OperStatus.set_status_code" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.common.status.OperStatus.set_status_response">
+<tt class="descname">set_status_response</tt><big>(</big><em>http_resp</em><big>)</big><a class="reference internal" href="_modules/pybvc/common/status.html#OperStatus.set_status_response"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.status.OperStatus.set_status_response" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -113,7 +243,42 @@
 </div>
 <div class="section" id="module-pybvc.common.utils">
 <span id="pybvc-common-utils-module"></span><h2>pybvc.common.utils module<a class="headerlink" href="#module-pybvc.common.utils" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015</p>
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors
+may be used to endorse or promote products derived from this software
+without specific prior written permission.</li>
+</ul>
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#8220;AS IS&#8221;
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<p>&#64;authors: Sergei Garbuzov
+&#64;status: Development
+&#64;version: 1.1.0</p>
 <p>utils.py: Helper utilities</p>
+<dl class="function">
+<dt id="pybvc.common.utils.dict_keys_underscored_to_dashed">
+<tt class="descclassname">pybvc.common.utils.</tt><tt class="descname">dict_keys_underscored_to_dashed</tt><big>(</big><em>d</em><big>)</big><a class="reference internal" href="_modules/pybvc/common/utils.html#dict_keys_underscored_to_dashed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.utils.dict_keys_underscored_to_dashed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="pybvc.common.utils.find_dict_in_list">
 <tt class="descclassname">pybvc.common.utils.</tt><tt class="descname">find_dict_in_list</tt><big>(</big><em>slist</em>, <em>key</em><big>)</big><a class="reference internal" href="_modules/pybvc/common/utils.html#find_dict_in_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.utils.find_dict_in_list" title="Permalink to this definition">¶</a></dt>
@@ -154,8 +319,8 @@ for all the values matching to the provided key.</p>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="pybvc.common.utils.stripNone">
-<tt class="descclassname">pybvc.common.utils.</tt><tt class="descname">stripNone</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="_modules/pybvc/common/utils.html#stripNone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.utils.stripNone" title="Permalink to this definition">¶</a></dt>
+<dt id="pybvc.common.utils.strip_none">
+<tt class="descclassname">pybvc.common.utils.</tt><tt class="descname">strip_none</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="_modules/pybvc/common/utils.html#strip_none"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.common.utils.strip_none" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -174,6 +339,8 @@ for all the values matching to the provided key.</p>
   <ul>
 <li><a class="reference internal" href="#">pybvc.common package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pybvc.common.constants">pybvc.common.constants module</a></li>
+<li><a class="reference internal" href="#module-pybvc.common.result">pybvc.common.result module</a></li>
 <li><a class="reference internal" href="#module-pybvc.common.status">pybvc.common.status module</a></li>
 <li><a class="reference internal" href="#module-pybvc.common.utils">pybvc.common.utils module</a></li>
 <li><a class="reference internal" href="#module-pybvc.common">Module contents</a></li>
@@ -224,7 +391,7 @@ for all the values matching to the provided key.</p>
         <li class="right" >
           <a href="pybvc.html" title="pybvc package"
              >previous</a> |</li>
-        <li><a href="index.html">pybvc 1.0.4 documentation</a> &raquo;</li>
+        <li><a href="index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
           <li><a href="pybvc.html" >pybvc package</a> &raquo;</li> 
       </ul>
     </div>

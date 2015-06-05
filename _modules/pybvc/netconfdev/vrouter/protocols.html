@@ -1,0 +1,322 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pybvc.netconfdev.vrouter.protocols &mdash; pybvc 1.1.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="pybvc 1.1.1 documentation" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pybvc.netconfdev.vrouter.protocols</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Copyright (c) 2015</span>
+
+<span class="sd">Redistribution and use in source and binary forms, with or without</span>
+<span class="sd">modification, are permitted provided that the following conditions are met:</span>
+<span class="sd"> - Redistributions of source code must retain the above copyright notice,</span>
+<span class="sd">   this list of conditions and the following disclaimer.</span>
+<span class="sd">-  Redistributions in binary form must reproduce the above copyright notice,</span>
+<span class="sd">   this list of conditions and the following disclaimer in the documentation</span>
+<span class="sd">   and/or other materials provided with the distribution.</span>
+<span class="sd">-  Neither the name of the copyright holder nor the names of its contributors</span>
+<span class="sd">   may be used to endorse or promote products derived from this software</span>
+<span class="sd">   without specific prior written permission.</span>
+
+<span class="sd">THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;</span>
+<span class="sd">AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE </span>
+<span class="sd">IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<span class="sd">DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE</span>
+<span class="sd">FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL</span>
+<span class="sd">DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span>
+<span class="sd">SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER</span>
+<span class="sd">CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,</span>
+<span class="sd">OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span>
+<span class="sd">OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+
+<span class="sd">@authors: Sergei Garbuzov</span>
+<span class="sd">@status: Development</span>
+<span class="sd">@version: 1.1.0</span>
+
+<span class="sd">firewall.py: Firewall specific properties and access methods</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">pybvc.common.utils</span> <span class="kn">import</span> <span class="n">strip_none</span><span class="p">,</span> <span class="n">remove_empty_from_dict</span><span class="p">,</span> <span class="n">dict_keys_underscored_to_dashed</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># Class &#39;StaticRoute&#39;</span>
+<span class="c">#-------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="StaticRoute"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.protocols.StaticRoute">[docs]</a><span class="k">class</span> <span class="nc">StaticRoute</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39; Class representing static route parameters &#39;&#39;&#39;</span>
+    <span class="n">_mn1</span> <span class="o">=</span> <span class="s">&quot;vyatta-protocols:protocols&quot;</span>
+    <span class="n">_mn2</span> <span class="o">=</span> <span class="s">&quot;vyatta-protocols-static:static&quot;</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Static ARP translation (list) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arp</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="sd">&#39;&#39;&#39; Interface based static route &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interface_route</span> <span class="o">=</span> <span class="p">[]</span>
+                        
+        <span class="sd">&#39;&#39;&#39; Interface based IPv6 static route (list) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interface_route6</span> <span class="o">=</span> <span class="p">[]</span>
+                        
+        <span class="sd">&#39;&#39;&#39; Static route (list) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">route</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="sd">&#39;&#39;&#39; Static IPv6 route (list) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">route6</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="sd">&#39;&#39;&#39; Policy route table (range 1..128) (list) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="StaticRoute.to_string"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.protocols.StaticRoute.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return this object as a string &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="StaticRoute.to_json"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.protocols.StaticRoute.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return this object as JSON &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="StaticRoute.get_payload"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.protocols.StaticRoute.get_payload">[docs]</a>    <span class="k">def</span> <span class="nf">get_payload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">obj1</span> <span class="o">=</span> <span class="n">strip_none</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="n">obj2</span> <span class="o">=</span> <span class="n">remove_empty_from_dict</span><span class="p">(</span><span class="n">obj1</span><span class="p">)</span>
+        <span class="n">obj3</span> <span class="o">=</span> <span class="n">dict_keys_underscored_to_dashed</span><span class="p">(</span><span class="n">obj2</span><span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_mn1</span><span class="p">:</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_mn2</span><span class="p">:[</span><span class="n">obj3</span><span class="p">]}}</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="StaticRoute.set_interface_route"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.protocols.StaticRoute.set_interface_route">[docs]</a>    <span class="k">def</span> <span class="nf">set_interface_route</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip_prefix</span><span class="p">):</span>
+        <span class="n">route</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_create_interface_route</span><span class="p">(</span><span class="n">ip_prefix</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">route</span><span class="p">,</span> <span class="n">InterfaceRoute</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">route</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="StaticRoute.set_interface_route_next_hop_interface"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.protocols.StaticRoute.set_interface_route_next_hop_interface">[docs]</a>    <span class="k">def</span> <span class="nf">set_interface_route_next_hop_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip_prefix</span><span class="p">,</span> <span class="n">if_name</span><span class="p">,</span>
+                                               <span class="n">disable</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">route</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_create_interface_route</span><span class="p">(</span><span class="n">ip_prefix</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">route</span><span class="p">,</span> <span class="n">InterfaceRoute</span><span class="p">))</span>
+        <span class="n">route</span><span class="o">.</span><span class="n">set_next_hop_interface</span><span class="p">(</span><span class="n">if_name</span><span class="p">,</span> <span class="n">disable</span><span class="p">,</span> <span class="n">distance</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+    <span class="k">def</span> <span class="nf">_find_create_interface_route</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip_prefix</span><span class="p">):</span>
+        <span class="n">route</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">interface_route</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">tagnode</span> <span class="o">==</span> <span class="n">ip_prefix</span><span class="p">):</span>
+                <span class="n">route</span> <span class="o">=</span> <span class="n">item</span>
+                <span class="k">break</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">route</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">route</span> <span class="o">=</span> <span class="n">InterfaceRoute</span><span class="p">(</span><span class="n">ip_prefix</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">interface_route</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">route</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">route</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># </span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="InterfaceRoute"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.protocols.InterfaceRoute">[docs]</a><span class="k">class</span> <span class="nc">InterfaceRoute</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39; Helper sub-class of the &#39;Static&#39; class</span>
+<span class="sd">        Interface based static route &#39;&#39;&#39;</span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip_prefix</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; IPv4 Prefix &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tagnode</span> <span class="o">=</span> <span class="n">ip_prefix</span>
+        
+        <span class="sd">&#39;&#39;&#39; Next-hop interfaces &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">next_hop_interface</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="InterfaceRoute.set_next_hop_interface"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.protocols.InterfaceRoute.set_next_hop_interface">[docs]</a>    <span class="k">def</span> <span class="nf">set_next_hop_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ifName</span><span class="p">,</span> <span class="n">disable</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">next_hop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_create_next_hop_interface</span><span class="p">(</span><span class="n">ifName</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">next_hop</span><span class="p">,</span> <span class="n">NextHopInterface</span><span class="p">))</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">disable</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">next_hop</span><span class="o">.</span><span class="n">set_disable</span><span class="p">(</span><span class="n">disable</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">distance</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">next_hop</span><span class="o">.</span><span class="n">set_distance</span><span class="p">(</span><span class="n">distance</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="InterfaceRoute.disable_next_hop_interface"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.protocols.InterfaceRoute.disable_next_hop_interface">[docs]</a>    <span class="k">def</span> <span class="nf">disable_next_hop_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ifName</span><span class="p">):</span>
+        <span class="n">next_hop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_create_next_hop_interface</span><span class="p">(</span><span class="n">ifName</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">next_hop</span><span class="p">,</span> <span class="n">NextHopInterface</span><span class="p">))</span>
+        <span class="n">next_hop</span><span class="o">.</span><span class="n">set_disable</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="InterfaceRoute.enable_next_hop_interface"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.protocols.InterfaceRoute.enable_next_hop_interface">[docs]</a>    <span class="k">def</span> <span class="nf">enable_next_hop_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ifName</span><span class="p">):</span>
+        <span class="n">next_hop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_create_next_hop_interface</span><span class="p">(</span><span class="n">ifName</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">next_hop</span><span class="p">,</span> <span class="n">NextHopInterface</span><span class="p">))</span>
+        <span class="n">next_hop</span><span class="o">.</span><span class="n">set_disable</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="InterfaceRoute.set_next_hop_interface_distance"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.protocols.InterfaceRoute.set_next_hop_interface_distance">[docs]</a>    <span class="k">def</span> <span class="nf">set_next_hop_interface_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ifName</span><span class="p">,</span> <span class="n">distance</span><span class="p">):</span>
+        <span class="n">next_hop</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_create_next_hop_interface</span><span class="p">(</span><span class="n">ifName</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">next_hop</span><span class="p">,</span> <span class="n">NextHopInterface</span><span class="p">))</span>
+        <span class="n">next_hop</span><span class="o">.</span><span class="n">set_distance</span><span class="p">(</span><span class="n">distance</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+    <span class="k">def</span> <span class="nf">_find_create_next_hop_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ifName</span><span class="p">):</span>
+        <span class="n">next_hop</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">next_hop_interface</span> <span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">tagnode</span> <span class="o">==</span> <span class="n">ifName</span><span class="p">):</span>
+                <span class="n">next_hop</span> <span class="o">=</span> <span class="n">item</span>
+                <span class="k">break</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">next_hop</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">next_hop</span> <span class="o">=</span> <span class="n">NextHopInterface</span><span class="p">(</span><span class="n">ifName</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">next_hop_interface</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">next_hop</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">next_hop</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># </span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="NextHopInterface"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.protocols.NextHopInterface">[docs]</a><span class="k">class</span> <span class="nc">NextHopInterface</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39; Helper sub-class of the &#39;InterfaceRoute&#39; class</span>
+<span class="sd">        Next-hop interface &#39;&#39;&#39;</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Interface name &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tagnode</span> <span class="o">=</span> <span class="n">name</span>
+        
+        <span class="sd">&#39;&#39;&#39; Disable IPv4 interface static route &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disable</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; Distance value for this route (range 1..255) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="o">=</span> <span class="bp">None</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="NextHopInterface.set_disable"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.protocols.NextHopInterface.set_disable">[docs]</a>    <span class="k">def</span> <span class="nf">set_disable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">value</span> <span class="o">==</span> <span class="bp">True</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">disable</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">disable</span> <span class="o">=</span> <span class="bp">None</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="NextHopInterface.set_distance"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.protocols.NextHopInterface.set_distance">[docs]</a>    <span class="k">def</span> <span class="nf">set_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="o">=</span> <span class="n">value</span>
+    </div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Author.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

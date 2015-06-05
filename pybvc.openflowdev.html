@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pybvc.openflowdev package &mdash; pybvc 1.0.4 documentation</title>
+    <title>pybvc.openflowdev package &mdash; pybvc 1.1.1 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.0.4',
+        VERSION:     '1.1.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="pybvc 1.0.4 documentation" href="index.html" />
+    <link rel="top" title="pybvc 1.1.1 documentation" href="index.html" />
     <link rel="up" title="pybvc package" href="pybvc.html" />
     <link rel="prev" title="pybvc.netconfdev.vrouter package" href="pybvc.netconfdev.vrouter.html" /> 
   </head>
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="pybvc.netconfdev.vrouter.html" title="pybvc.netconfdev.vrouter package"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">pybvc 1.0.4 documentation</a> &raquo;</li>
+        <li><a href="index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
           <li><a href="pybvc.html" accesskey="U">pybvc package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -57,6 +57,37 @@
 </div>
 <div class="section" id="module-pybvc.openflowdev.ofswitch">
 <span id="pybvc-openflowdev-ofswitch-module"></span><h2>pybvc.openflowdev.ofswitch module<a class="headerlink" href="#module-pybvc.openflowdev.ofswitch" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015</p>
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors
+may be used to endorse or promote products derived from this software
+without specific prior written permission.</li>
+</ul>
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#8220;AS IS&#8221;
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<p>&#64;authors: Sergei Garbuzov
+&#64;status: Development
+&#64;version: 1.1.0</p>
+<p>ofswitch.py: OpenFlow switch properties and methods</p>
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.Action">
 <em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">Action</tt><big>(</big><em>order=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Action" title="Permalink to this definition">¶</a></dt>
@@ -152,22 +183,37 @@ processing pipeline, or after executing a Clear-Actions instruction</p>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.EthernetMatch">
-<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">EthernetMatch</tt><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#EthernetMatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.EthernetMatch" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">EthernetMatch</tt><big>(</big><em>d=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#EthernetMatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.EthernetMatch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Match" title="pybvc.openflowdev.ofswitch.Match"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Match</span></tt></a></p>
 <p>Ethernet specific match fields</p>
 <dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.EthernetMatch.get_dst">
+<tt class="descname">get_dst</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#EthernetMatch.get_dst"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.EthernetMatch.get_dst" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.EthernetMatch.get_src">
+<tt class="descname">get_src</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#EthernetMatch.get_src"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.EthernetMatch.get_src" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.EthernetMatch.get_type">
+<tt class="descname">get_type</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#EthernetMatch.get_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.EthernetMatch.get_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.EthernetMatch.set_dst">
-<tt class="descname">set_dst</tt><big>(</big><em>ether_dst</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#EthernetMatch.set_dst"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.EthernetMatch.set_dst" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">set_dst</tt><big>(</big><em>eth_dst</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#EthernetMatch.set_dst"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.EthernetMatch.set_dst" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.EthernetMatch.set_src">
-<tt class="descname">set_src</tt><big>(</big><em>ether_src</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#EthernetMatch.set_src"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.EthernetMatch.set_src" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">set_src</tt><big>(</big><em>eth_src</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#EthernetMatch.set_src"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.EthernetMatch.set_src" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.EthernetMatch.set_type">
-<tt class="descname">set_type</tt><big>(</big><em>ether_type</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#EthernetMatch.set_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.EthernetMatch.set_type" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">set_type</tt><big>(</big><em>eth_type</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#EthernetMatch.set_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.EthernetMatch.set_type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -192,12 +238,17 @@ interface</p>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.FlowEntry">
-<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">FlowEntry</tt><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">FlowEntry</tt><big>(</big><em>flow_json=None</em>, <em>flow_dict=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <p>Class for creating and interacting with OpenFlow flows</p>
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.FlowEntry.add_instruction">
 <tt class="descname">add_instruction</tt><big>(</big><em>instruction</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.add_instruction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.add_instruction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.add_instructions">
+<tt class="descname">add_instructions</tt><big>(</big><em>instructions</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.add_instructions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.add_instructions" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -243,8 +294,63 @@ OFPFC_MODIFY* or OFPFC_DELETE*. A value of 0 indicates no restriction</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.get_bytes_cnt">
+<tt class="descname">get_bytes_cnt</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.get_bytes_cnt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.get_bytes_cnt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.get_duration">
+<tt class="descname">get_duration</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.get_duration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.get_duration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.get_flow_barrier">
+<tt class="descname">get_flow_barrier</tt><big>(</big><em>barrier</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.get_flow_barrier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.get_flow_barrier" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.get_flow_cookie">
+<tt class="descname">get_flow_cookie</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.get_flow_cookie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.get_flow_cookie" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.get_flow_cookie_mask">
+<tt class="descname">get_flow_cookie_mask</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.get_flow_cookie_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.get_flow_cookie_mask" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.get_flow_hard_timeout">
+<tt class="descname">get_flow_hard_timeout</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.get_flow_hard_timeout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.get_flow_hard_timeout" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.FlowEntry.get_flow_id">
 <tt class="descname">get_flow_id</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.get_flow_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.get_flow_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.get_flow_idle_timeout">
+<tt class="descname">get_flow_idle_timeout</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.get_flow_idle_timeout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.get_flow_idle_timeout" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.get_flow_install_hw">
+<tt class="descname">get_flow_install_hw</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.get_flow_install_hw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.get_flow_install_hw" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.get_flow_name">
+<tt class="descname">get_flow_name</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.get_flow_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.get_flow_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.get_flow_priority">
+<tt class="descname">get_flow_priority</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.get_flow_priority"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.get_flow_priority" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.get_flow_strict">
+<tt class="descname">get_flow_strict</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.get_flow_strict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.get_flow_strict" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -253,8 +359,24 @@ OFPFC_MODIFY* or OFPFC_DELETE*. A value of 0 indicates no restriction</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.get_instructions">
+<tt class="descname">get_instructions</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.get_instructions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.get_instructions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.get_match_fields">
+<tt class="descname">get_match_fields</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.get_match_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.get_match_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.FlowEntry.get_payload">
 <tt class="descname">get_payload</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.get_payload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.get_payload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return FlowEntry as a payload for the HTTP request body</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.get_pkts_cnt">
+<tt class="descname">get_pkts_cnt</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.get_pkts_cnt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.get_pkts_cnt" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -291,7 +413,7 @@ Barrier Request.</p>
 <dl class="attribute">
 <dt id="pybvc.openflowdev.ofswitch.FlowEntry.match">
 <tt class="descname">match</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.match" title="Permalink to this definition">¶</a></dt>
-<dd><p>Instructions to be executed when a flow matches this entry flow match fields</p>
+<dd><p>Instructions to be executed when a flow matches this flow entry match fields</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -312,6 +434,11 @@ output group. A value of OFPG_ANY indicates no restriction</p>
 <tt class="descname">priority</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.priority" title="Permalink to this definition">¶</a></dt>
 <dd><p>Idle time before discarding (seconds)</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.set_flow_barrier">
+<tt class="descname">set_flow_barrier</tt><big>(</big><em>barrier</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.set_flow_barrier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.set_flow_barrier" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.FlowEntry.set_flow_cookie">
@@ -339,6 +466,11 @@ output group. A value of OFPG_ANY indicates no restriction</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.set_flow_install_hw">
+<tt class="descname">set_flow_install_hw</tt><big>(</big><em>install_hw</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.set_flow_install_hw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.set_flow_install_hw" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.FlowEntry.set_flow_name">
 <tt class="descname">set_flow_name</tt><big>(</big><em>flow_name</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.set_flow_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.set_flow_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -346,6 +478,11 @@ output group. A value of OFPG_ANY indicates no restriction</p>
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.FlowEntry.set_flow_priority">
 <tt class="descname">set_flow_priority</tt><big>(</big><em>flow_priority</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.set_flow_priority"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.set_flow_priority" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.set_flow_strict">
+<tt class="descname">set_flow_strict</tt><big>(</big><em>strict</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.set_flow_strict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.set_flow_strict" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -371,6 +508,11 @@ output port. A value of OFPP_ANY indicates no restriction.</p>
 <tt class="descname">to_json</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.to_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return FlowEntry as JSON</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.to_ofp_oxm_syntax">
+<tt class="descname">to_ofp_oxm_syntax</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.to_ofp_oxm_syntax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.to_ofp_oxm_syntax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -401,9 +543,19 @@ The exact interpretation depends on group type.</p>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.IcmpMatch">
-<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">IcmpMatch</tt><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#IcmpMatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IcmpMatch" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">IcmpMatch</tt><big>(</big><em>d=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#IcmpMatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IcmpMatch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Match" title="pybvc.openflowdev.ofswitch.Match"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Match</span></tt></a></p>
 <p>ICMPv4 specific match fields</p>
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.IcmpMatch.get_code">
+<tt class="descname">get_code</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#IcmpMatch.get_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IcmpMatch.get_code" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.IcmpMatch.get_type">
+<tt class="descname">get_type</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#IcmpMatch.get_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IcmpMatch.get_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="pybvc.openflowdev.ofswitch.IcmpMatch.icmpv4_type">
 <tt class="descname">icmpv4_type</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IcmpMatch.icmpv4_type" title="Permalink to this definition">¶</a></dt>
@@ -424,9 +576,19 @@ The exact interpretation depends on group type.</p>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.IcmpV6Match">
-<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">IcmpV6Match</tt><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#IcmpV6Match"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IcmpV6Match" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">IcmpV6Match</tt><big>(</big><em>d=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#IcmpV6Match"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IcmpV6Match" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Match" title="pybvc.openflowdev.ofswitch.Match"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Match</span></tt></a></p>
 <p>ICMPv6 specific match fields</p>
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.IcmpV6Match.get_code">
+<tt class="descname">get_code</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#IcmpV6Match.get_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IcmpV6Match.get_code" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.IcmpV6Match.get_type">
+<tt class="descname">get_type</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#IcmpV6Match.get_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IcmpV6Match.get_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="pybvc.openflowdev.ofswitch.IcmpV6Match.icmpv6_type">
 <tt class="descname">icmpv6_type</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IcmpV6Match.icmpv6_type" title="Permalink to this definition">¶</a></dt>
@@ -447,31 +609,61 @@ The exact interpretation depends on group type.</p>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.Instruction">
-<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">Instruction</tt><big>(</big><em>instruction_order=0</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Instruction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Instruction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">Instruction</tt><big>(</big><em>instruction_order=None</em>, <em>d=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Instruction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Instruction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class representing an OpenFlow flow instruction</p>
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.Instruction.add_apply_action">
 <tt class="descname">add_apply_action</tt><big>(</big><em>action</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Instruction.add_apply_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Instruction.add_apply_action" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Instruction.get_apply_actions">
+<tt class="descname">get_apply_actions</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Instruction.get_apply_actions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Instruction.get_apply_actions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Instruction.is_apply_actions_type">
+<tt class="descname">is_apply_actions_type</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Instruction.is_apply_actions_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Instruction.is_apply_actions_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.Instructions">
-<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">Instructions</tt><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Instructions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Instructions" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">Instructions</tt><big>(</big><em>d=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Instructions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Instructions" title="Permalink to this definition">¶</a></dt>
 <dd><p>&#8216;Class representing OpenFlow flow instructions set</p>
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.Instructions.add_instruction">
 <tt class="descname">add_instruction</tt><big>(</big><em>instruction</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Instructions.add_instruction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Instructions.add_instruction" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Instructions.get_instructions">
+<tt class="descname">get_instructions</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Instructions.get_instructions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Instructions.get_instructions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.IpMatch">
-<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">IpMatch</tt><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#IpMatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IpMatch" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">IpMatch</tt><big>(</big><em>d=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#IpMatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IpMatch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Match" title="pybvc.openflowdev.ofswitch.Match"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Match</span></tt></a></p>
 <p>IPv4 protocol specific match fields</p>
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.IpMatch.get_ip_dscp">
+<tt class="descname">get_ip_dscp</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#IpMatch.get_ip_dscp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IpMatch.get_ip_dscp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.IpMatch.get_ip_ecn">
+<tt class="descname">get_ip_ecn</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#IpMatch.get_ip_ecn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IpMatch.get_ip_ecn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.IpMatch.get_ip_proto">
+<tt class="descname">get_ip_proto</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#IpMatch.get_ip_proto"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IpMatch.get_ip_proto" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="pybvc.openflowdev.ofswitch.IpMatch.ip_dscp">
 <tt class="descname">ip_dscp</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IpMatch.ip_dscp" title="Permalink to this definition">¶</a></dt>
@@ -481,8 +673,23 @@ The exact interpretation depends on group type.</p>
 <dl class="attribute">
 <dt id="pybvc.openflowdev.ofswitch.IpMatch.ip_ecn">
 <tt class="descname">ip_ecn</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IpMatch.ip_ecn" title="Permalink to this definition">¶</a></dt>
-<dd><p>IP protocol (IPv4 or IPv6 Protocol Number)</p>
+<dd><p>IPv4 or IPv6 Protocol Number</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.IpMatch.set_ip_dscp">
+<tt class="descname">set_ip_dscp</tt><big>(</big><em>ip_dscp</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#IpMatch.set_ip_dscp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IpMatch.set_ip_dscp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.IpMatch.set_ip_ecn">
+<tt class="descname">set_ip_ecn</tt><big>(</big><em>ip_ecn</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#IpMatch.set_ip_ecn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IpMatch.set_ip_ecn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.IpMatch.set_ip_proto">
+<tt class="descname">set_ip_proto</tt><big>(</big><em>ip_proto</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#IpMatch.set_ip_proto"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.IpMatch.set_ip_proto" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -491,6 +698,16 @@ The exact interpretation depends on group type.</p>
 <em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">Ipv6ExtHdr</tt><big>(</big><em>exthdr=None</em>, <em>exthdr_mask=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Ipv6ExtHdr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Ipv6ExtHdr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Match" title="pybvc.openflowdev.ofswitch.Match"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Match</span></tt></a></p>
 <p>IPv6 Extension Header pseudo-field</p>
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Ipv6ExtHdr.get_exthdr">
+<tt class="descname">get_exthdr</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Ipv6ExtHdr.get_exthdr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Ipv6ExtHdr.get_exthdr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Ipv6ExtHdr.get_exthdr_mask">
+<tt class="descname">get_exthdr_mask</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Ipv6ExtHdr.get_exthdr_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Ipv6ExtHdr.get_exthdr_mask" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.Ipv6ExtHdr.set_exthdr">
 <tt class="descname">set_exthdr</tt><big>(</big><em>exthdr</em>, <em>exthdr_mask=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Ipv6ExtHdr.set_exthdr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Ipv6ExtHdr.set_exthdr" title="Permalink to this definition">¶</a></dt>
@@ -508,6 +725,16 @@ The exact interpretation depends on group type.</p>
 <em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">Ipv6Label</tt><big>(</big><em>flabel=None</em>, <em>flabel_mask=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Ipv6Label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Ipv6Label" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Match" title="pybvc.openflowdev.ofswitch.Match"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Match</span></tt></a></p>
 <p>IPv6 Flow Label</p>
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Ipv6Label.get_flabel">
+<tt class="descname">get_flabel</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Ipv6Label.get_flabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Ipv6Label.get_flabel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Ipv6Label.get_flabel_mask">
+<tt class="descname">get_flabel_mask</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Ipv6Label.get_flabel_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Ipv6Label.get_flabel_mask" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.Ipv6Label.set_flabel">
 <tt class="descname">set_flabel</tt><big>(</big><em>flabel</em>, <em>flabel_mask=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Ipv6Label.set_flabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Ipv6Label.set_flabel" title="Permalink to this definition">¶</a></dt>
@@ -529,7 +756,7 @@ The exact interpretation depends on group type.</p>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.Match">
-<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">Match</tt><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">Match</tt><big>(</big><em>d=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <p>Class that represents OpenFlow flow matching attributes</p>
 <dl class="attribute">
@@ -568,6 +795,191 @@ The exact interpretation depends on group type.</p>
 <dd><p>IPv4 source address (can use subnet mask)</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_arp_opcode">
+<tt class="descname">get_arp_opcode</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_arp_opcode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_arp_opcode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_arp_src_hw_address">
+<tt class="descname">get_arp_src_hw_address</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_arp_src_hw_address"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_arp_src_hw_address" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_arp_src_transport_address">
+<tt class="descname">get_arp_src_transport_address</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_arp_src_transport_address"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_arp_src_transport_address" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_arp_tgt_hw_address">
+<tt class="descname">get_arp_tgt_hw_address</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_arp_tgt_hw_address"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_arp_tgt_hw_address" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_arp_tgt_transport_address">
+<tt class="descname">get_arp_tgt_transport_address</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_arp_tgt_transport_address"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_arp_tgt_transport_address" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_eth_dst">
+<tt class="descname">get_eth_dst</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_eth_dst"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_eth_dst" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_eth_src">
+<tt class="descname">get_eth_src</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_eth_src"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_eth_src" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_eth_type">
+<tt class="descname">get_eth_type</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_eth_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_eth_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_icmp4_type">
+<tt class="descname">get_icmp4_type</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_icmp4_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_icmp4_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_icmpv4_code">
+<tt class="descname">get_icmpv4_code</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_icmpv4_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_icmpv4_code" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_icmpv6_code">
+<tt class="descname">get_icmpv6_code</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_icmpv6_code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_icmpv6_code" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_icmpv6_type">
+<tt class="descname">get_icmpv6_type</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_icmpv6_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_icmpv6_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_in_phy_port">
+<tt class="descname">get_in_phy_port</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_in_phy_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_in_phy_port" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_in_port">
+<tt class="descname">get_in_port</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_in_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_in_port" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_ip_dscp">
+<tt class="descname">get_ip_dscp</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_ip_dscp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_ip_dscp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_ip_ecn">
+<tt class="descname">get_ip_ecn</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_ip_ecn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_ip_ecn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_ip_proto">
+<tt class="descname">get_ip_proto</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_ip_proto"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_ip_proto" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_ipv4_dst">
+<tt class="descname">get_ipv4_dst</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_ipv4_dst"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_ipv4_dst" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_ipv4_src">
+<tt class="descname">get_ipv4_src</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_ipv4_src"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_ipv4_src" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_ipv6_dst">
+<tt class="descname">get_ipv6_dst</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_ipv6_dst"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_ipv6_dst" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_ipv6_exh_hdr">
+<tt class="descname">get_ipv6_exh_hdr</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_ipv6_exh_hdr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_ipv6_exh_hdr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_ipv6_flabel">
+<tt class="descname">get_ipv6_flabel</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_ipv6_flabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_ipv6_flabel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_ipv6_src">
+<tt class="descname">get_ipv6_src</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_ipv6_src"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_ipv6_src" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_metadata">
+<tt class="descname">get_metadata</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_metadata" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_metadata_mask">
+<tt class="descname">get_metadata_mask</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_metadata_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_metadata_mask" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_mpls_bos">
+<tt class="descname">get_mpls_bos</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_mpls_bos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_mpls_bos" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_mpls_label">
+<tt class="descname">get_mpls_label</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_mpls_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_mpls_label" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_mpls_tc">
+<tt class="descname">get_mpls_tc</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_mpls_tc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_mpls_tc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_sctp_dst_port">
+<tt class="descname">get_sctp_dst_port</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_sctp_dst_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_sctp_dst_port" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_sctp_src_port">
+<tt class="descname">get_sctp_src_port</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_sctp_src_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_sctp_src_port" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_tcp_dst_port">
+<tt class="descname">get_tcp_dst_port</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_tcp_dst_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_tcp_dst_port" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_tcp_src_port">
+<tt class="descname">get_tcp_src_port</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_tcp_src_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_tcp_src_port" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_tunnel_id">
+<tt class="descname">get_tunnel_id</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_tunnel_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_tunnel_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_udp_dst_port">
+<tt class="descname">get_udp_dst_port</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_udp_dst_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_udp_dst_port" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_udp_src_port">
+<tt class="descname">get_udp_src_port</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_udp_src_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_udp_src_port" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_vlan_id">
+<tt class="descname">get_vlan_id</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_vlan_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_vlan_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.get_vlan_pcp">
+<tt class="descname">get_vlan_pcp</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.get_vlan_pcp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.get_vlan_pcp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="pybvc.openflowdev.ofswitch.Match.icmpv4_match">
 <tt class="descname">icmpv4_match</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.icmpv4_match" title="Permalink to this definition">¶</a></dt>
@@ -596,7 +1008,7 @@ The exact interpretation depends on group type.</p>
 <dl class="attribute">
 <dt id="pybvc.openflowdev.ofswitch.Match.in_port">
 <tt class="descname">in_port</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.in_port" title="Permalink to this definition">¶</a></dt>
-<dd><p>Physical port (in &#8216;ofp_packet_in messages&#8217;, underlying physical port when
+<dd><p>Physical port (in &#8216;ofp_packet_in messages&#8217;), underlying physical port when
 packet received on a logical port)</p>
 </dd></dl>
 
@@ -685,11 +1097,6 @@ the IPv6 Traffic Class field</li>
 - ICMP type
 - ICMP code</p>
 </dd></dl>
-
-<dl class="method">
-<dt id="pybvc.openflowdev.ofswitch.Match.sctp_dst">
-<tt class="descname">sctp_dst</tt><big>(</big><em>sctp_port</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.sctp_dst"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.sctp_dst" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="pybvc.openflowdev.ofswitch.Match.sctp_source_port">
@@ -828,8 +1235,8 @@ the IPv6 Traffic Class field</li>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="pybvc.openflowdev.ofswitch.Match.set_mpls_lable">
-<tt class="descname">set_mpls_lable</tt><big>(</big><em>mpls_label</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.set_mpls_lable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.set_mpls_lable" title="Permalink to this definition">¶</a></dt>
+<dt id="pybvc.openflowdev.ofswitch.Match.set_mpls_label">
+<tt class="descname">set_mpls_label</tt><big>(</big><em>mpls_label</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.set_mpls_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.set_mpls_label" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -838,8 +1245,13 @@ the IPv6 Traffic Class field</li>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="pybvc.openflowdev.ofswitch.Match.set_sctp_src">
-<tt class="descname">set_sctp_src</tt><big>(</big><em>sctp_port</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.set_sctp_src"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.set_sctp_src" title="Permalink to this definition">¶</a></dt>
+<dt id="pybvc.openflowdev.ofswitch.Match.set_sctp_dst_port">
+<tt class="descname">set_sctp_dst_port</tt><big>(</big><em>sctp_port</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.set_sctp_dst_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.set_sctp_dst_port" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Match.set_sctp_src_port">
+<tt class="descname">set_sctp_src_port</tt><big>(</big><em>sctp_port</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Match.set_sctp_src_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.set_sctp_src_port" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -919,7 +1331,17 @@ the IPv6 Traffic Class field</li>
 <dt id="pybvc.openflowdev.ofswitch.Metadata">
 <em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">Metadata</tt><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Metadata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Match" title="pybvc.openflowdev.ofswitch.Match"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Match</span></tt></a></p>
-<p>TBD</p>
+<p>Table metadata. Used to pass information between tables</p>
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Metadata.get_metadata">
+<tt class="descname">get_metadata</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Metadata.get_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Metadata.get_metadata" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Metadata.get_metadata_mask">
+<tt class="descname">get_metadata_mask</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Metadata.get_metadata_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Metadata.get_metadata_mask" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.Metadata.set_metadata">
 <tt class="descname">set_metadata</tt><big>(</big><em>metadata</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Metadata.set_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Metadata.set_metadata" title="Permalink to this definition">¶</a></dt>
@@ -936,10 +1358,36 @@ the IPv6 Traffic Class field</li>
 <dt id="pybvc.openflowdev.ofswitch.OFSwitch">
 <em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">OFSwitch</tt><big>(</big><em>ctrl=None</em>, <em>name=None</em>, <em>dpid=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pybvc.controller.html#pybvc.controller.openflownode.OpenflowNode" title="pybvc.controller.openflownode.OpenflowNode"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.controller.openflownode.OpenflowNode</span></tt></a></p>
-<p>Class that represents an instance of &#8216;OpenFlow Switch&#8217; (OpenFlow capable device).</p>
+<p>Class that represents an instance of &#8216;OpenFlow Switch&#8217;
+(OpenFlow capable device).</p>
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.OFSwitch.add_modify_flow">
 <tt class="descname">add_modify_flow</tt><big>(</big><em>flow_entry</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.add_modify_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.add_modify_flow" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.OFSwitch.delete_flow">
+<tt class="descname">delete_flow</tt><big>(</big><em>flow_table_id</em>, <em>flow_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.delete_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.delete_flow" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.OFSwitch.delete_flows">
+<tt class="descname">delete_flows</tt><big>(</big><em>flow_table_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.delete_flows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.delete_flows" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.OFSwitch.get_FlowEntries">
+<tt class="descname">get_FlowEntries</tt><big>(</big><em>tableid</em>, <em>operational=True</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_FlowEntries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_FlowEntries" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.OFSwitch.get_configured_FlowEntries">
+<tt class="descname">get_configured_FlowEntries</tt><big>(</big><em>flow_table_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_configured_FlowEntries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_configured_FlowEntries" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.OFSwitch.get_configured_FlowEntry">
+<tt class="descname">get_configured_FlowEntry</tt><big>(</big><em>flow_table_id</em>, <em>flow_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_configured_FlowEntry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_configured_FlowEntry" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -953,11 +1401,6 @@ the IPv6 Traffic Class field</li>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="pybvc.openflowdev.ofswitch.OFSwitch.get_configured_flows_ovs_syntax">
-<tt class="descname">get_configured_flows_ovs_syntax</tt><big>(</big><em>tableid</em>, <em>sort=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_configured_flows_ovs_syntax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_configured_flows_ovs_syntax" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.OFSwitch.get_features_info">
 <tt class="descname">get_features_info</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_features_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_features_info" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -968,13 +1411,13 @@ the IPv6 Traffic Class field</li>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="pybvc.openflowdev.ofswitch.OFSwitch.get_operational_flows">
-<tt class="descname">get_operational_flows</tt><big>(</big><em>tableid</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_operational_flows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_operational_flows" title="Permalink to this definition">¶</a></dt>
+<dt id="pybvc.openflowdev.ofswitch.OFSwitch.get_operational_FlowEntries">
+<tt class="descname">get_operational_FlowEntries</tt><big>(</big><em>flow_table_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_operational_FlowEntries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_operational_FlowEntries" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="pybvc.openflowdev.ofswitch.OFSwitch.get_operational_flows_ovs_syntax">
-<tt class="descname">get_operational_flows_ovs_syntax</tt><big>(</big><em>tableid</em>, <em>sort=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_operational_flows_ovs_syntax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_operational_flows_ovs_syntax" title="Permalink to this definition">¶</a></dt>
+<dt id="pybvc.openflowdev.ofswitch.OFSwitch.get_operational_flows">
+<tt class="descname">get_operational_flows</tt><big>(</big><em>tableid</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_operational_flows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_operational_flows" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1003,11 +1446,6 @@ the IPv6 Traffic Class field</li>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="pybvc.openflowdev.ofswitch.OFSwitch.odl_to_ovs_flow_syntax">
-<tt class="descname">odl_to_ovs_flow_syntax</tt><big>(</big><em>odlflow</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.odl_to_ovs_flow_syntax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.odl_to_ovs_flow_syntax" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.OFSwitch.to_json">
 <tt class="descname">to_json</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.to_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns JSON representation of this object.</p>
@@ -1023,11 +1461,21 @@ the IPv6 Traffic Class field</li>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.OutputAction">
-<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">OutputAction</tt><big>(</big><em>action_order=0</em>, <em>port=None</em>, <em>max_len=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OutputAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OutputAction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">OutputAction</tt><big>(</big><em>action_order=0</em>, <em>port=None</em>, <em>max_len=None</em>, <em>d=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OutputAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OutputAction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></tt></a></p>
 <p>The Output action forwards a packet to a specified OpenFlow port
 OpenFlow switches must support forwarding to physical ports, 
 switch-defined logical ports and the required reserved ports</p>
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.OutputAction.get_max_len">
+<tt class="descname">get_max_len</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OutputAction.get_max_len"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OutputAction.get_max_len" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.OutputAction.get_outport">
+<tt class="descname">get_outport</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OutputAction.get_outport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OutputAction.get_outport" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.OutputAction.set_max_len">
 <tt class="descname">set_max_len</tt><big>(</big><em>max_len</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OutputAction.set_max_len"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OutputAction.set_max_len" title="Permalink to this definition">¶</a></dt>
@@ -1067,8 +1515,8 @@ switch-defined logical ports and the required reserved ports</p>
 <em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">PopMplsHeaderAction</tt><big>(</big><em>action_order=0</em>, <em>ethernet_type=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#PopMplsHeaderAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PopMplsHeaderAction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></tt></a></p>
 <p>Pop the outer-most MPLS tag or shim header from the packet.
-The &#8216;ethernet-type&#8217; is used as the Ethertype for the resulting packet
-(Ethertype for the MPLS payload).</p>
+The &#8216;ethernet_type&#8217; is used as the Ethernet Type for the resulting packet
+(Ethernet Type for the MPLS payload).</p>
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.PopMplsHeaderAction.set_eth_type">
 <tt class="descname">set_eth_type</tt><big>(</big><em>eth_type</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#PopMplsHeaderAction.set_eth_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PopMplsHeaderAction.set_eth_type" title="Permalink to this definition">¶</a></dt>
@@ -1086,21 +1534,36 @@ PBB - Provider Backbone Bridges is an Ethernet data-plane technology</p>
 <blockquote>
 <div>(also known as MAC-in-MAC) that involves encapsulating an
 Ethernet datagram inside another one with new source and
-destination addresses</div></blockquote>
+destination addresses.</div></blockquote>
 </dd></dl>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.PopVlanHeaderAction">
-<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">PopVlanHeaderAction</tt><big>(</big><em>order=0</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#PopVlanHeaderAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PopVlanHeaderAction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">PopVlanHeaderAction</tt><big>(</big><em>action_order=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#PopVlanHeaderAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PopVlanHeaderAction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></tt></a></p>
 <p>Pop the outer-most VLAN header from the packet</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.ProtocolMatchFields">
-<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">ProtocolMatchFields</tt><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#ProtocolMatchFields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.ProtocolMatchFields" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">ProtocolMatchFields</tt><big>(</big><em>d=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#ProtocolMatchFields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.ProtocolMatchFields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Match" title="pybvc.openflowdev.ofswitch.Match"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Match</span></tt></a></p>
 <p>Protocol match fields</p>
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.ProtocolMatchFields.get_mpls_bos">
+<tt class="descname">get_mpls_bos</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#ProtocolMatchFields.get_mpls_bos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.ProtocolMatchFields.get_mpls_bos" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.ProtocolMatchFields.get_mpls_label">
+<tt class="descname">get_mpls_label</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#ProtocolMatchFields.get_mpls_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.ProtocolMatchFields.get_mpls_label" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.ProtocolMatchFields.get_mpls_tc">
+<tt class="descname">get_mpls_tc</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#ProtocolMatchFields.get_mpls_tc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.ProtocolMatchFields.get_mpls_tc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="pybvc.openflowdev.ofswitch.ProtocolMatchFields.mpls_bos">
 <tt class="descname">mpls_bos</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.openflowdev.ofswitch.ProtocolMatchFields.mpls_bos" title="Permalink to this definition">¶</a></dt>
@@ -1125,8 +1588,8 @@ destination addresses</div></blockquote>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="pybvc.openflowdev.ofswitch.ProtocolMatchFields.set_mpls_lable">
-<tt class="descname">set_mpls_lable</tt><big>(</big><em>mpls_lable</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#ProtocolMatchFields.set_mpls_lable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.ProtocolMatchFields.set_mpls_lable" title="Permalink to this definition">¶</a></dt>
+<dt id="pybvc.openflowdev.ofswitch.ProtocolMatchFields.set_mpls_label">
+<tt class="descname">set_mpls_label</tt><big>(</big><em>mpls_label</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#ProtocolMatchFields.set_mpls_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.ProtocolMatchFields.set_mpls_label" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1138,11 +1601,16 @@ destination addresses</div></blockquote>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.PushMplsHeaderAction">
-<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">PushMplsHeaderAction</tt><big>(</big><em>action_order=0</em>, <em>ethernet_type=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#PushMplsHeaderAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PushMplsHeaderAction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">PushMplsHeaderAction</tt><big>(</big><em>action_order=None</em>, <em>ethernet_type=None</em>, <em>d=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#PushMplsHeaderAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PushMplsHeaderAction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></tt></a></p>
-<p>Push a new MPLS shim header onto the packet. The &#8216;ethernet-type&#8217; is used
-as the Ethertype for the tag. Only Ethertype 0x8847 and 0x8848 should be
+<p>Push a new MPLS shim header onto the packet. The &#8216;ethernet_type&#8217; is used
+as the Ethernet Type for the tag, only 0x8847 or 0x8848 values should be
 used.</p>
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.PushMplsHeaderAction.get_eth_type">
+<tt class="descname">get_eth_type</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#PushMplsHeaderAction.get_eth_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PushMplsHeaderAction.get_eth_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.PushMplsHeaderAction.set_eth_type">
 <tt class="descname">set_eth_type</tt><big>(</big><em>eth_type</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#PushMplsHeaderAction.set_eth_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PushMplsHeaderAction.set_eth_type" title="Permalink to this definition">¶</a></dt>
@@ -1155,13 +1623,13 @@ used.</p>
 <em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">PushPBBHeaderAction</tt><big>(</big><em>order=0</em>, <em>ethernet_type=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#PushPBBHeaderAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PushPBBHeaderAction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></tt></a></p>
 <p>Push a new PBB service instance header (I-TAG TCI) onto the packet.
-The Ethertype is used as the Ethertype for the tag. Only Ethertype
-0x88E7 should be used 
+The &#8216;ethernet_type&#8217; is used as the Ethernet Type for the tag. Only
+Ethernet Type  0x88E7 should be used 
 PBB - Provider Backbone Bridges is an Ethernet data-plane technology</p>
 <blockquote>
 <div>(also known as MAC-in-MAC) that involves encapsulating an
 Ethernet datagram inside another one with new source and
-destination addresses</div></blockquote>
+destination addresses.</div></blockquote>
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.PushPBBHeaderAction.set_eth_type">
 <tt class="descname">set_eth_type</tt><big>(</big><em>ethernet_type</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#PushPBBHeaderAction.set_eth_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PushPBBHeaderAction.set_eth_type" title="Permalink to this definition">¶</a></dt>
@@ -1171,11 +1639,16 @@ destination addresses</div></blockquote>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.PushVlanHeaderAction">
-<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">PushVlanHeaderAction</tt><big>(</big><em>action_order=0</em>, <em>eth_type=None</em>, <em>tag=None</em>, <em>pcp=None</em>, <em>cfi=None</em>, <em>vid=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#PushVlanHeaderAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PushVlanHeaderAction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">PushVlanHeaderAction</tt><big>(</big><em>action_order=None</em>, <em>eth_type=None</em>, <em>tag=None</em>, <em>pcp=None</em>, <em>cfi=None</em>, <em>vid=None</em>, <em>d=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#PushVlanHeaderAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PushVlanHeaderAction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></tt></a></p>
-<p>Push a new VLAN header onto the packet. The &#8216;ethernet-type&#8217; is used as
-the Ethertype for the tag. Only &#8216;ethernet-type&#8217; 0x8100 and 0x88a8 should
-be used.</p>
+<p>Push a new VLAN header onto the packet. The &#8216;ethernet_type&#8217; is used as
+the Ethernet Type for the tag, only 0x8100 or 0x88a8 values should be
+used.</p>
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.PushVlanHeaderAction.get_eth_type">
+<tt class="descname">get_eth_type</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#PushVlanHeaderAction.get_eth_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PushVlanHeaderAction.get_eth_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.PushVlanHeaderAction.set_cfi">
 <tt class="descname">set_cfi</tt><big>(</big><em>cfi</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#PushVlanHeaderAction.set_cfi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PushVlanHeaderAction.set_cfi" title="Permalink to this definition">¶</a></dt>
@@ -1234,7 +1707,7 @@ be used.</p>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.SetFieldAction">
-<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">SetFieldAction</tt><big>(</big><em>action_order=0</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#SetFieldAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetFieldAction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">SetFieldAction</tt><big>(</big><em>action_order=None</em>, <em>d=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#SetFieldAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetFieldAction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></tt></a></p>
 <p>The Extensible set_field action reuses the OXM encoding defined for
 matches, and enables to rewrite any header field in a single action.
@@ -1249,6 +1722,16 @@ that VLAN modification actions be supported. Set-Field actions should
 always be applied to the outermost-possible header (e.g. a &#8216;Set VLAN ID&#8217;
 action always sets the ID of the outermost VLAN tag), unless the field
 type specifies otherwise.</p>
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.SetFieldAction.get_mpls_label">
+<tt class="descname">get_mpls_label</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#SetFieldAction.get_mpls_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetFieldAction.get_mpls_label" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.SetFieldAction.get_vlan_id">
+<tt class="descname">get_vlan_id</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#SetFieldAction.get_vlan_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetFieldAction.get_vlan_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.SetFieldAction.set_mpls_label">
 <tt class="descname">set_mpls_label</tt><big>(</big><em>mpls_label</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#SetFieldAction.set_mpls_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetFieldAction.set_mpls_label" title="Permalink to this definition">¶</a></dt>
@@ -1266,7 +1749,7 @@ type specifies otherwise.</p>
 <em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">SetMplsTTLAction</tt><big>(</big><em>order=0</em>, <em>mpls_ttl=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#SetMplsTTLAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetMplsTTLAction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></tt></a></p>
 <p>Replace the existing MPLS TTL. Only applies to packets with an existing
-MPLS shim header</p>
+MPLS shim header.</p>
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.SetMplsTTLAction.set_mpls_ttl">
 <tt class="descname">set_mpls_ttl</tt><big>(</big><em>mpls_ttl</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#SetMplsTTLAction.set_mpls_ttl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetMplsTTLAction.set_mpls_ttl" title="Permalink to this definition">¶</a></dt>
@@ -1424,15 +1907,30 @@ frames eligible to be dropped in the presence of congestion.</p>
 <dt id="pybvc.openflowdev.ofswitch.Tunnel">
 <em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">Tunnel</tt><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Tunnel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Tunnel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Match" title="pybvc.openflowdev.ofswitch.Match"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Match</span></tt></a></p>
-<p>Logical Port Metadata</p>
+<p>Metadata associated with a logical port</p>
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Tunnel.get_id">
+<tt class="descname">get_id</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Tunnel.get_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Tunnel.get_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Tunnel.set_id">
+<tt class="descname">set_id</tt><big>(</big><em>tunnel_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#Tunnel.set_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Tunnel.set_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.VlanId">
-<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">VlanId</tt><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#VlanId"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.VlanId" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">VlanId</tt><big>(</big><em>d=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#VlanId"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.VlanId" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.VlanMatch" title="pybvc.openflowdev.ofswitch.VlanMatch"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.VlanMatch</span></tt></a></p>
 <p>Helper subclass of VlanMatch class to help in serialization
 of VLAN ID information encoded in match rules of a flow entry</p>
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.VlanId.get_vid">
+<tt class="descname">get_vid</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#VlanId.get_vid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.VlanId.get_vid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.VlanId.set_vid">
 <tt class="descname">set_vid</tt><big>(</big><em>vid</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#VlanId.set_vid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.VlanId.set_vid" title="Permalink to this definition">¶</a></dt>
@@ -1449,9 +1947,19 @@ only for packets with VID equal to &#8216;vlan_id&#8217; value</p>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.VlanMatch">
-<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">VlanMatch</tt><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#VlanMatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.VlanMatch" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">pybvc.openflowdev.ofswitch.</tt><tt class="descname">VlanMatch</tt><big>(</big><em>d=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#VlanMatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.VlanMatch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Match" title="pybvc.openflowdev.ofswitch.Match"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Match</span></tt></a></p>
 <p>VLAN specific match fields</p>
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.VlanMatch.get_pcp">
+<tt class="descname">get_pcp</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#VlanMatch.get_pcp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.VlanMatch.get_pcp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.VlanMatch.get_vid">
+<tt class="descname">get_vid</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#VlanMatch.get_vid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.VlanMatch.get_vid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.VlanMatch.set_pcp">
 <tt class="descname">set_pcp</tt><big>(</big><em>pcp</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#VlanMatch.set_pcp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.VlanMatch.set_pcp" title="Permalink to this definition">¶</a></dt>
@@ -1529,7 +2037,7 @@ only for packets with VID equal to &#8216;vlan_id&#8217; value</p>
         <li class="right" >
           <a href="pybvc.netconfdev.vrouter.html" title="pybvc.netconfdev.vrouter package"
              >previous</a> |</li>
-        <li><a href="index.html">pybvc 1.0.4 documentation</a> &raquo;</li>
+        <li><a href="index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
           <li><a href="pybvc.html" >pybvc package</a> &raquo;</li> 
       </ul>
     </div>

@@ -4,6 +4,22 @@ pybvc.common package
 Submodules
 ----------
 
+pybvc.common.constants module
+-----------------------------
+
+.. automodule:: pybvc.common.constants
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+pybvc.common.result module
+--------------------------
+
+.. automodule:: pybvc.common.result
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 pybvc.common.status module
 --------------------------
 

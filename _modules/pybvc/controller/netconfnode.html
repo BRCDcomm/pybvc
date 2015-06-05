@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pybvc.controller.netconfnode &mdash; pybvc 1.0.4 documentation</title>
+    <title>pybvc.controller.netconfnode &mdash; pybvc 1.1.1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '1.0.4',
+        VERSION:     '1.1.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="pybvc 1.0.4 documentation" href="../../../index.html" />
+    <link rel="top" title="pybvc 1.1.1 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">pybvc 1.0.4 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -48,29 +48,60 @@
             
   <h1>Source code for pybvc.controller.netconfnode</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Copyright (c) 2015</span>
+
+<span class="sd">Redistribution and use in source and binary forms, with or without</span>
+<span class="sd">modification, are permitted provided that the following conditions are met:</span>
+<span class="sd"> - Redistributions of source code must retain the above copyright notice,</span>
+<span class="sd">   this list of conditions and the following disclaimer.</span>
+<span class="sd">-  Redistributions in binary form must reproduce the above copyright notice,</span>
+<span class="sd">   this list of conditions and the following disclaimer in the documentation</span>
+<span class="sd">   and/or other materials provided with the distribution.</span>
+<span class="sd">-  Neither the name of the copyright holder nor the names of its contributors</span>
+<span class="sd">   may be used to endorse or promote products derived from this software</span>
+<span class="sd">   without specific prior written permission.</span>
+
+<span class="sd">THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;</span>
+<span class="sd">AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE </span>
+<span class="sd">IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOS EARE</span>
+<span class="sd">DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE</span>
+<span class="sd">FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL</span>
+<span class="sd">DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span>
+<span class="sd">SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER</span>
+<span class="sd">CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,</span>
+<span class="sd">OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span>
+<span class="sd">OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+
+<span class="sd">@authors: Sergei Garbuzov</span>
+<span class="sd">@status: Development</span>
+<span class="sd">@version: 1.1.0</span>
+
 <span class="sd">netconfnode.py: Controller&#39;s NETCONF node specific properties</span>
 
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">json</span>
 
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># Class &#39;NetconfNode&#39;</span>
+<span class="c">#-------------------------------------------------------------------------------</span>
 <div class="viewcode-block" id="NetconfNode"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.netconfnode.NetconfNode">[docs]</a><span class="k">class</span> <span class="nc">NetconfNode</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Class that represents a NETCONF capable server device.</span>
+    <span class="sd">&quot;&quot;&quot; Class that represents a NETCONF capable server device.</span>
 <span class="sd">    </span>
 <span class="sd">        :param controller: :class:`pybvc.controller.controller.Controller`</span>
 <span class="sd">        :param string nodeName: The name of the node</span>
 <span class="sd">        :param string ipAddr:  The ip address for the netconf device</span>
 <span class="sd">        :param int portNum:  The port number to communicate NETCONF to the device</span>
 <span class="sd">        :param string adminName:  The username to authenticate setup of the NETCONF communication </span>
-<span class="sd">        :param string adminPassword:  The password to authenticate setup of the NETCONF communication </span>
-<span class="sd">        :param boolean tcpOnly:  Use TCP only or not. </span>
+<span class="sd">        :param string adminPassword:  The password to authenticate setup of the NETCONF communication</span>
+<span class="sd">        :param boolean tcpOnly:  Use TCP only or not.</span>
 <span class="sd">        :return: The newly created NetconfNode instance.</span>
 <span class="sd">        :rtype: :class:`pybvc.controller.netconfnode.NetconfNode`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">nodeName</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ipAddr</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">portNum</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                  <span class="n">adminName</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">adminPassword</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">tcpOnly</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-
+        <span class="sd">&quot;&quot;&quot; Initializes this object properties. &quot;&quot;&quot;</span>        
         <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span> <span class="o">=</span> <span class="n">controller</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">nodeName</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ipAddr</span> <span class="o">=</span> <span class="n">ipAddr</span>
@@ -78,14 +109,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">portNum</span> <span class="o">=</span> <span class="n">portNum</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">adminName</span> <span class="o">=</span> <span class="n">adminName</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">adminPassword</span> <span class="o">=</span> <span class="n">adminPassword</span>
-
+    
 <div class="viewcode-block" id="NetconfNode.to_string"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.netconfnode.NetconfNode.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Returns string representation of this object.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot; Returns string representation of this object. &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-</div>
+    </div>
 <div class="viewcode-block" id="NetconfNode.to_json"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.netconfnode.NetconfNode.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Returns JSON representation of this object.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div></div>
+        <span class="sd">&quot;&quot;&quot; Returns JSON representation of this object. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    </div></div>
 </pre></div>
 
           </div>
@@ -119,7 +151,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">pybvc 1.0.4 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

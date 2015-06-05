@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pybvc.controller package &mdash; pybvc 1.0.4 documentation</title>
+    <title>pybvc.controller package &mdash; pybvc 1.1.1 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.0.4',
+        VERSION:     '1.1.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="pybvc 1.0.4 documentation" href="index.html" />
+    <link rel="top" title="pybvc 1.1.1 documentation" href="index.html" />
     <link rel="up" title="pybvc package" href="pybvc.html" />
     <link rel="next" title="pybvc.netconfdev package" href="pybvc.netconfdev.html" />
     <link rel="prev" title="pybvc.common package" href="pybvc.common.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pybvc.common.html" title="pybvc.common package"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">pybvc 1.0.4 documentation</a> &raquo;</li>
+        <li><a href="index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
           <li><a href="pybvc.html" accesskey="U">pybvc package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -61,6 +61,36 @@
 </div>
 <div class="section" id="module-pybvc.controller.controller">
 <span id="pybvc-controller-controller-module"></span><h2>pybvc.controller.controller module<a class="headerlink" href="#module-pybvc.controller.controller" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015</p>
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors
+may be used to endorse or promote products derived from this software
+without specific prior written permission.</li>
+</ul>
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#8220;AS IS&#8221;
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<p>&#64;authors: Sergei Garbuzov
+&#64;status: Development
+&#64;version: 1.1.0</p>
 <p>controller.py: Controller&#8217;s properties and communication methods</p>
 <dl class="class">
 <dt id="pybvc.controller.controller.Controller">
@@ -130,7 +160,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nodeId</strong> (<em>string</em>) &#8211; Identifier for the node for which to get the config status</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Status of the node&#8217;s connection to the controller.  Note currently OpenFlow nodes are always shown disconnected.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Status of the node&#8217;s connection to the controller.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">None or <a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a></td>
 </tr>
@@ -139,7 +169,7 @@
 <ul class="simple">
 <li>STATUS.CONN_ERROR: if the controller did not respond.</li>
 <li>STATUS.CTRL_INTERNAL_ERROR: if the controller responded but did not provide any status.</li>
-<li>STATUS.NODE_CONNECTED: if the node is connected.</li>
+<li>STATUS.NODE_CONNECTED: if the node is connected</li>
 <li>STATUS.NODE_DISCONNECTED: if the node is not connected</li>
 <li>STATUS.DATA_NOT_FOUND: if node is not configured.</li>
 <li>STATUS.HTTP_ERROR: if the controller responded with an error status code.</li>
@@ -219,7 +249,7 @@
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_all_nodes_in_config">
 <tt class="descname">get_all_nodes_in_config</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_all_nodes_in_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_all_nodes_in_config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a list of nodes in the controller&#8217;s config data store</p>
+<dd><p>Return a list of nodes in the controller&#8217;s configuration data store</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -276,6 +306,52 @@
 <li>STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. state info is empty.</li>
 <li>STATUS.OK:  Success. state info is valid.</li>
 <li>STATUS.DATA_NOT_FOUND:  Data missing or in unexpected format.</li>
+<li>STATUS.HTTP_ERROR:  if the controller responded with an error status code.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybvc.controller.controller.Controller.get_netconf_nodes_conn_status">
+<tt class="descname">get_netconf_nodes_conn_status</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_netconf_nodes_conn_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_netconf_nodes_conn_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of NETCONF nodes and the status of their connection to the controller.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple:  Status, list of nodes the status of their connection to the controller</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a>, list of dict [{node:&lt;node id&gt;, connected:&lt;boolean&gt;},...]</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>STATUS.CONN_ERROR:  if the controller did not respond. List is empty.</li>
+<li>STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. List is empty.</li>
+<li>STATUS.OK:  Success. List is valid.</li>
+<li>STATUS.DATA_NOT_FOUND:  Success.  List is empty.</li>
+<li>STATUS.HTTP_ERROR:  if the controller responded with an error status code.</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybvc.controller.controller.Controller.get_netconf_nodes_in_config">
+<tt class="descname">get_netconf_nodes_in_config</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_netconf_nodes_in_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_netconf_nodes_in_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of NETCONF nodes in the controller&#8217;s configuration data store</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple:  Status, list of nodes in the config data store of the controller</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a>, list</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>STATUS.CONN_ERROR:  if the controller did not respond. List is empty.</li>
+<li>STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. List is empty.</li>
+<li>STATUS.OK:  Success. List is valid.</li>
+<li>STATUS.DATA_NOT_FOUND:  Success.  List is empty.</li>
 <li>STATUS.HTTP_ERROR:  if the controller responded with an error status code.</li>
 </ul>
 </dd></dl>
@@ -365,7 +441,7 @@
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_schemas">
 <tt class="descname">get_schemas</tt><big>(</big><em>nodeName</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_schemas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_schemas" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a list of YANG schemas for the node.</p>
+<dd><p>Return a list of YANG model schemas for the node.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -500,7 +576,7 @@
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The response from the http request.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None or <a class="reference external" href="http://docs.python-requests.org/en/latest/api/#requests.Response">requests.response</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None or <cite>requests.response &lt;http://docs.python-requests.org/en/latest/api/#requests.Response&gt;</cite></p>
 </td>
 </tr>
 </tbody>
@@ -525,8 +601,7 @@
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The response from the http request.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><p>None or <a class="reference external" href="http://docs.python-requests.org/en/latest/api/#requests.Response">requests.response</a></p>
-</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None or <cite>requests.response &lt;http://docs.python-requests.org/en/latest/api/#requests.Response&gt;</cite></p>
 </td>
 </tr>
 </tbody>
@@ -551,8 +626,7 @@
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The response from the http request.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><p>None or <a class="reference external" href="http://docs.python-requests.org/en/latest/api/#requests.Response">requests.response</a></p>
-</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None or <cite>requests.response &lt;http://docs.python-requests.org/en/latest/api/#requests.Response&gt;</cite></p>
 </td>
 </tr>
 </tbody>
@@ -577,8 +651,7 @@
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The response from the http request.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><p>None or <a class="reference external" href="http://docs.python-requests.org/en/latest/api/#requests.Response">requests.response</a></p>
-</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None or <cite>requests.response &lt;http://docs.python-requests.org/en/latest/api/#requests.Response&gt;</cite></p>
 </td>
 </tr>
 </tbody>
@@ -626,6 +699,36 @@
 </div>
 <div class="section" id="module-pybvc.controller.netconfnode">
 <span id="pybvc-controller-netconfnode-module"></span><h2>pybvc.controller.netconfnode module<a class="headerlink" href="#module-pybvc.controller.netconfnode" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015</p>
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors
+may be used to endorse or promote products derived from this software
+without specific prior written permission.</li>
+</ul>
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#8220;AS IS&#8221;
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOS EARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<p>&#64;authors: Sergei Garbuzov
+&#64;status: Development
+&#64;version: 1.1.0</p>
 <p>netconfnode.py: Controller&#8217;s NETCONF node specific properties</p>
 <dl class="class">
 <dt id="pybvc.controller.netconfnode.NetconfNode">
@@ -672,6 +775,36 @@
 </div>
 <div class="section" id="module-pybvc.controller.openflownode">
 <span id="pybvc-controller-openflownode-module"></span><h2>pybvc.controller.openflownode module<a class="headerlink" href="#module-pybvc.controller.openflownode" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015</p>
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors
+may be used to endorse or promote products derived from this software
+without specific prior written permission.</li>
+</ul>
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#8220;AS IS&#8221;
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<p>&#64;authors: Sergei Garbuzov
+&#64;status: Development
+&#64;version: 1.1.0</p>
 <p>openflownode.py: Controller&#8217;s OpenFlow node specific properties</p>
 <dl class="class">
 <dt id="pybvc.controller.openflownode.OpenflowNode">
@@ -759,7 +892,7 @@
         <li class="right" >
           <a href="pybvc.common.html" title="pybvc.common package"
              >previous</a> |</li>
-        <li><a href="index.html">pybvc 1.0.4 documentation</a> &raquo;</li>
+        <li><a href="index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
           <li><a href="pybvc.html" >pybvc package</a> &raquo;</li> 
       </ul>
     </div>

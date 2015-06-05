@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pybvc.common.utils &mdash; pybvc 1.0.4 documentation</title>
+    <title>pybvc.common.utils &mdash; pybvc 1.1.1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '1.0.4',
+        VERSION:     '1.1.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="pybvc 1.0.4 documentation" href="../../../index.html" />
+    <link rel="top" title="pybvc 1.1.1 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">pybvc 1.0.4 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -48,17 +48,47 @@
             
   <h1>Source code for pybvc.common.utils</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Copyright (c) 2015</span>
+
+<span class="sd">Redistribution and use in source and binary forms, with or without</span>
+<span class="sd">modification, are permitted provided that the following conditions are met:</span>
+<span class="sd"> - Redistributions of source code must retain the above copyright notice,</span>
+<span class="sd">   this list of conditions and the following disclaimer.</span>
+<span class="sd">-  Redistributions in binary form must reproduce the above copyright notice,</span>
+<span class="sd">   this list of conditions and the following disclaimer in the documentation</span>
+<span class="sd">   and/or other materials provided with the distribution.</span>
+<span class="sd">-  Neither the name of the copyright holder nor the names of its contributors</span>
+<span class="sd">   may be used to endorse or promote products derived from this software</span>
+<span class="sd">   without specific prior written permission.</span>
+
+<span class="sd">THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;</span>
+<span class="sd">AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE </span>
+<span class="sd">IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<span class="sd">DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE</span>
+<span class="sd">FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL</span>
+<span class="sd">DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span>
+<span class="sd">SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER</span>
+<span class="sd">CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,</span>
+<span class="sd">OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span>
+<span class="sd">OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+
+<span class="sd">@authors: Sergei Garbuzov</span>
+<span class="sd">@status: Development</span>
+<span class="sd">@version: 1.1.0</span>
+
 <span class="sd">utils.py: Helper utilities</span>
 
 
 <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">import</span> <span class="nn">yaml</span>
 
-<span class="n">debug_count</span> <span class="o">=</span> <span class="mi">0</span>
-
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># </span>
+<span class="c">#-------------------------------------------------------------------------------</span>
 <div class="viewcode-block" id="remove_empty_from_dict"><a class="viewcode-back" href="../../../pybvc.common.html#pybvc.common.utils.remove_empty_from_dict">[docs]</a><span class="k">def</span> <span class="nf">remove_empty_from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">dict</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">remove_empty_from_dict</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">and</span> <span class="n">remove_empty_from_dict</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
@@ -67,23 +97,29 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">d</span>
 
-</div>
-<div class="viewcode-block" id="stripNone"><a class="viewcode-back" href="../../../pybvc.common.html#pybvc.common.utils.stripNone">[docs]</a><span class="k">def</span> <span class="nf">stripNone</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># </span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="strip_none"><a class="viewcode-back" href="../../../pybvc.common.html#pybvc.common.utils.strip_none">[docs]</a><span class="k">def</span> <span class="nf">strip_none</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">stripNone</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">v</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">}</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">strip_none</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">v</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">}</span>
         <span class="k">return</span> <span class="n">res</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">stripNone</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span> <span class="k">if</span> <span class="n">item</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">]</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">[</span><span class="n">strip_none</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span> <span class="k">if</span> <span class="n">item</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">res</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">stripNone</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span> <span class="k">if</span> <span class="n">item</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">strip_none</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span> <span class="k">if</span> <span class="n">item</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="p">{</span><span class="n">stripNone</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span> <span class="k">if</span> <span class="n">item</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">}</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">{</span><span class="n">strip_none</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span> <span class="k">if</span> <span class="n">item</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">}</span>
         <span class="k">return</span> <span class="n">res</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">data</span>
-</div>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># </span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="load_dict_from_file"><a class="viewcode-back" href="../../../pybvc.common.html#pybvc.common.utils.load_dict_from_file">[docs]</a><span class="k">def</span> <span class="nf">load_dict_from_file</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -94,7 +130,10 @@
     <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
         <span class="k">print</span><span class="p">(</span><span class="s">&quot;Error: failed to read file &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span> <span class="n">f</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">False</span>
-</div>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># </span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="find_key_values_in_dict"><a class="viewcode-back" href="../../../pybvc.common.html#pybvc.common.utils.find_key_values_in_dict">[docs]</a><span class="k">def</span> <span class="nf">find_key_values_in_dict</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Searches a dictionary (with nested lists and dictionaries)</span>
@@ -117,7 +156,10 @@
                         <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">another_result</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">values</span>
-</div>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># </span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="find_key_value_in_dict"><a class="viewcode-back" href="../../../pybvc.common.html#pybvc.common.utils.find_key_value_in_dict">[docs]</a><span class="k">def</span> <span class="nf">find_key_value_in_dict</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Searches a dictionary (with nested lists and dictionaries)</span>
@@ -127,27 +169,25 @@
         <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">v</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">results</span> <span class="o">=</span> <span class="n">find_key_values_in_dict</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">result</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">find_key_value_in_dict</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">r</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">r</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-                    <span class="n">more_results</span> <span class="o">=</span> <span class="n">find_key_values_in_dict</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="n">another_result</span> <span class="ow">in</span> <span class="n">more_results</span><span class="p">:</span>
-                        <span class="k">return</span> <span class="n">another_result</span>
-    
+                    <span class="n">r</span> <span class="o">=</span> <span class="n">find_key_value_in_dict</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">r</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">r</span>
+        
     <span class="k">return</span> <span class="bp">None</span>
 
-</div>
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># </span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="find_dict_in_list"><a class="viewcode-back" href="../../../pybvc.common.html#pybvc.common.utils.find_dict_in_list">[docs]</a><span class="k">def</span> <span class="nf">find_dict_in_list</span><span class="p">(</span><span class="n">slist</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">slist</span><span class="p">:</span>
         <span class="k">if</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">dict</span> <span class="ow">and</span> <span class="n">item</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">key</span><span class="p">)):</span>
             <span class="k">return</span> <span class="n">item</span>
-<span class="c">#            for k, v in item.items():</span>
-<span class="c">#                if (k == key):</span>
-<span class="c">#                    return {k, v}</span>
-<span class="c">#            return dict((k,v) for k,v in item.items() if k == key)    </span>
     <span class="k">return</span> <span class="bp">None</span>
 </div>
 <div class="viewcode-block" id="replace_str_value_in_dict"><a class="viewcode-back" href="../../../pybvc.common.html#pybvc.common.utils.replace_str_value_in_dict">[docs]</a><span class="k">def</span> <span class="nf">replace_str_value_in_dict</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">):</span>
@@ -162,8 +202,29 @@
         <span class="n">d</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">d</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">d</span>    
-</div>
+        <span class="k">return</span> <span class="n">d</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># </span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="dict_keys_underscored_to_dashed"><a class="viewcode-back" href="../../../pybvc.common.html#pybvc.common.utils.dict_keys_underscored_to_dashed">[docs]</a><span class="k">def</span> <span class="nf">dict_keys_underscored_to_dashed</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="n">new_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    
+    <span class="k">if</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">dict_keys_underscored_to_dashed</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="n">dict_keys_underscored_to_dashed</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">v</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">and</span> <span class="n">dict_keys_underscored_to_dashed</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+            <span class="n">new_dict</span><span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39;-&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">v</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">d</span>
+    
+    <span class="k">return</span> <span class="n">new_dict</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># </span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="progress_wait_secs"><a class="viewcode-back" href="../../../pybvc.common.html#pybvc.common.utils.progress_wait_secs">[docs]</a><span class="k">def</span> <span class="nf">progress_wait_secs</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">waitTime</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">sym</span><span class="o">=</span><span class="s">&quot;.&quot;</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">waitTime</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
 <span class="c">#        sys.stdout.write (&quot;(waiting for %s seconds) &quot; % waitTime)</span>
@@ -175,30 +236,7 @@
             <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">sym</span><span class="p">,</span> <span class="c"># &lt;- no newline</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span> <span class="c">#&lt;- makes python print it anyway</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span> <span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
-</div>
-<span class="sd">&#39;&#39;&#39;        </span>
-<span class="sd">def replace_underscores_with_dashes_in_dict(d):</span>
-<span class="sd">    d1 = {}</span>
-<span class="sd">    for k, v in d.iteritems():</span>
-<span class="sd">        print type(k)</span>
-<span class="sd">        if (type(k) is str):</span>
-<span class="sd">            print &quot;1)******&quot;</span>
-<span class="sd">            k1 = k.replace(&#39;_&#39;, &#39;-&#39;)</span>
-<span class="sd">        else:</span>
-<span class="sd">            k1 = k</span>
-<span class="sd">        </span>
-<span class="sd">        print type(v)</span>
-<span class="sd">        if (type(v) is str):</span>
-<span class="sd">            print &quot;1)******&quot;</span>
-<span class="sd">            v1 = v.replace(&#39;_&#39;,&#39;-&#39;)</span>
-<span class="sd">        else:</span>
-<span class="sd">            v1 = v</span>
-<span class="sd">            </span>
-<span class="sd">        d1[k1] = v1</span>
-
-<span class="sd">    return d1</span>
-<span class="sd">&#39;&#39;&#39;</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span> <span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
@@ -232,7 +270,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">pybvc 1.0.4 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

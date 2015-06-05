@@ -1,0 +1,370 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pybvc.netconfdev.vrouter.interfaces &mdash; pybvc 1.1.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '1.1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="pybvc 1.1.1 documentation" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pybvc.netconfdev.vrouter.interfaces</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Copyright (c) 2015</span>
+
+<span class="sd">Redistribution and use in source and binary forms, with or without</span>
+<span class="sd">modification, are permitted provided that the following conditions are met:</span>
+<span class="sd"> - Redistributions of source code must retain the above copyright notice,</span>
+<span class="sd">   this list of conditions and the following disclaimer.</span>
+<span class="sd">-  Redistributions in binary form must reproduce the above copyright notice,</span>
+<span class="sd">   this list of conditions and the following disclaimer in the documentation</span>
+<span class="sd">   and/or other materials provided with the distribution.</span>
+<span class="sd">-  Neither the name of the copyright holder nor the names of its contributors</span>
+<span class="sd">   may be used to endorse or promote products derived from this software</span>
+<span class="sd">   without specific prior written permission.</span>
+
+<span class="sd">THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;</span>
+<span class="sd">AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE </span>
+<span class="sd">IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<span class="sd">DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE</span>
+<span class="sd">FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL</span>
+<span class="sd">DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span>
+<span class="sd">SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER</span>
+<span class="sd">CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,</span>
+<span class="sd">OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span>
+<span class="sd">OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+
+<span class="sd">@authors: Sergei Garbuzov</span>
+<span class="sd">@status: Development</span>
+<span class="sd">@version: 1.1.0</span>
+
+<span class="sd">firewall.py: Firewall specific properties and access methods</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">pybvc.common.utils</span> <span class="kn">import</span> <span class="n">strip_none</span><span class="p">,</span> <span class="n">remove_empty_from_dict</span><span class="p">,</span> <span class="n">dict_keys_underscored_to_dashed</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># Class &#39;OpenVpnInterface&#39;</span>
+<span class="c">#-------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="OpenVpnInterface"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface">[docs]</a><span class="k">class</span> <span class="nc">OpenVpnInterface</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39; Class representing an OpenVPN tunnel interface &#39;&#39;&#39;</span>
+    <span class="n">_mn1</span> <span class="o">=</span> <span class="s">&quot;vyatta-interfaces:interfaces&quot;</span>
+    <span class="n">_mn2</span> <span class="o">=</span> <span class="s">&quot;vyatta-interfaces-openvpn:openvpn&quot;</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; OpenVPN tunnel interface name &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tagnode</span> <span class="o">=</span> <span class="n">name</span>
+        
+        <span class="sd">&#39;&#39;&#39; Description for the interface &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; OpenVPN authentication method (container) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">auth</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; Hashing algorithm option</span>
+<span class="sd">            enumeration: &#39;md5&#39;, &#39;sha1&#39;, &#39;sha256&#39;, &#39;sha512&#39; &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hash</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; Interface to be disabled &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disable</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; Server-mode options (container) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">server</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; OpenVPN interface device-type &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device_type</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; File containing the secret key shared with remote end of tunnel &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shared_secret_key_file</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; Data encryption algorithm option</span>
+<span class="sd">            enumeration: &#39;des&#39;, &#39;3des&#39;, &#39;bf128&#39;, &#39;bf256&#39;, &#39;aes128&#39;, &#39;aes192&#39;, &#39;aes256&#39;  &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encryption</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; Additional OpenVPN options (list) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">openvpn_option</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="sd">&#39;&#39;&#39; Local IP address or network address &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">local_address</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; Local port number to accept connections (range 1..65535) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">local_port</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; Local IP address to accept connections (all if not set) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">local_host</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; IP address of remote end of tunnel &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remote_address</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; Remote port number to connect to &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remote_port</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; Remote host to connect to (dynamic if not set) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remote_host</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="sd">&#39;&#39;&#39; Transport Layer Security (TLS) options (container) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tls</span> <span class="o">=</span> <span class="n">TlsOptions</span><span class="p">()</span>
+        
+        <span class="sd">&#39;&#39;&#39; OpenVPN mode of operation</span>
+<span class="sd">            enumeration: &#39;site-to-site&#39;, &#39;client&#39;, &#39;server&#39; &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; OpenVPN tunnel to be used as the default route (container)&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">replace_default_route</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; OpenVPN communication protocol</span>
+<span class="sd">            enumeration: &#39;udp&#39;, &#39;tcp-passive&#39;, &#39;tcp-active&#39; &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; IPv4 parameters (container) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ip</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; IPv6 parameters (container) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ipv6</span> <span class="o">=</span> <span class="bp">None</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="OpenVpnInterface.to_string"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return this object as a string &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenVpnInterface.to_json"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return this object as JSON &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenVpnInterface.get_payload"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.get_payload">[docs]</a>    <span class="k">def</span> <span class="nf">get_payload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return this object as a payload for HTTP request &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">obj1</span> <span class="o">=</span> <span class="n">strip_none</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="n">obj2</span> <span class="o">=</span> <span class="n">remove_empty_from_dict</span><span class="p">(</span><span class="n">obj1</span><span class="p">)</span>
+        <span class="n">obj3</span> <span class="o">=</span> <span class="n">dict_keys_underscored_to_dashed</span><span class="p">(</span><span class="n">obj2</span><span class="p">)</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_mn1</span><span class="p">:</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_mn2</span><span class="p">:[</span><span class="n">obj3</span><span class="p">]}}</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenVpnInterface.set_mode"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.set_mode">[docs]</a>    <span class="k">def</span> <span class="nf">set_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenVpnInterface.set_shared_secret_key_file"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.set_shared_secret_key_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_shared_secret_key_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shared_secret_key_file</span> <span class="o">=</span> <span class="n">path</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenVpnInterface.set_local_address"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.set_local_address">[docs]</a>    <span class="k">def</span> <span class="nf">set_local_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">local_address</span> <span class="o">=</span> <span class="n">addr</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenVpnInterface.set_remote_address"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.set_remote_address">[docs]</a>    <span class="k">def</span> <span class="nf">set_remote_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remote_address</span> <span class="o">=</span> <span class="n">addr</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenVpnInterface.set_remote_host"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.set_remote_host">[docs]</a>    <span class="k">def</span> <span class="nf">set_remote_host</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remote_host</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenVpnInterface.set_tls_role"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.set_tls_role">[docs]</a>    <span class="k">def</span> <span class="nf">set_tls_role</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">role</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tls</span><span class="o">.</span><span class="n">set_role</span><span class="p">(</span><span class="n">role</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenVpnInterface.set_tls_dh_file"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.set_tls_dh_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_tls_dh_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tls</span><span class="o">.</span><span class="n">set_dh_file</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenVpnInterface.set_tls_ca_cert_file"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.set_tls_ca_cert_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_tls_ca_cert_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tls</span><span class="o">.</span><span class="n">set_ca_cert_file</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenVpnInterface.set_tls_cert_file"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.set_tls_cert_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_tls_cert_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tls</span><span class="o">.</span><span class="n">set_cert_file</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenVpnInterface.set_tls_crl_file"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.set_tls_crl_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_tls_crl_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tls</span><span class="o">.</span><span class="n">set_crl_file</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenVpnInterface.set_tls_key_file"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.set_tls_key_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_tls_key_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tls</span><span class="o">.</span><span class="n">set_key_file</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># Class &#39;TlsOptions&#39;</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div></div>
+<div class="viewcode-block" id="TlsOptions"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.TlsOptions">[docs]</a><span class="k">class</span> <span class="nc">TlsOptions</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39; Transport Layer Security (TLS) options </span>
+<span class="sd">        Helper class of the &#39;OpenVpnInterface&#39; class &#39;&#39;&#39;</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Role in TLS negotiation</span>
+<span class="sd">            enumeration: &#39;active&#39;, &#39;passive&#39; &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">role</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; File containing Diffie Hellman parameters (server only) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dh_file</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; File containing certificate for Certificate Authority (CA) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ca_cert_file</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; File containing certificate for this host &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cert_file</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; File containing certificate revocation list (CRL) for this host &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crl_file</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; File containing this host&#39;s private key &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key_file</span> <span class="o">=</span> <span class="bp">None</span>
+        
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="TlsOptions.set_role"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.TlsOptions.set_role">[docs]</a>    <span class="k">def</span> <span class="nf">set_role</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">role</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">role</span> <span class="o">=</span> <span class="n">role</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="TlsOptions.set_dh_file"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.TlsOptions.set_dh_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_dh_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dh_file</span> <span class="o">=</span> <span class="n">path</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="TlsOptions.set_ca_cert_file"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.TlsOptions.set_ca_cert_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_ca_cert_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ca_cert_file</span> <span class="o">=</span> <span class="n">path</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="TlsOptions.set_cert_file"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.TlsOptions.set_cert_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_cert_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cert_file</span> <span class="o">=</span> <span class="n">path</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="TlsOptions.set_crl_file"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.TlsOptions.set_crl_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_crl_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crl_file</span> <span class="o">=</span> <span class="n">path</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="TlsOptions.set_key_file"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.TlsOptions.set_key_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_key_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key_file</span> <span class="o">=</span> <span class="n">path</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Author.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

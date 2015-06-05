@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pybvc.netconfdev.vrouter.vrouter5600 &mdash; pybvc 1.0.4 documentation</title>
+    <title>pybvc.netconfdev.vrouter.vrouter5600 &mdash; pybvc 1.1.1 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '1.0.4',
+        VERSION:     '1.1.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="pybvc 1.0.4 documentation" href="../../../../index.html" />
+    <link rel="top" title="pybvc 1.1.1 documentation" href="../../../../index.html" />
     <link rel="up" title="Module code" href="../../../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../index.html">pybvc 1.0.4 documentation</a> &raquo;</li>
+        <li><a href="../../../../index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
           <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -48,154 +48,162 @@
             
   <h1>Source code for pybvc.netconfdev.vrouter.vrouter5600</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Copyright (c) 2015</span>
+
+<span class="sd">Redistribution and use in source and binary forms, with or without</span>
+<span class="sd">modification, are permitted provided that the following conditions are met:</span>
+<span class="sd"> - Redistributions of source code must retain the above copyright notice,</span>
+<span class="sd">   this list of conditions and the following disclaimer.</span>
+<span class="sd">-  Redistributions in binary form must reproduce the above copyright notice,</span>
+<span class="sd">   this list of conditions and the following disclaimer in the documentation</span>
+<span class="sd">   and/or other materials provided with the distribution.</span>
+<span class="sd">-  Neither the name of the copyright holder nor the names of its contributors</span>
+<span class="sd">   may be used to endorse or promote products derived from this software</span>
+<span class="sd">   without specific prior written permission.</span>
+
+<span class="sd">THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;</span>
+<span class="sd">AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE </span>
+<span class="sd">IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<span class="sd">DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE</span>
+<span class="sd">FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL</span>
+<span class="sd">DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span>
+<span class="sd">SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER</span>
+<span class="sd">CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,</span>
+<span class="sd">OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span>
+<span class="sd">OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+
+<span class="sd">@authors: Sergei Garbuzov</span>
+<span class="sd">@status: Development</span>
+<span class="sd">@version: 1.1.0</span>
+
 <span class="sd">vrouter5600.py: vRouter-5600 specific properties and communication methods</span>
 
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">import</span> <span class="nn">json</span>
 
 <span class="kn">from</span> <span class="nn">pybvc.controller.netconfnode</span> <span class="kn">import</span> <span class="n">NetconfNode</span>
+<span class="kn">from</span> <span class="nn">pybvc.common.result</span> <span class="kn">import</span> <span class="n">Result</span>
 <span class="kn">from</span> <span class="nn">pybvc.common.status</span> <span class="kn">import</span> <span class="n">OperStatus</span><span class="p">,</span> <span class="n">STATUS</span>
-<span class="kn">from</span> <span class="nn">pybvc.common.utils</span> <span class="kn">import</span> <span class="n">remove_empty_from_dict</span>
+<span class="kn">from</span> <span class="nn">pybvc.netconfdev.vrouter.vpn</span> <span class="kn">import</span> <span class="n">Vpn</span>
+<span class="kn">from</span> <span class="nn">pybvc.netconfdev.vrouter.interfaces</span> <span class="kn">import</span> <span class="n">OpenVpnInterface</span>
+<span class="kn">from</span> <span class="nn">pybvc.netconfdev.vrouter.protocols</span> <span class="kn">import</span> <span class="n">StaticRoute</span>
+<span class="kn">from</span> <span class="nn">pybvc.netconfdev.vrouter.firewall</span> <span class="kn">import</span> <span class="n">DataplaneInterfaceFirewall</span>
 
-
-<span class="c">#===============================================================================</span>
+<span class="c">#-------------------------------------------------------------------------------</span>
 <span class="c"># Class &#39;VRouter5600&#39;</span>
-<span class="c">#===============================================================================</span>
+<span class="c">#-------------------------------------------------------------------------------</span>
 <div class="viewcode-block" id="VRouter5600"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600">[docs]</a><span class="k">class</span> <span class="nc">VRouter5600</span><span class="p">(</span><span class="n">NetconfNode</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Class that represents an instance of vRouter-5600 (NETCONF capable server device).</span>
-
+    <span class="sd">&quot;&quot;&quot; Class that represents an instance of vRouter5600 </span>
+<span class="sd">        (NETCONF capable server device).</span>
+<span class="sd">        </span>
 <span class="sd">        :param ctrl: :class:`pybvc.controller.controller.Controller`</span>
 <span class="sd">        :param string name: The name of the vrouter5600</span>
-<span class="sd">        :param string ipAddr:  The ip address for the vrouter5600 </span>
-<span class="sd">        :param int portNum:  The port number to communicate NETCONF to the vrouter5600</span>
-<span class="sd">        :param string adminName:  The username to authenticate setup of the NETCONF communication </span>
-<span class="sd">        :param string adminPassword:  The password to authenticate setup of the NETCONF communication </span>
-<span class="sd">        :param boolean tcpOnly:  Use TCP only or not. </span>
+<span class="sd">        :param string ipAddr: The ip address for the vrouter5600</span>
+<span class="sd">        :param int portNum: The port number to communicate NETCONF </span>
+<span class="sd">                            to the vrouter5600</span>
+<span class="sd">        :param string adminName:  The username to authenticate setup</span>
+<span class="sd">                                  of the NETCONF communication</span>
+<span class="sd">        :param string adminPassword:  The password to authenticate setup</span>
+<span class="sd">                                      of the NETCONF communication</span>
+<span class="sd">        :param boolean tcpOnly:  Use TCP only or not.</span>
 <span class="sd">        :return: The newly created vrouter5600 instance.</span>
 <span class="sd">        :rtype: :class:`pybvc.netconfdev.vrouter.vrouter5600.VRouter5600`</span>
+<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
     
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">ipAddr</span><span class="p">,</span> <span class="n">portNum</span><span class="p">,</span> <span class="n">adminName</span><span class="p">,</span> <span class="n">adminPassword</span><span class="p">,</span> <span class="n">tcpOnly</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">VRouter5600</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">ipAddr</span><span class="p">,</span> <span class="n">portNum</span><span class="p">,</span> <span class="n">adminName</span><span class="p">,</span> <span class="n">adminPassword</span><span class="p">,</span> <span class="n">tcpOnly</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">ipAddr</span><span class="p">,</span> <span class="n">portNum</span><span class="p">,</span> <span class="n">adminName</span><span class="p">,</span> 
+                 <span class="n">adminPassword</span><span class="p">,</span> <span class="n">tcpOnly</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">VRouter5600</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">ipAddr</span><span class="p">,</span> <span class="n">portNum</span><span class="p">,</span> 
+                                          <span class="n">adminName</span><span class="p">,</span> <span class="n">adminPassword</span><span class="p">,</span> <span class="n">tcpOnly</span><span class="p">)</span>
     
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span>
 <div class="viewcode-block" id="VRouter5600.to_string"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Returns string representation of this object.&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot; Returns string representation of this object. &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="VRouter5600.to_json"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Returns JSON representation of this object.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> 
-
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="VRouter5600.get_schemas"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_schemas">[docs]</a>    <span class="k">def</span> <span class="nf">get_schemas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return a list of YANG schemas for this VRouter5600</span>
-
-<span class="sd">        :return: A tuple:  Status, list of YANG schemas for the VRouter5600.</span>
-<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, JSON listing information about the YANG schemas for the node</span>
-
-<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. List is empty.</span>
-<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. List is empty.</span>
-<span class="sd">        - STATUS.OK:  Success. List is valid.  </span>
-<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
-        <span class="n">myname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
-        <span class="k">return</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_schemas</span><span class="p">(</span><span class="n">myname</span><span class="p">)</span>
-
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="VRouter5600.get_schema"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_schema">[docs]</a>    <span class="k">def</span> <span class="nf">get_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schemaId</span><span class="p">,</span> <span class="n">schemaVersion</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return a YANG schema for the indicated schema on the VRouter5600.</span>
-
-<span class="sd">        :param string schemaId: id of schema</span>
-<span class="sd">        :param string schemaVersion: version of the schema</span>
-<span class="sd">        :return: A tuple:  Status, YANG schema.</span>
-<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, YANG schema </span>
-
-<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. schema is empty.</span>
-<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. schema is empty.</span>
-<span class="sd">        - STATUS.OK:  Success. result is valid.  </span>
-<span class="sd">        - STATUS.DATA_NOT_FOUND:  Data missing or in unexpected format.  </span>
-<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
-
-<span class="sd">        &quot;&quot;&quot;</span> 
-        <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
-        <span class="n">myname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
-        <span class="k">return</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_schema</span><span class="p">(</span><span class="n">myname</span><span class="p">,</span> <span class="n">schemaId</span><span class="p">,</span> <span class="n">schemaVersion</span><span class="p">)</span>
-
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="VRouter5600.get_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">get_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>        
-        <span class="sd">&quot;&quot;&quot;Return configuration of the VRouter5600.</span>
-
-<span class="sd">        :return: A tuple:  Status, JSON for configuration.</span>
-<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, JSON </span>
-
-<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. schema is empty.</span>
-<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. schema is empty.</span>
-<span class="sd">        - STATUS.OK:  Success. result is valid.  </span>
-<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
-
-<span class="sd">        &quot;&quot;&quot;</span> 
-        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
-        <span class="n">cfg</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
-        <span class="n">myname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_ext_mount_config_url</span><span class="p">(</span><span class="n">myname</span><span class="p">)</span>
-
-        <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
-            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
-        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
-            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
-            <span class="n">cfg</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span>
-            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
-        
-        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
     
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="VRouter5600.get_firewalls_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_firewalls_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">get_firewalls_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>        
-        <span class="sd">&quot;&quot;&quot;Return firewall configuration of the VRouter5600.</span>
-
-<span class="sd">        :return: A tuple:  Status, JSON for firewall configuration.</span>
-<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, JSON </span>
-
-<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. schema is empty.</span>
-<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. schema is empty.</span>
-<span class="sd">        - STATUS.OK:  Success. result is valid.  </span>
-<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
-
-<span class="sd">        &quot;&quot;&quot;</span> 
+<div class="viewcode-block" id="VRouter5600.to_json"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns JSON representation of this object. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="VRouter5600.get_schemas"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_schemas">[docs]</a>    <span class="k">def</span> <span class="nf">get_schemas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return a list of YANG model schemas implemented on this VRouter5600</span>
+<span class="sd">        </span>
+<span class="sd">        :return: A tuple: Status, list of YANG model schemas for the VRouter5600.</span>
+<span class="sd">        :rtype: instance of the `Result` class (containing JSON listing </span>
+<span class="sd">                information about the YANG schemas for the node)</span>
+<span class="sd">        </span>
+<span class="sd">        - STATUS.CONN_ERROR: If the controller did not respond. List is empty.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</span>
+<span class="sd">                                      provide any status. List is empty.</span>
+<span class="sd">        - STATUS.OK: Success. List is valid.</span>
+<span class="sd">        - STATUS.HTTP_ERROR: If the controller responded with an error</span>
+<span class="sd">                            status code.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
+        <span class="n">myname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">return</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_schemas</span><span class="p">(</span><span class="n">myname</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="VRouter5600.get_schema"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_schema">[docs]</a>    <span class="k">def</span> <span class="nf">get_schema</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schemaId</span><span class="p">,</span> <span class="n">schemaVersion</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a YANG model definition for the indicated schema</span>
+<span class="sd">        </span>
+<span class="sd">        :param string schemaId: id of schema</span>
+<span class="sd">        :param string schemaVersion: version of the schema</span>
+<span class="sd">        :return: A tuple: Status, YANG model schema.</span>
+<span class="sd">        :rtype: instance of the `Result` class (containing YANG schema)</span>
+<span class="sd">        </span>
+<span class="sd">        - STATUS.CONN_ERROR: If the controller did not respond. Schema is empty.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</span>
+<span class="sd">                                      provide any status. Schema is empty.</span>
+<span class="sd">        - STATUS.OK: Success. Result is valid.</span>
+<span class="sd">        - STATUS.DATA_NOT_FOUND: Data missing or in unexpected format.</span>
+<span class="sd">        - STATUS.HTTP_ERROR: If the controller responded with an error</span>
+<span class="sd">                             status code.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
+        <span class="n">myname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">return</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_schema</span><span class="p">(</span><span class="n">myname</span><span class="p">,</span> <span class="n">schemaId</span><span class="p">,</span> <span class="n">schemaVersion</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="VRouter5600.get_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">get_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return configuration of the VRouter5600.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: A tuple: Status, JSON for configuration.</span>
+<span class="sd">        :rtype: instance of the `Result` class (containing configuration data)</span>
+<span class="sd">        </span>
+<span class="sd">        - STATUS.CONN_ERROR: If the controller did not respond.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</span>
+<span class="sd">                                      provide any status.</span>
+<span class="sd">        - STATUS.OK: Success. Result is valid.</span>
+<span class="sd">        - STATUS.HTTP_ERROR: If the controller responded with an error</span>
+<span class="sd">                             status code.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
         <span class="n">cfg</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="n">templateModelRef</span> <span class="o">=</span> <span class="s">&quot;vyatta-security:security/vyatta-security-firewall:firewall&quot;</span>        
-        <span class="n">modelref</span> <span class="o">=</span> <span class="n">templateModelRef</span>       
         <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
         <span class="n">myname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_ext_mount_config_url</span><span class="p">(</span><span class="n">myname</span><span class="p">)</span>
-        <span class="n">url</span> <span class="o">+=</span> <span class="n">modelref</span>
         
         <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
         <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
@@ -208,27 +216,70 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
         
-        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="VRouter5600.get_firewalls_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_firewalls_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">get_firewalls_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return firewall configuration of the VRouter5600.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: A tuple: Status, JSON for firewall configuration.</span>
+<span class="sd">        :rtype: instance of the `Result` class (containing configuration data)</span>
+<span class="sd">        </span>
+<span class="sd">        - STATUS.CONN_ERROR: If the controller did not respond.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did</span>
+<span class="sd">                                      not provide any status.</span>
+<span class="sd">        - STATUS.OK: Success. Result is valid.</span>
+<span class="sd">        - STATUS.HTTP_ERROR: If the controller responded with an error</span>
+<span class="sd">                             status code.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">url_ext</span> <span class="o">=</span> <span class="s">&quot;vyatta-security:security/vyatta-security-firewall:firewall&quot;</span>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
+        <span class="n">myname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_ext_mount_config_url</span><span class="p">(</span><span class="n">myname</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">+=</span> <span class="n">url_ext</span>
+        
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
     
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="VRouter5600.get_firewall_instance_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_firewall_instance_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">get_firewall_instance_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>        
         <span class="sd">&quot;&quot;&quot;Return configuration for a specific firewall on the VRouter5600.</span>
-
-<span class="sd">        :param instance: Firewall :class:`pybvc.netconfdev.vrouter.vrouter5600.Firewall` </span>
-<span class="sd">        :return: A tuple:  Status, JSON for firewall configuration.</span>
-<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, JSON </span>
-
-<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. schema is empty.</span>
-<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. schema is empty.</span>
-<span class="sd">        - STATUS.OK:  Success. result is valid.  </span>
-<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
-
-<span class="sd">        &quot;&quot;&quot;</span> 
+<span class="sd">        </span>
+<span class="sd">        :param instance of the &#39;Firewall&#39; class</span>
+<span class="sd">        :return: A tuple: Status, JSON for firewall configuration.</span>
+<span class="sd">        :rtype: instance of the `Result` class (containing configuration data)</span>
+<span class="sd">        </span>
+<span class="sd">        - STATUS.CONN_ERROR: If the controller did not respond.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</span>
+<span class="sd">                                      provide any status.</span>
+<span class="sd">        - STATUS.OK:  Success. Result is valid.</span>
+<span class="sd">        - STATUS.HTTP_ERROR: If the controller responded with an error</span>
+<span class="sd">                             status code. </span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
         <span class="n">cfg</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="n">templateModelRef</span> <span class="o">=</span> <span class="s">&quot;vyatta-security:security/vyatta-security-firewall:firewall/name/{}&quot;</span>     
+        <span class="n">templateModelRef</span> <span class="o">=</span> <span class="s">&quot;vyatta-security:security/vyatta-security-firewall:firewall/name/{}&quot;</span>
         <span class="n">modelref</span> <span class="o">=</span> <span class="n">templateModelRef</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
         <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
         <span class="n">myname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
@@ -245,24 +296,26 @@
             <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
     
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="VRouter5600.create_firewall_instance"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.create_firewall_instance">[docs]</a>    <span class="k">def</span> <span class="nf">create_firewall_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fwInstance</span><span class="p">):</span>        
+<div class="viewcode-block" id="VRouter5600.create_firewall_instance"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.create_firewall_instance">[docs]</a>    <span class="k">def</span> <span class="nf">create_firewall_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fwInstance</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Create a firewall on the VRouter5600.</span>
-
-<span class="sd">        :param fwInstance: Firewall :class:`pybvc.netconfdev.vrouter.vrouter5600.Firewall` </span>
+<span class="sd">        </span>
+<span class="sd">        :param fwInstance: instance of the &#39;Firewall&#39; class</span>
 <span class="sd">        :return: A tuple:  Status, None.</span>
-<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, JSON </span>
-
-<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. schema is empty.</span>
-<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. schema is empty.</span>
-<span class="sd">        - STATUS.OK:  Success. result is valid.  </span>
-<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
-
+<span class="sd">        :rtype: instance of the `Result` class</span>
+<span class="sd">        </span>
+<span class="sd">        - STATUS.CONN_ERROR: If the controller did not respond.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</span>
+<span class="sd">                                      provide any status.</span>
+<span class="sd">        - STATUS.OK:  Success. Result is valid.</span>
+<span class="sd">        - STATUS.HTTP_ERROR: If the controller responded with an error</span>
+<span class="sd">                             status code.</span>
+<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
         <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
@@ -281,7 +334,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
         
-        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
     
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># TBD</span>
@@ -300,16 +353,17 @@
     <span class="c">#---------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="VRouter5600.delete_firewall_instance"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.delete_firewall_instance">[docs]</a>    <span class="k">def</span> <span class="nf">delete_firewall_instance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fwInstance</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Delete a firewall from the VRouter5600.</span>
-
-<span class="sd">        :param fwInstance: Firewall :class:`pybvc.netconfdev.vrouter.vrouter5600.Firewall` </span>
-<span class="sd">        :return: A tuple:  Status, None.</span>
-<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, None</span>
-
-<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. schema is empty.</span>
-<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. schema is empty.</span>
-<span class="sd">        - STATUS.OK:  Success. result is valid.  </span>
-<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
-
+<span class="sd">        </span>
+<span class="sd">        :param fwInstance: Firewall :class:</span>
+<span class="sd">        :return: A tuple: Status, None.</span>
+<span class="sd">        :rtype: instance of the `Result` class</span>
+<span class="sd">        </span>
+<span class="sd">        - STATUS.CONN_ERROR: If the controller did not respond.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</span>
+<span class="sd">                                     provide any status.</span>
+<span class="sd">        - STATUS.OK: Success. Result is valid.</span>
+<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code.</span>
+<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
         <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
@@ -334,44 +388,47 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
                 <span class="k">break</span>
-            
-        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
     
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="VRouter5600.set_dataplane_interface_firewall"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.set_dataplane_interface_firewall">[docs]</a>    <span class="k">def</span> <span class="nf">set_dataplane_interface_firewall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ifName</span><span class="p">,</span>
                                          <span class="n">inboundFwName</span><span class="p">,</span> <span class="n">outboundFwName</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Set a firewall for inbound, outbound or both for a dataplane interface on the VRouter5600.</span>
-
-<span class="sd">        :param string ifName: The dataplane interface to attache a firewall. </span>
-<span class="sd">        :param string inboundFwName: None or name of firewall on VRouter5600 to use for traffic inbound towards router.   </span>
-<span class="sd">        :param string outboundFwName: None or name of firewall on VRouter5600 to use for traffic outbound from router.   </span>
+        <span class="sd">&quot;&quot;&quot; Set a firewall for inbound, outbound or both for a </span>
+<span class="sd">            dataplane interface on the VRouter5600.</span>
+<span class="sd">        </span>
+<span class="sd">        :param string ifName: The dataplane interface to attache a firewall.</span>
+<span class="sd">        :param string inboundFwName: None or name of firewall on VRouter5600</span>
+<span class="sd">                                     to use for traffic inbound towards router.</span>
+<span class="sd">        :param string outboundFwName: None or name of firewall on VRouter5600</span>
+<span class="sd">                                     to use for traffic outbound from router.</span>
 <span class="sd">        :return: A tuple:  Status, None.</span>
-<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, None except when STATUS.HTTP_ERROR</span>
-
+<span class="sd">        :rtype: instance of the `Result` class</span>
+<span class="sd">        </span>
 <span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. schema is empty.</span>
 <span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. schema is empty.</span>
-<span class="sd">        - STATUS.OK:  Success. result is valid.  </span>
-<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
-
+<span class="sd">        - STATUS.OK:  Success. result is valid.</span>
+<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code.</span>
+<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
         <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
         <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;content-type&#39;</span><span class="p">:</span> <span class="s">&#39;application/yang.data+json&#39;</span><span class="p">}</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_ext_mount_config_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>        
+        <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_ext_mount_config_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        
         <span class="n">obj</span> <span class="o">=</span> <span class="n">DataplaneInterfaceFirewall</span><span class="p">(</span><span class="n">ifName</span><span class="p">)</span>
         
         <span class="k">if</span> <span class="p">(</span><span class="n">inboundFwName</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
-            <span class="n">obj</span><span class="o">.</span><span class="n">add_in_item</span><span class="p">(</span><span class="n">inboundFwName</span><span class="p">)</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">add_in_policy</span><span class="p">(</span><span class="n">inboundFwName</span><span class="p">)</span>
         
         <span class="k">if</span> <span class="p">(</span><span class="n">outboundFwName</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
-            <span class="n">obj</span><span class="o">.</span><span class="n">add_out_item</span><span class="p">(</span><span class="n">outboundFwName</span><span class="p">)</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">add_out_policy</span><span class="p">(</span><span class="n">outboundFwName</span><span class="p">)</span>
         
         <span class="n">payload</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_payload</span><span class="p">()</span>
-        <span class="n">urlext</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_url_extension</span><span class="p">()</span>
-        
-        <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_put_request</span><span class="p">(</span><span class="n">url</span> <span class="o">+</span> <span class="n">urlext</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">+=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_url_extension</span><span class="p">()</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_put_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
         <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
             <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
         <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
@@ -381,30 +438,33 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
         
-        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
     
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="VRouter5600.delete_dataplane_interface_firewall"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.delete_dataplane_interface_firewall">[docs]</a>    <span class="k">def</span> <span class="nf">delete_dataplane_interface_firewall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ifName</span><span class="p">):</span>        
-        <span class="sd">&quot;&quot;&quot;Delete both inbound and outbound firewalls for a dataplane interface on the VRouter5600.</span>
-
-<span class="sd">        :param string ifName: The dataplane interface to attach a firewall. </span>
+<div class="viewcode-block" id="VRouter5600.delete_dataplane_interface_firewall"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.delete_dataplane_interface_firewall">[docs]</a>    <span class="k">def</span> <span class="nf">delete_dataplane_interface_firewall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ifName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Delete both inbound and outbound firewalls for a</span>
+<span class="sd">            dataplane interface on the VRouter5600.</span>
+<span class="sd">        </span>
+<span class="sd">        :param string ifName: The dataplane interface to attach a firewall.</span>
 <span class="sd">        :return: A tuple:  Status, Response from VRouter5600.</span>
-<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, None except when STATUS.HTTP_ERROR</span>
-
-<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. schema is empty.</span>
-<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. schema is empty.</span>
-<span class="sd">        - STATUS.OK:  Success. result is valid.  </span>
-<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
-
+<span class="sd">        :rtype: instance of the `Result` class</span>
+<span class="sd">        </span>
+<span class="sd">        - STATUS.CONN_ERROR: If the controller did not respond.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did</span>
+<span class="sd">                                      not provide any status.</span>
+<span class="sd">        - STATUS.OK: Success. Result is valid.</span>
+<span class="sd">        - STATUS.HTTP_ERROR: If the controller responded with an error</span>
+<span class="sd">                             status code.</span>
+<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
         <span class="n">templateModelRef</span> <span class="o">=</span> <span class="s">&quot;vyatta-interfaces:interfaces/vyatta-interfaces-dataplane:dataplane/{}/vyatta-security-firewall:firewall/&quot;</span>
         <span class="n">modelref</span> <span class="o">=</span> <span class="n">templateModelRef</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ifName</span><span class="p">)</span>
         <span class="n">myname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_ext_mount_config_url</span><span class="p">(</span><span class="n">myname</span><span class="p">)</span>  
+        <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_ext_mount_config_url</span><span class="p">(</span><span class="n">myname</span><span class="p">)</span>
         
         <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_delete_request</span><span class="p">(</span><span class="n">url</span> <span class="o">+</span> <span class="n">modelref</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
         <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
@@ -415,31 +475,32 @@
             <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-    
+        
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
     
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="VRouter5600.get_interfaces_list"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_interfaces_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_interfaces_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get the list of interfaces on the VRouter5600.</span>
-
-<span class="sd">        :return: A tuple:  Status, list of interface names.</span>
-<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, list of strings</span>
-
-<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. schema is empty.</span>
-<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. schema is empty.</span>
-<span class="sd">        - STATUS.OK:  Success. result is valid.  </span>
-<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
-
+        <span class="sd">&quot;&quot;&quot; Get the list of interfaces on the VRouter5600.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: A tuple: Status, list of interface names.</span>
+<span class="sd">        :rtype: instance of the `Result` class</span>
+<span class="sd">        </span>
+<span class="sd">        - STATUS.CONN_ERROR: If the controller did not respond.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</span>
+<span class="sd">                                      provide any status.</span>
+<span class="sd">        - STATUS.OK:  Success. Result is valid.</span>
+<span class="sd">        - STATUS.HTTP_ERROR: If the controller responded with an error</span>
+<span class="sd">                             status code.</span>
+<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ifList</span> <span class="o">=</span> <span class="p">[]</span>
         
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_interfaces_cfg</span><span class="p">()</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_status</span><span class="p">()</span>
         <span class="k">if</span><span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)):</span>
-            <span class="n">cfg</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
             <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;interfaces&#39;</span>
             <span class="k">if</span><span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">cfg</span><span class="p">):</span>
                 <span class="n">d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
@@ -452,31 +513,32 @@
                             <span class="k">if</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
                                 <span class="n">ifList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="n">p2</span><span class="p">])</span>
         
-        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">ifList</span><span class="p">)</span>
-    
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">ifList</span><span class="p">)</span>
     
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="VRouter5600.get_interfaces_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_interfaces_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">get_interfaces_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>        
-        <span class="sd">&quot;&quot;&quot;Return the configuration for the interfaces on the VRouter5600</span>
-
-<span class="sd">        :return: A tuple:  Status, configuration of the interfaces</span>
-<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, None or JSON describing configuration</span>
-
-<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. schema is empty.</span>
-<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. schema is empty.</span>
-<span class="sd">        - STATUS.OK:  Success. result is valid.  </span>
-<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
-
+<div class="viewcode-block" id="VRouter5600.get_interfaces_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_interfaces_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">get_interfaces_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the configuration for the interfaces on the VRouter5600</span>
+<span class="sd">        </span>
+<span class="sd">        :return: A tuple: Status, configuration of the interfaces</span>
+<span class="sd">        :rtype: instance of the `Result` class (containing configuration data)</span>
+<span class="sd">        </span>
+<span class="sd">        - STATUS.CONN_ERROR: If the controller did not respond.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</span>
+<span class="sd">                                      provide any status.</span>
+<span class="sd">        - STATUS.OK:  Success. Result is valid.</span>
+<span class="sd">        - STATUS.HTTP_ERROR: If the controller responded with an error</span>
+<span class="sd">                             status code.</span>
+<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
         <span class="n">cfg</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="n">templateModelRef</span> <span class="o">=</span> <span class="s">&quot;vyatta-interfaces:interfaces&quot;</span>        
-        <span class="n">modelref</span> <span class="o">=</span> <span class="n">templateModelRef</span>       
+        <span class="n">templateModelRef</span> <span class="o">=</span> <span class="s">&quot;vyatta-interfaces:interfaces&quot;</span>
+        <span class="n">modelref</span> <span class="o">=</span> <span class="n">templateModelRef</span>
         <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_ext_mount_config_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-        <span class="n">url</span> <span class="o">+=</span> <span class="n">modelref</span>        
+        <span class="n">url</span> <span class="o">+=</span> <span class="n">modelref</span>
         
         <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
         <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
@@ -489,30 +551,31 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
         
-        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
-    
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
     
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="VRouter5600.get_dataplane_interfaces_list"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_dataplane_interfaces_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_dataplane_interfaces_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>        
-        <span class="sd">&quot;&quot;&quot;Return a list of interfaces on the VRouter5600</span>
-
-<span class="sd">        :return: A tuple:  Status, list of interface names</span>
-<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, None or list of strings </span>
-
-<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. schema is empty.</span>
-<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. schema is empty.</span>
-<span class="sd">        - STATUS.OK:  Success. result is valid.  </span>
-<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
-
+        <span class="sd">&quot;&quot;&quot; Return a list of interfaces on the VRouter5600</span>
+<span class="sd">        </span>
+<span class="sd">        :return: A tuple: Status, list of interface names</span>
+<span class="sd">        :rtype: instance of the `Result` class</span>
+<span class="sd">        </span>
+<span class="sd">        - STATUS.CONN_ERROR: If the controller did not respond.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did</span>
+<span class="sd">                                      not provide any status.</span>
+<span class="sd">        - STATUS.OK:  Success. Result is valid.</span>
+<span class="sd">        - STATUS.HTTP_ERROR: If the controller responded with an error</span>
+<span class="sd">                             status code.</span>
+<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dpIfList</span> <span class="o">=</span> <span class="p">[]</span>
-
+        
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_interfaces_cfg</span><span class="p">()</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_status</span><span class="p">()</span>
         <span class="k">if</span><span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)):</span>
-            <span class="n">cfg</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
             <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;interfaces&#39;</span>
             <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;vyatta-interfaces-dataplane:dataplane&#39;</span>
             <span class="k">if</span><span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">cfg</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">cfg</span><span class="p">):</span>
@@ -522,54 +585,59 @@
                     <span class="k">if</span> <span class="n">p3</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
                         <span class="n">dpIfList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="n">p3</span><span class="p">])</span>
         
-        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">dpIfList</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">dpIfList</span><span class="p">)</span>
     
-
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="VRouter5600.get_dataplane_interfaces_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_dataplane_interfaces_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">get_dataplane_interfaces_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return the configuration for the dataplane interfaces on the VRouter5600</span>
-
-<span class="sd">        :return: A tuple:  Status, configuration of dataplane interfaces</span>
-<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, None or JSON </span>
-
-<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. schema is empty.</span>
-<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. schema is empty.</span>
-<span class="sd">        - STATUS.OK:  Success. result is valid.  </span>
-<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
-
+        <span class="sd">&quot;&quot;&quot; Return the configuration for the dataplane interfaces</span>
+<span class="sd">            on the VRouter5600</span>
+<span class="sd">        </span>
+<span class="sd">        :return: A tuple: Status, configuration of dataplane interfaces</span>
+<span class="sd">        :rtype: instance of the `Result` class (containing configuration data)</span>
+<span class="sd">        </span>
+<span class="sd">        - STATUS.CONN_ERROR: If the controller did not respond.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not provide</span>
+<span class="sd">                                      any status.</span>
+<span class="sd">        - STATUS.OK: Success. Result is valid.</span>
+<span class="sd">        - STATUS.HTTP_ERROR: If the controller responded with an error</span>
+<span class="sd">                             status code.</span>
+<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dpIfCfg</span> <span class="o">=</span> <span class="bp">None</span>
         
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_interfaces_cfg</span><span class="p">()</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_status</span><span class="p">()</span>
         <span class="k">if</span><span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)):</span>
-            <span class="n">cfg</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
             <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;interfaces&#39;</span>
             <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;vyatta-interfaces-dataplane:dataplane&#39;</span>
             <span class="k">if</span><span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">cfg</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">cfg</span><span class="p">):</span>
                 <span class="n">dpIfCfg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">dpIfCfg</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">dpIfCfg</span><span class="p">)</span>
     
-
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="VRouter5600.get_dataplane_interface_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_dataplane_interface_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">get_dataplane_interface_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ifName</span><span class="p">):</span> 
-        <span class="sd">&quot;&quot;&quot;Return the configuration for a dataplane interface on the VRouter5600</span>
-
-<span class="sd">        :param string ifName: The interface name of the interface for which configuration should be returned</span>
-<span class="sd">        :return: A tuple:  Status, configuration of dataplane interface</span>
-<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, None or JSON </span>
-
-<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. schema is empty.</span>
-<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. schema is empty.</span>
-<span class="sd">        - STATUS.OK:  Success. result is valid.  </span>
-<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
-
-<span class="sd">        &quot;&quot;&quot;</span>       
+        <span class="sd">&quot;&quot;&quot; Return the configuration for a dataplane interface</span>
+<span class="sd">            on the VRouter5600</span>
+<span class="sd">        </span>
+<span class="sd">        :param string ifName: The interface name of the interface for which</span>
+<span class="sd">                              configuration should be returned</span>
+<span class="sd">        :return: A tuple: Status, configuration of dataplane interface</span>
+<span class="sd">        :rtype: instance of the `Result` class (containing configuration data)</span>
+<span class="sd">        </span>
+<span class="sd">        - STATUS.CONN_ERROR: If the controller did not respond.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</span>
+<span class="sd">                                      provide any status.</span>
+<span class="sd">        - STATUS.OK: Success. Result is valid.</span>
+<span class="sd">        - STATUS.HTTP_ERROR: If the controller responded with an error</span>
+<span class="sd">                             status code.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
         <span class="n">cfg</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="n">templateModelRef</span> <span class="o">=</span> <span class="s">&quot;vyatta-interfaces:interfaces/vyatta-interfaces-dataplane:dataplane/{}&quot;</span>
@@ -577,7 +645,7 @@
         <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_ext_mount_config_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="n">url</span> <span class="o">+=</span> <span class="n">modelref</span>
-
+        
         <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
         <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
             <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
@@ -589,29 +657,31 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
         
-        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
     
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="VRouter5600.get_loopback_interfaces_list"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_loopback_interfaces_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_loopback_interfaces_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return a list of loopback interfaces on the VRouter5600</span>
-
+        <span class="sd">&quot;&quot;&quot; Return a list of loopback interfaces on the VRouter5600</span>
+<span class="sd">        </span>
 <span class="sd">        :return: A tuple:  Status, list of loopback interface names</span>
-<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, None or list of strings </span>
-
-<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. schema is empty.</span>
-<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. schema is empty.</span>
-<span class="sd">        - STATUS.OK:  Success. result is valid.  </span>
-<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
-
+<span class="sd">        :rtype: instance of the `Result` class</span>
+<span class="sd">        </span>
+<span class="sd">        - STATUS.CONN_ERROR: If the controller did not respond.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</span>
+<span class="sd">                                      provide any status.</span>
+<span class="sd">        - STATUS.OK: Success. Result is valid.</span>
+<span class="sd">        - STATUS.HTTP_ERROR: If the controller responded with an error</span>
+<span class="sd">                             status code.</span>
+<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">lbInterfaces</span> <span class="o">=</span> <span class="p">[]</span>
         
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_interfaces_cfg</span><span class="p">()</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_status</span><span class="p">()</span>
         <span class="k">if</span><span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)):</span>
-            <span class="n">cfg</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
             <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;interfaces&#39;</span>
             <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;vyatta-interfaces-loopback:loopback&#39;</span>
             <span class="k">if</span><span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">cfg</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">cfg</span><span class="p">):</span>
@@ -620,60 +690,67 @@
                 <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">p3</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
                         <span class="n">lbInterfaces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="n">p3</span><span class="p">])</span>
-      
-        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">lbInterfaces</span><span class="p">)</span>        
+        
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">lbInterfaces</span><span class="p">)</span>        
     
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="VRouter5600.get_loopback_interfaces_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_loopback_interfaces_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">get_loopback_interfaces_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return the configuration for the loopback interfaces on the VRouter5600</span>
-
-<span class="sd">        :return: A tuple:  Status, configuration of loopback interfaces</span>
-<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, None or JSON </span>
-
-<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. schema is empty.</span>
-<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. schema is empty.</span>
-<span class="sd">        - STATUS.OK:  Success. result is valid.  </span>
-<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
-
+        <span class="sd">&quot;&quot;&quot; Return the configuration for the loopback interfaces </span>
+<span class="sd">            on the VRouter5600</span>
+<span class="sd">        </span>
+<span class="sd">        :return: A tuple: Status, configuration of loopback interfaces</span>
+<span class="sd">        :rtype: instance of the `Result` class (containing configuration data)</span>
+<span class="sd">        </span>
+<span class="sd">        - STATUS.CONN_ERROR: If the controller did not respond.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</span>
+<span class="sd">                                      provide any status.</span>
+<span class="sd">        - STATUS.OK: Success. Result is valid.</span>
+<span class="sd">        - STATUS.HTTP_ERROR: If the controller responded with an error</span>
+<span class="sd">                             status code.</span>
+<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">lbIfCfg</span> <span class="o">=</span> <span class="bp">None</span>
-
+        
         <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_interfaces_cfg</span><span class="p">()</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_status</span><span class="p">()</span>
         <span class="k">if</span><span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)):</span>
-            <span class="n">cfg</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
             <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;interfaces&#39;</span>
             <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;vyatta-interfaces-loopback:loopback&#39;</span>
             <span class="k">if</span><span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">cfg</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">cfg</span><span class="p">):</span>
                 <span class="n">lbIfCfg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
         
-        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">lbIfCfg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">lbIfCfg</span><span class="p">)</span>
     
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="VRouter5600.get_loopback_interface_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_loopback_interface_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">get_loopback_interface_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ifName</span><span class="p">):</span>        
-        <span class="sd">&quot;&quot;&quot;Return the configuration for a single loopback interface on the VRouter5600</span>
-
-<span class="sd">        :param string ifName: The interface name of the interface for which configuration should be returned</span>
-<span class="sd">        :return: A tuple:  Status, configuration of dataplane interface</span>
-<span class="sd">        :rtype: :class:`pybvc.common.status.OperStatus`, None or JSON </span>
-
-<span class="sd">        - STATUS.CONN_ERROR:  if the controller did not respond. schema is empty.</span>
-<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. schema is empty.</span>
-<span class="sd">        - STATUS.OK:  Success. result is valid.  </span>
-<span class="sd">        - STATUS.HTTP_ERROR:  if the controller responded with an error status code. </span>
-
-<span class="sd">        &quot;&quot;&quot;</span> 
+<div class="viewcode-block" id="VRouter5600.get_loopback_interface_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_loopback_interface_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">get_loopback_interface_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ifName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return the configuration for a single loopback interface</span>
+<span class="sd">            on the VRouter5600</span>
+<span class="sd">        </span>
+<span class="sd">        :param string ifName: The interface name of the interface for which</span>
+<span class="sd">                              configuration should be returned</span>
+<span class="sd">        :return: A tuple: Status, configuration of dataplane interface</span>
+<span class="sd">        :rtype: instance of the `Result` class (containing configuration data)</span>
+<span class="sd">        </span>
+<span class="sd">        - STATUS.CONN_ERROR: If the controller did not respond.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</span>
+<span class="sd">                                      provide any status.</span>
+<span class="sd">        - STATUS.OK: Success. Result is valid.</span>
+<span class="sd">        - STATUS.HTTP_ERROR: If the controller responded with an error</span>
+<span class="sd">                             status code.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
         <span class="n">templateModelRef</span> <span class="o">=</span> <span class="s">&quot;vyatta-interfaces:interfaces/vyatta-interfaces-loopback:loopback/{}&quot;</span>
         <span class="n">modelref</span> <span class="o">=</span> <span class="n">templateModelRef</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ifName</span><span class="p">)</span>
         <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_ext_mount_config_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="n">url</span> <span class="o">+=</span> <span class="n">modelref</span>
-
+        
         <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
         <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
             <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
@@ -684,260 +761,315 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
         
-        <span class="k">return</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
-
-<span class="c">#===============================================================================</span>
-<span class="c"># Class &#39;Firewall&#39;</span>
-<span class="c">#===============================================================================</span></div></div>
-<div class="viewcode-block" id="Firewall"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.Firewall">[docs]</a><span class="k">class</span> <span class="nc">Firewall</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot; A class that defines a Firewall. &quot;&quot;&quot;</span>
-    <span class="n">_mn1</span> <span class="o">=</span> <span class="s">&quot;vyatta-security:security&quot;</span>
-    <span class="n">_mn2</span> <span class="o">=</span> <span class="s">&quot;vyatta-security-firewall:firewall&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="p">[]</span>
-    
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="Firewall.to_string"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.Firewall.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return Firewall as a string &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
     
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="Firewall.to_json"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.Firewall.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return Firewall as JSON &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> 
-    
-    
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="Firewall.get_payload"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.Firewall.get_payload">[docs]</a>    <span class="k">def</span> <span class="nf">get_payload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s">&#39;typename&#39;</span><span class="p">,</span> <span class="s">&#39;type-name&#39;</span><span class="p">)</span>
-        <span class="n">d1</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-        <span class="n">d2</span> <span class="o">=</span> <span class="n">remove_empty_from_dict</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span>
-        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_mn1</span><span class="p">:{</span><span class="bp">self</span><span class="o">.</span><span class="n">_mn2</span><span class="p">:</span><span class="n">d2</span><span class="p">}}</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-    
-    
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="Firewall.get_url_extension"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.Firewall.get_url_extension">[docs]</a>    <span class="k">def</span> <span class="nf">get_url_extension</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mn1</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span> <span class="o">+</span>  <span class="bp">self</span><span class="o">.</span><span class="n">_mn2</span><span class="p">)</span>
-    
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="Firewall.add_rules"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.Firewall.add_rules">[docs]</a>    <span class="k">def</span> <span class="nf">add_rules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rules</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add rules to Firewall.</span>
-
-<span class="sd">        :param rules: Rules to be added to Firewall.  :class:`pybvc.netconfdev.vrouter.vrouter5600.Rules`</span>
-<span class="sd">        &quot;&quot;&quot;</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rules</span><span class="p">)</span>
-        
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="Firewall.get_rules"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.Firewall.get_rules">[docs]</a>    <span class="k">def</span> <span class="nf">get_rules</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return the Rules of a Firewall</span>
-
-<span class="sd">        :return: Rules of the Firewall </span>
-<span class="sd">        :rtype: :class:`pybvc.netconfdev.vrouter.vrouter5600.Rules`</span>
-
-<span class="sd">        &quot;&quot;&quot;</span> 
-        <span class="n">rules</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
-            <span class="n">rules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">rules</span>
-
-<span class="c">#===============================================================================</span>
-<span class="c"># Class &#39;Rules&#39;</span>
-<span class="c">#===============================================================================</span></div></div>
-<div class="viewcode-block" id="Rules"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.Rules">[docs]</a><span class="k">class</span> <span class="nc">Rules</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;The class that defines firewall Rules.</span>
-
-<span class="sd">    :param string name: The name for the firewall Rule </span>
-
-<span class="sd">    &quot;&quot;&quot;</span> 
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tagnode</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rule</span> <span class="o">=</span> <span class="p">[]</span>
-        
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="Rules.to_string"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.Rules.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; return the firewall Rules as a string &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-    
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="Rules.to_json"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.Rules.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return the firewall Rules as JSON &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-    
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="Rules.add_rule"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.Rules.add_rule">[docs]</a>    <span class="k">def</span> <span class="nf">add_rule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rule</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add a single firewall rule to Rules.</span>
-
-<span class="sd">        :param rule: The rule to add to this Rules instance.  :class:`pybvc.netconfdev.vrouter.vrouter5600.Rule`</span>
-<span class="sd">        :return: None</span>
-
-<span class="sd">        &quot;&quot;&quot;</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">rule</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rule</span><span class="p">)</span>
-        
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="Rules.get_name"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.Rules.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Return the name of the Rules instance.</span>
-
-<span class="sd">        :return: The name of the Rules instance.</span>
-<span class="sd">        :rtype:  string</span>
-
-<span class="sd">        &quot;&quot;&quot;</span> 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tagnode</span> 
-
-<span class="c">#===============================================================================</span>
-<span class="c"># Class &#39;Rule&#39;</span>
-<span class="c">#===============================================================================</span></div></div>
-<div class="viewcode-block" id="Rule"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.Rule">[docs]</a><span class="k">class</span> <span class="nc">Rule</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;The class that defines a Rule.</span>
-
-<span class="sd">    :param int number: The number for the Rule.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span> 
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tagnode</span> <span class="o">=</span> <span class="n">number</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="n">Object</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">icmp</span> <span class="o">=</span> <span class="n">Object</span><span class="p">()</span>
-    
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="Rule.to_string"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.Rule.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return Rule as string &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-    
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="Rule.to_json"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.Rule.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return Rule as JSON &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-    
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="Rule.add_action"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.Rule.add_action">[docs]</a>    <span class="k">def</span> <span class="nf">add_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add an action to the Rule.</span>
-
-<span class="sd">        :param string action: The action to be taken for the Rule:  accept, drop</span>
-<span class="sd">        :return: No return value</span>
-
-<span class="sd">        &quot;&quot;&quot;</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="n">action</span>
-    
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="Rule.add_source_address"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.Rule.add_source_address">[docs]</a>    <span class="k">def</span> <span class="nf">add_source_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">srcAddr</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add source address to Rule. If the packet matches this then the action is taken.</span>
-
-<span class="sd">        :param string srcAddr: The IP address to match against the source IP of packet.</span>
-<span class="sd">        :return: No return value</span>
-
-<span class="sd">        &quot;&quot;&quot;</span> 
-        <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">srcAddr</span>
-
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="Rule.add_icmp_typename"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.Rule.add_icmp_typename">[docs]</a>    <span class="k">def</span> <span class="nf">add_icmp_typename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">typeName</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add typename for ICMP to Rule.  If the packet matches this then the action is taken.</span>
-
-<span class="sd">        :param string typeName: The ICMP type name to test packet against.</span>
-<span class="sd">        :return: No return value.</span>
+<div class="viewcode-block" id="VRouter5600.set_vpn_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.set_vpn_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">set_vpn_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vpn</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create/update VPN configuration</span>
+<span class="sd">        </span>
+<span class="sd">        :param vpn: instance of the &#39;Vpn&#39; class</span>
+<span class="sd">        :return: A tuple: Status, None</span>
+<span class="sd">        :rtype: instance of the `Result` class</span>
+<span class="sd">        </span>
+<span class="sd">        - STATUS.CONN_ERROR: If the controller did not respond.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</span>
+<span class="sd">                                      provide any status.</span>
+<span class="sd">        - STATUS.OK: Success. Result is valid.</span>
+<span class="sd">        - STATUS.HTTP_ERROR: If the controller responded with an error</span>
+<span class="sd">                             status code.</span>
+<span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span> <span class="o">=</span> <span class="s">&quot;icmp&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">icmp</span><span class="o">.</span><span class="n">typename</span> <span class="o">=</span> <span class="n">typeName</span>
-
-
-<span class="c">#===============================================================================</span>
-<span class="c"># Class &#39;DataplaneInterfaceFirewall&#39;</span>
-<span class="c">#===============================================================================</span></div></div>
-<div class="viewcode-block" id="DataplaneInterfaceFirewall"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.DataplaneInterfaceFirewall">[docs]</a><span class="k">class</span> <span class="nc">DataplaneInterfaceFirewall</span><span class="p">():</span>
-    <span class="n">mn1</span> <span class="o">=</span> <span class="s">&quot;vyatta-interfaces:interfaces&quot;</span>
-    <span class="n">mn2</span> <span class="o">=</span> <span class="s">&quot;vyatta-interfaces-dataplane:dataplane&quot;</span>
-    <span class="n">mn3</span> <span class="o">=</span> <span class="s">&quot;vyatta-security-firewall:firewall&quot;</span>
-
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ifName</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tagnode</span> <span class="o">=</span> <span class="n">ifName</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">firewall</span> <span class="o">=</span> <span class="n">Object</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">firewall</span><span class="o">.</span><span class="n">inlist</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">firewall</span><span class="o">.</span><span class="n">outlist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">vpn</span><span class="p">,</span> <span class="n">Vpn</span><span class="p">))</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;content-type&#39;</span><span class="p">:</span> <span class="s">&#39;application/yang.data+json&#39;</span><span class="p">}</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_ext_mount_config_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="DataplaneInterfaceFirewall.add_in_item"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.DataplaneInterfaceFirewall.add_in_item">[docs]</a>    <span class="k">def</span> <span class="nf">add_in_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">firewall</span><span class="o">.</span><span class="n">inlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="DataplaneInterfaceFirewall.add_out_item"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.DataplaneInterfaceFirewall.add_out_item">[docs]</a>    <span class="k">def</span> <span class="nf">add_out_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">firewall</span><span class="o">.</span><span class="n">outlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">vpn</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_payload</span><span class="p">()</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_post_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">or</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">204</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
     
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="DataplaneInterfaceFirewall.to_json"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.DataplaneInterfaceFirewall.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="DataplaneInterfaceFirewall.get_url_extension"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.DataplaneInterfaceFirewall.get_url_extension">[docs]</a>    <span class="k">def</span> <span class="nf">get_url_extension</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mn1</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mn2</span> <span class="o">+</span> <span class="s">&quot;/&quot;</span> <span class="o">+</span>  <span class="bp">self</span><span class="o">.</span><span class="n">tagnode</span><span class="p">)</span>
-
+<div class="viewcode-block" id="VRouter5600.get_vpn_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_vpn_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">get_vpn_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return VPN configuration of the VRouter5600.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: A tuple: Status, JSON for VPN configuration.</span>
+<span class="sd">        :rtype: instance of the `Result` class (containing configuration data)</span>
+<span class="sd">        </span>
+<span class="sd">        - STATUS.CONN_ERROR: If the controller did not respond.</span>
+<span class="sd">        - STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did</span>
+<span class="sd">                                      not provide any status.</span>
+<span class="sd">        - STATUS.OK: Success. Result is valid.</span>
+<span class="sd">        - STATUS.HTTP_ERROR: If the controller responded with an error</span>
+<span class="sd">                             status code.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">url_ext</span> <span class="o">=</span> <span class="s">&quot;vyatta-security:security/vyatta-security-vpn-ipsec:vpn&quot;</span>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
+        <span class="n">myname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_ext_mount_config_url</span><span class="p">(</span><span class="n">myname</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">+=</span> <span class="n">url_ext</span>
+        
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
+    
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="DataplaneInterfaceFirewall.get_name"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.DataplaneInterfaceFirewall.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tagnode</span>
-     
+<div class="viewcode-block" id="VRouter5600.delete_vpn_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.delete_vpn_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">delete_vpn_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Delete VPN configuration &quot;&quot;&quot;</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">url_ext</span> <span class="o">=</span> <span class="s">&quot;vyatta-security:security/vyatta-security-vpn-ipsec:vpn&quot;</span>
+        
+        <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
+        <span class="n">myname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_ext_mount_config_url</span><span class="p">(</span><span class="n">myname</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">+=</span> <span class="n">url_ext</span>
+        
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_delete_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="DataplaneInterfaceFirewall.get_payload"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.DataplaneInterfaceFirewall.get_payload">[docs]</a>    <span class="k">def</span> <span class="nf">get_payload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>        
-        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s">&#39;firewall&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mn3</span><span class="p">)</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s">&#39;inlist&#39;</span><span class="p">,</span> <span class="s">&quot;in&quot;</span><span class="p">)</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s">&#39;outlist&#39;</span><span class="p">,</span> <span class="s">&quot;out&quot;</span><span class="p">)</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-        <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mn2</span><span class="p">:</span><span class="n">obj</span><span class="p">}</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-
-<span class="c">#===============================================================================</span>
-<span class="c"># Class &#39;Object&#39;</span>
-<span class="c">#===============================================================================</span></div></div>
-<div class="viewcode-block" id="Object"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.Object">[docs]</a><span class="k">class</span> <span class="nc">Object</span><span class="p">():</span>
-    <span class="k">pass</span>
-        </div>
+<div class="viewcode-block" id="VRouter5600.set_openvpn_interface_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.set_openvpn_interface_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">set_openvpn_interface_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">openvpn_interface</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">openvpn_interface</span><span class="p">,</span> <span class="n">OpenVpnInterface</span><span class="p">))</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;content-type&#39;</span><span class="p">:</span> <span class="s">&#39;application/yang.data+json&#39;</span><span class="p">}</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_ext_mount_config_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">openvpn_interface</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_payload</span><span class="p">()</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_post_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">or</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">204</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="VRouter5600.get_openvpn_interfaces_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_openvpn_interfaces_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">get_openvpn_interfaces_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">openVpnIfCfg</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_interfaces_cfg</span><span class="p">()</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_status</span><span class="p">()</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)):</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;interfaces&#39;</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;vyatta-interfaces-openvpn:openvpn&#39;</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">cfg</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">cfg</span><span class="p">):</span>
+                <span class="n">openVpnIfCfg</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">openVpnIfCfg</span><span class="p">)</span>
+        <span class="k">pass</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="VRouter5600.get_openvpn_interface_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_openvpn_interface_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">get_openvpn_interface_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ifName</span><span class="p">):</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateModelRef</span> <span class="o">=</span> <span class="s">&quot;vyatta-interfaces:interfaces/vyatta-interfaces-openvpn:openvpn/{}&quot;</span>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">modelref</span> <span class="o">=</span> <span class="n">templateModelRef</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ifName</span><span class="p">)</span>
+        <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_ext_mount_config_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">+=</span> <span class="n">modelref</span>
+        
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="VRouter5600.delete_openvpn_interface_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.delete_openvpn_interface_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">delete_openvpn_interface_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ifName</span><span class="p">):</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateModelRef</span> <span class="o">=</span> <span class="s">&quot;vyatta-interfaces:interfaces/vyatta-interfaces-openvpn:openvpn/{}&quot;</span>
+        <span class="n">modelref</span> <span class="o">=</span> <span class="n">templateModelRef</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ifName</span><span class="p">)</span>
+        <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_ext_mount_config_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">+=</span> <span class="n">modelref</span>
+        
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_delete_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="VRouter5600.set_protocols_static_route_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.set_protocols_static_route_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">set_protocols_static_route_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">static_route</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">static_route</span><span class="p">,</span> <span class="n">StaticRoute</span><span class="p">))</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;content-type&#39;</span><span class="p">:</span> <span class="s">&#39;application/yang.data+json&#39;</span><span class="p">}</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_ext_mount_config_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">static_route</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_payload</span><span class="p">()</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_post_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span> <span class="ow">or</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">204</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="VRouter5600.get_protocols_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_protocols_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">get_protocols_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_ref</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateModelRef</span> <span class="o">=</span> <span class="s">&quot;vyatta-protocols:protocols&quot;</span>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_ext_mount_config_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">+=</span> <span class="n">templateModelRef</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">model_ref</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="s">&quot;/&quot;</span> <span class="o">+</span> <span class="n">model_ref</span>
+        
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">content</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="VRouter5600.delete_protocols_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.delete_protocols_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">delete_protocols_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_ref</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">url_ext</span> <span class="o">=</span> <span class="s">&quot;vyatta-protocols:protocols&quot;</span>
+        
+        <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
+        <span class="n">myname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_ext_mount_config_url</span><span class="p">(</span><span class="n">myname</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">+=</span> <span class="n">url_ext</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">model_ref</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="s">&quot;/&quot;</span> <span class="o">+</span> <span class="n">model_ref</span>
+        
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_delete_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="VRouter5600.get_protocols_static_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_protocols_static_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">get_protocols_static_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">model_ref</span> <span class="o">=</span> <span class="s">&quot;vyatta-protocols-static:static&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_protocols_cfg</span><span class="p">(</span><span class="n">model_ref</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="VRouter5600.delete_protocols_static_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.delete_protocols_static_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">delete_protocols_static_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Delete protocols static configuration &quot;&quot;&quot;</span>
+        <span class="n">model_ref</span> <span class="o">=</span> <span class="s">&quot;vyatta-protocols-static:static&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delete_protocols_cfg</span><span class="p">(</span><span class="n">model_ref</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="VRouter5600.get_protocols_static_interface_route_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_protocols_static_interface_route_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">get_protocols_static_interface_route_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip_prefix</span><span class="p">):</span>
+        <span class="n">templateModelRef</span> <span class="o">=</span> <span class="s">&quot;vyatta-protocols-static:static/interface-route/{}&quot;</span>
+        <span class="n">model_ref</span> <span class="o">=</span> <span class="n">templateModelRef</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ip_prefix</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">,</span> <span class="s">&quot;</span><span class="si">%2F</span><span class="s">&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_protocols_cfg</span><span class="p">(</span><span class="n">model_ref</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="VRouter5600.delete_protocols_static_interface_route_cfg"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.delete_protocols_static_interface_route_cfg">[docs]</a>    <span class="k">def</span> <span class="nf">delete_protocols_static_interface_route_cfg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ip_prefix</span><span class="p">):</span>
+        <span class="n">templateModelRef</span> <span class="o">=</span> <span class="s">&quot;vyatta-protocols-static:static/interface-route/{}&quot;</span>
+        <span class="n">model_ref</span> <span class="o">=</span> <span class="n">templateModelRef</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ip_prefix</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">,</span> <span class="s">&quot;</span><span class="si">%2F</span><span class="s">&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delete_protocols_cfg</span><span class="p">(</span><span class="n">model_ref</span><span class="p">)</span>
+    </div></div>
 </pre></div>
 
           </div>
@@ -971,7 +1103,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../index.html">pybvc 1.0.4 documentation</a> &raquo;</li>
+        <li><a href="../../../../index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
           <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
