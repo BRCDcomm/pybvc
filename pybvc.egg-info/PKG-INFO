@@ -1,0 +1,22 @@
+Metadata-Version: 1.1
+Name: pybvc
+Version: 1.1.1
+Summary: A python library for programming your network via the Brocade Vyatta Controller (BVC)
+Home-page: https://github.com/brcdcomm/pybvc
+Author: Elbrys Networks
+Author-email: jeb@elbrys.com
+License: BSD
+Description: # pydevbvc
+        Python framework to work with Brocade Vyatta Controller
+        
+        
+        
+Keywords: sdn nfv bvc brocade vyatta controller network vrouter
+Platform: any
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: System Administrators
+Classifier: Topic :: System :: Networking
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
