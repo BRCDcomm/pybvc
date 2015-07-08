@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pybvc.netconfdev.vrouter package &mdash; pybvc 1.1.1 documentation</title>
+    <title>pybvc.netconfdev.vrouter package &mdash; pybvc 1.2.0 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.1.1',
+        VERSION:     '1.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="pybvc 1.1.1 documentation" href="index.html" />
+    <link rel="top" title="pybvc 1.2.0 documentation" href="index.html" />
     <link rel="up" title="pybvc.netconfdev package" href="pybvc.netconfdev.html" />
     <link rel="next" title="pybvc.openflowdev package" href="pybvc.openflowdev.html" />
     <link rel="prev" title="pybvc.netconfdev package" href="pybvc.netconfdev.html" /> 
@@ -44,7 +44,7 @@
         <li class="right" >
           <a href="pybvc.netconfdev.html" title="pybvc.netconfdev package"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
+        <li><a href="index.html">pybvc 1.2.0 documentation</a> &raquo;</li>
           <li><a href="pybvc.html" >pybvc package</a> &raquo;</li>
           <li><a href="pybvc.netconfdev.html" accesskey="U">pybvc.netconfdev package</a> &raquo;</li> 
       </ul>
@@ -392,6 +392,156 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 &#64;version: 1.1.0</p>
 <p>firewall.py: Firewall specific properties and access methods</p>
 <dl class="class">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface">
+<em class="property">class </em><tt class="descclassname">pybvc.netconfdev.vrouter.interfaces.</tt><tt class="descname">DataPlaneInterface</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#DataPlaneInterface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class representing a dataplane interface</p>
+<dl class="attribute">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.address">
+<tt class="descname">address</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.address" title="Permalink to this definition">¶</a></dt>
+<dd><p>Media Access Control (MAC) address</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.description">
+<tt class="descname">description</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.description" title="Permalink to this definition">¶</a></dt>
+<dd><p>DHCPv6 options (container)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.dhcpv6_options">
+<tt class="descname">dhcpv6_options</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.dhcpv6_options" title="Permalink to this definition">¶</a></dt>
+<dd><p>IPv4 parameters (container)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.disable">
+<tt class="descname">disable</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.disable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Virtual Interface (VIF) ID (list)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.disable_link_detect">
+<tt class="descname">disable_link_detect</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.disable_link_detect" title="Permalink to this definition">¶</a></dt>
+<dd><p>This interface bridge group (container)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.ip">
+<tt class="descname">ip</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.ip" title="Permalink to this definition">¶</a></dt>
+<dd><p>IPv6 parameters (container)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.ipv6">
+<tt class="descname">ipv6</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.ipv6" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum Transmission Unit (MTU)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.mac">
+<tt class="descname">mac</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.mac" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ignore link state changes</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.mtu">
+<tt class="descname">mtu</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.mtu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disable interface</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_address">
+<tt class="descname">set_address</tt><big>(</big><em>address</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#DataPlaneInterface.set_address"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_address" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_bridge_group">
+<tt class="descname">set_bridge_group</tt><big>(</big><em>TBD</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#DataPlaneInterface.set_bridge_group"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_bridge_group" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_description">
+<tt class="descname">set_description</tt><big>(</big><em>description</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#DataPlaneInterface.set_description"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_dhcpv6_options">
+<tt class="descname">set_dhcpv6_options</tt><big>(</big><em>TBD</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#DataPlaneInterface.set_dhcpv6_options"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_dhcpv6_options" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_disable">
+<tt class="descname">set_disable</tt><big>(</big><em>value</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#DataPlaneInterface.set_disable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_disable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_disable_link_detect">
+<tt class="descname">set_disable_link_detect</tt><big>(</big><em>value</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#DataPlaneInterface.set_disable_link_detect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_disable_link_detect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_ipv4_options">
+<tt class="descname">set_ipv4_options</tt><big>(</big><em>TBD</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#DataPlaneInterface.set_ipv4_options"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_ipv4_options" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_ipv6_options">
+<tt class="descname">set_ipv6_options</tt><big>(</big><em>TBD</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#DataPlaneInterface.set_ipv6_options"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_ipv6_options" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_mac">
+<tt class="descname">set_mac</tt><big>(</big><em>mac</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#DataPlaneInterface.set_mac"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_mac" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_mtu">
+<tt class="descname">set_mtu</tt><big>(</big><em>mtu</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#DataPlaneInterface.set_mtu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_mtu" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_sflow">
+<tt class="descname">set_sflow</tt><big>(</big><em>value</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#DataPlaneInterface.set_sflow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_sflow" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_vif">
+<tt class="descname">set_vif</tt><big>(</big><em>vif_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#DataPlaneInterface.set_vif"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_vif" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.sflow">
+<tt class="descname">sflow</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.sflow" title="Permalink to this definition">¶</a></dt>
+<dd><p>IP address (list)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.tagnode">
+<tt class="descname">tagnode</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.tagnode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description for the interface</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.to_json">
+<tt class="descname">to_json</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#DataPlaneInterface.to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.to_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return this object as JSON</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.to_string">
+<tt class="descname">to_string</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#DataPlaneInterface.to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return this object as a string</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.vif">
+<tt class="descname">vif</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.vif" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable/Disable sflow for interface</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface">
 <em class="property">class </em><tt class="descclassname">pybvc.netconfdev.vrouter.interfaces.</tt><tt class="descname">OpenVpnInterface</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#OpenVpnInterface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class representing an OpenVPN tunnel interface</p>
@@ -510,6 +660,11 @@ enumeration: &#8216;udp&#8217;, &#8216;tcp-passive&#8217;, &#8216;tcp-active&#82
 <tt class="descname">server</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.server" title="Permalink to this definition">¶</a></dt>
 <dd><p>OpenVPN interface device-type</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.set_description">
+<tt class="descname">set_description</tt><big>(</big><em>description</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#OpenVpnInterface.set_description"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.set_description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.set_local_address">
@@ -664,6 +819,80 @@ Helper class of the &#8216;OpenVpnInterface&#8217; class</p>
 <dt id="pybvc.netconfdev.vrouter.interfaces.TlsOptions.set_role">
 <tt class="descname">set_role</tt><big>(</big><em>role</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#TlsOptions.set_role"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.TlsOptions.set_role" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface">
+<em class="property">class </em><tt class="descclassname">pybvc.netconfdev.vrouter.interfaces.</tt><tt class="descname">VirtualTunnelInterface</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#VirtualTunnelInterface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class representing a Virtual tunnel interface (VTI)</p>
+<dl class="attribute">
+<dt id="pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.address">
+<tt class="descname">address</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.address" title="Permalink to this definition">¶</a></dt>
+<dd><p>IPv4 parameters</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.description">
+<tt class="descname">description</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.description" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum Transmission Unit (MTU), range 68..9000</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.disable">
+<tt class="descname">disable</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.disable" title="Permalink to this definition">¶</a></dt>
+<dd><p>IPv4 or IPv6 Prefixes</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.ip">
+<tt class="descname">ip</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.ip" title="Permalink to this definition">¶</a></dt>
+<dd><p>IPv6 parameters</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.mtu">
+<tt class="descname">mtu</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.mtu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disable this interface</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.set_address">
+<tt class="descname">set_address</tt><big>(</big><em>address</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#VirtualTunnelInterface.set_address"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.set_address" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.set_description">
+<tt class="descname">set_description</tt><big>(</big><em>description</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#VirtualTunnelInterface.set_description"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.set_description" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.set_disable">
+<tt class="descname">set_disable</tt><big>(</big><em>value</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#VirtualTunnelInterface.set_disable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.set_disable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.set_mtu">
+<tt class="descname">set_mtu</tt><big>(</big><em>mtu</em><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#VirtualTunnelInterface.set_mtu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.set_mtu" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.tagnode">
+<tt class="descname">tagnode</tt><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.tagnode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description for the interface</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.to_json">
+<tt class="descname">to_json</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#VirtualTunnelInterface.to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.to_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return this object as JSON</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.to_string">
+<tt class="descname">to_string</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/netconfdev/vrouter/interfaces.html#VirtualTunnelInterface.to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return this object as a string</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -2691,7 +2920,7 @@ to use for traffic outbound from router.</li>
         <li class="right" >
           <a href="pybvc.netconfdev.html" title="pybvc.netconfdev package"
              >previous</a> |</li>
-        <li><a href="index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
+        <li><a href="index.html">pybvc 1.2.0 documentation</a> &raquo;</li>
           <li><a href="pybvc.html" >pybvc package</a> &raquo;</li>
           <li><a href="pybvc.netconfdev.html" >pybvc.netconfdev package</a> &raquo;</li> 
       </ul>

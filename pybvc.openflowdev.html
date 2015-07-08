@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pybvc.openflowdev package &mdash; pybvc 1.1.1 documentation</title>
+    <title>pybvc.openflowdev package &mdash; pybvc 1.2.0 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.1.1',
+        VERSION:     '1.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="pybvc 1.1.1 documentation" href="index.html" />
+    <link rel="top" title="pybvc 1.2.0 documentation" href="index.html" />
     <link rel="up" title="pybvc package" href="pybvc.html" />
     <link rel="prev" title="pybvc.netconfdev.vrouter package" href="pybvc.netconfdev.vrouter.html" /> 
   </head>
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="pybvc.netconfdev.vrouter.html" title="pybvc.netconfdev.vrouter package"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
+        <li><a href="index.html">pybvc 1.2.0 documentation</a> &raquo;</li>
           <li><a href="pybvc.html" accesskey="U">pybvc package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -59,13 +59,10 @@
 <span id="pybvc-openflowdev-ofswitch-module"></span><h2>pybvc.openflowdev.ofswitch module<a class="headerlink" href="#module-pybvc.openflowdev.ofswitch" title="Permalink to this headline">¶</a></h2>
 <p>Copyright (c) 2015</p>
 <p>Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:</p>
+modification, are permitted provided that the following conditions are met:
+-  Redistributions of source code must retain the above copyright notice,</p>
 <blockquote>
-<div><ul class="simple">
-<li>Redistributions of source code must retain the above copyright notice,
-this list of conditions and the following disclaimer.</li>
-</ul>
-</div></blockquote>
+<div>this list of conditions and the following disclaimer.</div></blockquote>
 <ul class="simple">
 <li>Redistributions in binary form must reproduce the above copyright notice,
 this list of conditions and the following disclaimer in the documentation
@@ -512,6 +509,11 @@ output port. A value of OFPP_ANY indicates no restriction.</p>
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.FlowEntry.to_ofp_oxm_syntax">
 <tt class="descname">to_ofp_oxm_syntax</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.to_ofp_oxm_syntax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.to_ofp_oxm_syntax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.FlowEntry.to_yang_json">
+<tt class="descname">to_yang_json</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#FlowEntry.to_yang_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.to_yang_json" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1367,7 +1369,7 @@ the IPv6 Traffic Class field</li>
 
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.OFSwitch.delete_flow">
-<tt class="descname">delete_flow</tt><big>(</big><em>flow_table_id</em>, <em>flow_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.delete_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.delete_flow" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">delete_flow</tt><big>(</big><em>table_id</em>, <em>flow_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.delete_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.delete_flow" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1381,18 +1383,23 @@ the IPv6 Traffic Class field</li>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.OFSwitch.get_FlowEntry">
+<tt class="descname">get_FlowEntry</tt><big>(</big><em>table_id</em>, <em>flow_id</em>, <em>operational=True</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_FlowEntry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_FlowEntry" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.OFSwitch.get_configured_FlowEntries">
 <tt class="descname">get_configured_FlowEntries</tt><big>(</big><em>flow_table_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_configured_FlowEntries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_configured_FlowEntries" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.OFSwitch.get_configured_FlowEntry">
-<tt class="descname">get_configured_FlowEntry</tt><big>(</big><em>flow_table_id</em>, <em>flow_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_configured_FlowEntry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_configured_FlowEntry" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_configured_FlowEntry</tt><big>(</big><em>tableid</em>, <em>flowid</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_configured_FlowEntry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_configured_FlowEntry" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.OFSwitch.get_configured_flow">
-<tt class="descname">get_configured_flow</tt><big>(</big><em>table_id</em>, <em>flow_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_configured_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_configured_flow" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_configured_flow</tt><big>(</big><em>tableid</em>, <em>flowid</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_configured_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_configured_flow" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1406,6 +1413,11 @@ the IPv6 Traffic Class field</li>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.OFSwitch.get_flow">
+<tt class="descname">get_flow</tt><big>(</big><em>tableid</em>, <em>flowid</em>, <em>operational=True</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_flow" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.OFSwitch.get_flows">
 <tt class="descname">get_flows</tt><big>(</big><em>tableid</em>, <em>operational=True</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_flows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_flows" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1413,6 +1425,16 @@ the IPv6 Traffic Class field</li>
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.OFSwitch.get_operational_FlowEntries">
 <tt class="descname">get_operational_FlowEntries</tt><big>(</big><em>flow_table_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_operational_FlowEntries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_operational_FlowEntries" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.OFSwitch.get_operational_FlowEntry">
+<tt class="descname">get_operational_FlowEntry</tt><big>(</big><em>tableid</em>, <em>flowid</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_operational_FlowEntry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_operational_FlowEntry" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.OFSwitch.get_operational_flow">
+<tt class="descname">get_operational_flow</tt><big>(</big><em>tableid</em>, <em>flowid</em><big>)</big><a class="reference internal" href="_modules/pybvc/openflowdev/ofswitch.html#OFSwitch.get_operational_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.get_operational_flow" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -2037,7 +2059,7 @@ only for packets with VID equal to &#8216;vlan_id&#8217; value</p>
         <li class="right" >
           <a href="pybvc.netconfdev.vrouter.html" title="pybvc.netconfdev.vrouter package"
              >previous</a> |</li>
-        <li><a href="index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
+        <li><a href="index.html">pybvc 1.2.0 documentation</a> &raquo;</li>
           <li><a href="pybvc.html" >pybvc package</a> &raquo;</li> 
       </ul>
     </div>

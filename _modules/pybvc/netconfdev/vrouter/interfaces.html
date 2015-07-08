@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pybvc.netconfdev.vrouter.interfaces &mdash; pybvc 1.1.1 documentation</title>
+    <title>pybvc.netconfdev.vrouter.interfaces &mdash; pybvc 1.2.0 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '1.1.1',
+        VERSION:     '1.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="pybvc 1.1.1 documentation" href="../../../../index.html" />
+    <link rel="top" title="pybvc 1.2.0 documentation" href="../../../../index.html" />
     <link rel="up" title="Module code" href="../../../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
+        <li><a href="../../../../index.html">pybvc 1.2.0 documentation</a> &raquo;</li>
           <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -86,8 +86,120 @@
 <span class="kn">from</span> <span class="nn">pybvc.common.utils</span> <span class="kn">import</span> <span class="n">strip_none</span><span class="p">,</span> <span class="n">remove_empty_from_dict</span><span class="p">,</span> <span class="n">dict_keys_underscored_to_dashed</span>
 
 <span class="c">#-------------------------------------------------------------------------------</span>
-<span class="c"># Class &#39;OpenVpnInterface&#39;</span>
+<span class="c"># Class &#39;DataPlaneInterface&#39;</span>
 <span class="c">#-------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="DataPlaneInterface"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface">[docs]</a><span class="k">class</span> <span class="nc">DataPlaneInterface</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39; Class representing a dataplane interface &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Dataplane interface name &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tagnode</span> <span class="o">=</span> <span class="n">name</span>
+
+        <span class="sd">&#39;&#39;&#39; Description for the interface &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; DHCPv6 options (container) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dhcpv6_options</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; IPv4 parameters (container) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ip</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; IPv6 parameters (container) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ipv6</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; Maximum Transmission Unit (MTU) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mtu</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; Disable interface &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disable</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; Virtual Interface (VIF) ID (list) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vif</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="sd">&#39;&#39;&#39; Enable/Disable sflow for interface &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sflow</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; IP address (list) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">address</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="sd">&#39;&#39;&#39; Media Access Control (MAC) address &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mac</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; Ignore link state changes &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disable_link_detect</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; This interface bridge group (container) &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bridge_group</span> <span class="o">=</span> <span class="bp">None</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="DataPlaneInterface.to_string"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return this object as a string &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="DataPlaneInterface.to_json"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return this object as JSON &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="DataPlaneInterface.set_description"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_description">[docs]</a>    <span class="k">def</span> <span class="nf">set_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">description</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
+    
+    <span class="c"># TBD</span></div>
+<div class="viewcode-block" id="DataPlaneInterface.set_dhcpv6_options"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_dhcpv6_options">[docs]</a>    <span class="k">def</span> <span class="nf">set_dhcpv6_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">TBD</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
+    <span class="c"># TBD</span></div>
+<div class="viewcode-block" id="DataPlaneInterface.set_ipv4_options"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_ipv4_options">[docs]</a>    <span class="k">def</span> <span class="nf">set_ipv4_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">TBD</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
+    <span class="c"># TBD</span></div>
+<div class="viewcode-block" id="DataPlaneInterface.set_ipv6_options"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_ipv6_options">[docs]</a>    <span class="k">def</span> <span class="nf">set_ipv6_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">TBD</span><span class="p">):</span>
+        <span class="k">pass</span>
+    </div>
+<div class="viewcode-block" id="DataPlaneInterface.set_mtu"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_mtu">[docs]</a>    <span class="k">def</span> <span class="nf">set_mtu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mtu</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mtu</span> <span class="o">=</span> <span class="n">mtu</span>
+    </div>
+<div class="viewcode-block" id="DataPlaneInterface.set_disable"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_disable">[docs]</a>    <span class="k">def</span> <span class="nf">set_disable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">value</span> <span class="o">==</span> <span class="bp">True</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">disable</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">disable</span> <span class="o">=</span> <span class="bp">None</span>
+    </div>
+<div class="viewcode-block" id="DataPlaneInterface.set_vif"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_vif">[docs]</a>    <span class="k">def</span> <span class="nf">set_vif</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vif_id</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vif</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vif_id</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="DataPlaneInterface.set_sflow"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_sflow">[docs]</a>    <span class="k">def</span> <span class="nf">set_sflow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">value</span> <span class="o">==</span> <span class="bp">True</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sflow</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sflow</span> <span class="o">=</span> <span class="bp">None</span>
+    </div>
+<div class="viewcode-block" id="DataPlaneInterface.set_address"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_address">[docs]</a>    <span class="k">def</span> <span class="nf">set_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="DataPlaneInterface.set_mac"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_mac">[docs]</a>    <span class="k">def</span> <span class="nf">set_mac</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mac</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mac</span> <span class="o">=</span> <span class="n">mac</span>
+    </div>
+<div class="viewcode-block" id="DataPlaneInterface.set_disable_link_detect"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_disable_link_detect">[docs]</a>    <span class="k">def</span> <span class="nf">set_disable_link_detect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">value</span> <span class="o">==</span> <span class="bp">True</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">disable_link_detect</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">disable_link_detect</span> <span class="o">=</span> <span class="bp">None</span>
+    
+    <span class="c"># TBD</span></div>
+<div class="viewcode-block" id="DataPlaneInterface.set_bridge_group"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface.set_bridge_group">[docs]</a>    <span class="k">def</span> <span class="nf">set_bridge_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">TBD</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># Class &#39;OpenVpnInterface&#39;</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div></div>
 <div class="viewcode-block" id="OpenVpnInterface"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface">[docs]</a><span class="k">class</span> <span class="nc">OpenVpnInterface</span><span class="p">():</span>
     <span class="sd">&#39;&#39;&#39; Class representing an OpenVPN tunnel interface &#39;&#39;&#39;</span>
     <span class="n">_mn1</span> <span class="o">=</span> <span class="s">&quot;vyatta-interfaces:interfaces&quot;</span>
@@ -193,6 +305,12 @@
         <span class="n">obj3</span> <span class="o">=</span> <span class="n">dict_keys_underscored_to_dashed</span><span class="p">(</span><span class="n">obj2</span><span class="p">)</span>
         <span class="n">payload</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_mn1</span><span class="p">:</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_mn2</span><span class="p">:[</span><span class="n">obj3</span><span class="p">]}}</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenVpnInterface.set_description"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.set_description">[docs]</a>    <span class="k">def</span> <span class="nf">set_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">description</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
     
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
@@ -324,7 +442,60 @@
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="TlsOptions.set_key_file"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.TlsOptions.set_key_file">[docs]</a>    <span class="k">def</span> <span class="nf">set_key_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">key_file</span> <span class="o">=</span> <span class="n">path</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key_file</span> <span class="o">=</span> <span class="n">path</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># Class &#39;VirtualTunnelInterface&#39;</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div></div>
+<div class="viewcode-block" id="VirtualTunnelInterface"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface">[docs]</a><span class="k">class</span> <span class="nc">VirtualTunnelInterface</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39; Class representing a Virtual tunnel interface (VTI) &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Virtual tunnel interface name &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tagnode</span> <span class="o">=</span> <span class="n">name</span>
+        
+        <span class="sd">&#39;&#39;&#39; Description for the interface &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; Maximum Transmission Unit (MTU), range 68..9000 &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mtu</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; Disable this interface &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disable</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; IPv4 or IPv6 Prefixes&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">address</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="sd">&#39;&#39;&#39; IPv4 parameters &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ip</span> <span class="o">=</span> <span class="bp">None</span>
+        
+        <span class="sd">&#39;&#39;&#39; IPv6 parameters &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ipv6</span> <span class="o">=</span> <span class="bp">None</span>
+    
+<div class="viewcode-block" id="VirtualTunnelInterface.to_string"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return this object as a string &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+    </div>
+<div class="viewcode-block" id="VirtualTunnelInterface.to_json"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return this object as JSON &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="VirtualTunnelInterface.set_description"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.set_description">[docs]</a>    <span class="k">def</span> <span class="nf">set_description</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">description</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
+    </div>
+<div class="viewcode-block" id="VirtualTunnelInterface.set_mtu"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.set_mtu">[docs]</a>    <span class="k">def</span> <span class="nf">set_mtu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mtu</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mtu</span> <span class="o">=</span> <span class="n">mtu</span>
+    </div>
+<div class="viewcode-block" id="VirtualTunnelInterface.set_disable"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.set_disable">[docs]</a>    <span class="k">def</span> <span class="nf">set_disable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">value</span> <span class="o">==</span> <span class="bp">True</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">disable</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">disable</span> <span class="o">=</span> <span class="bp">None</span>
+    </div>
+<div class="viewcode-block" id="VirtualTunnelInterface.set_address"><a class="viewcode-back" href="../../../../pybvc.netconfdev.vrouter.html#pybvc.netconfdev.vrouter.interfaces.VirtualTunnelInterface.set_address">[docs]</a>    <span class="k">def</span> <span class="nf">set_address</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+    
+    
+    </div></div>
 </pre></div>
 
           </div>
@@ -358,7 +529,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
+        <li><a href="../../../../index.html">pybvc 1.2.0 documentation</a> &raquo;</li>
           <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

@@ -1,0 +1,958 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pybvc.controller.inventory &mdash; pybvc 1.2.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pybvc 1.2.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pybvc 1.2.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pybvc.controller.inventory</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Copyright (c) 2015</span>
+
+<span class="sd">Redistribution and use in source and binary forms, with or without</span>
+<span class="sd">modification, are permitted provided that the following conditions are met:</span>
+<span class="sd">-  Redistributions of source code must retain the above copyright notice,</span>
+<span class="sd">   this list of conditions and the following disclaimer.</span>
+<span class="sd">-  Redistributions in binary form must reproduce the above copyright notice,</span>
+<span class="sd">   this list of conditions and the following disclaimer in the documentation</span>
+<span class="sd">   and/or other materials provided with the distribution.</span>
+<span class="sd">-  Neither the name of the copyright holder nor the names of its contributors</span>
+<span class="sd">   may be used to endorse or promote products derived from this software</span>
+<span class="sd">   without specific prior written permission.</span>
+
+<span class="sd">THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;</span>
+<span class="sd">AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE </span>
+<span class="sd">IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOS EARE</span>
+<span class="sd">DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE</span>
+<span class="sd">FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL</span>
+<span class="sd">DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR</span>
+<span class="sd">SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER</span>
+<span class="sd">CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,</span>
+<span class="sd">OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span>
+<span class="sd">OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+
+<span class="sd">@authors: Sergei Garbuzov</span>
+<span class="sd">@status: Development</span>
+<span class="sd">@version: 1.1.0</span>
+
+<span class="sd">netconfnode.py: Controller&#39;s NETCONF node specific properties</span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">string</span>
+
+<span class="kn">from</span> <span class="nn">pybvc.common.utils</span> <span class="kn">import</span> <span class="n">dict_keys_dashed_to_underscored</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># Class &#39;Inventory&#39;</span>
+<span class="c">#-------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Inventory"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.Inventory">[docs]</a><span class="k">class</span> <span class="nc">Inventory</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39; Class that represents current state of</span>
+<span class="sd">        the Controller&#39;s inventory store &#39;&#39;&#39;</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inv_json</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">openflow_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">netconf_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">inv_json</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__init_from_json__</span><span class="p">(</span><span class="n">inv_json</span><span class="p">)</span>
+            <span class="k">return</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Inventory.add_openflow_node"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.Inventory.add_openflow_node">[docs]</a>    <span class="k">def</span> <span class="nf">add_openflow_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">OpenFlowCapableNode</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">openflow_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Inventory.add_netconf_node"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.Inventory.add_netconf_node">[docs]</a>    <span class="k">def</span> <span class="nf">add_netconf_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">NetconfCapableNode</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">netconf_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+    <span class="k">def</span> <span class="nf">__init_from_json__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">)):</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;id&#39;</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;openflow&#39;</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="n">d</span> <span class="o">=</span> <span class="n">dict_keys_dashed_to_underscored</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">p1</span> <span class="ow">in</span> <span class="n">d</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">],</span> <span class="nb">basestring</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">p2</span><span class="p">)):</span>
+                            <span class="n">node</span> <span class="o">=</span> <span class="n">OpenFlowCapableNode</span><span class="p">(</span><span class="n">inv_dict</span><span class="o">=</span><span class="n">d</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">add_openflow_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">node</span> <span class="o">=</span> <span class="n">NetconfCapableNode</span><span class="p">(</span><span class="n">inv_dict</span><span class="o">=</span><span class="n">d</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">add_netconf_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;[Inventory] wrong argument type &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span>
+                            <span class="s">&quot; (JSON &#39;string&#39; is expected)&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Inventory.get_openflow_node_ids"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.Inventory.get_openflow_node_ids">[docs]</a>    <span class="k">def</span> <span class="nf">get_openflow_node_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">openflow_nodes</span><span class="p">:</span>
+            <span class="n">ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get_id</span><span class="p">())</span>
+        
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Inventory.get_openflow_node"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.Inventory.get_openflow_node">[docs]</a>    <span class="k">def</span> <span class="nf">get_openflow_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_id</span><span class="p">):</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">openflow_nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node_id</span> <span class="o">==</span> <span class="n">item</span><span class="o">.</span><span class="n">get_id</span><span class="p">():</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">item</span>
+                <span class="k">break</span>
+        
+        <span class="k">return</span> <span class="n">node</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Inventory.get_openflow_node_flows_cnt"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.Inventory.get_openflow_node_flows_cnt">[docs]</a>    <span class="k">def</span> <span class="nf">get_openflow_node_flows_cnt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_id</span><span class="p">):</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_openflow_node</span><span class="p">(</span><span class="n">node_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">OpenFlowCapableNode</span><span class="p">))</span>
+            <span class="n">cnt</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">get_flows_cnt</span><span class="p">()</span>
+        
+        <span class="k">return</span> <span class="n">cnt</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Inventory.get_netconf_node_ids"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.Inventory.get_netconf_node_ids">[docs]</a>    <span class="k">def</span> <span class="nf">get_netconf_node_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">netconf_nodes</span><span class="p">:</span>
+            <span class="n">ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get_id</span><span class="p">())</span>
+        
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Inventory.get_netconf_node"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.Inventory.get_netconf_node">[docs]</a>    <span class="k">def</span> <span class="nf">get_netconf_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_id</span><span class="p">):</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">netconf_nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node_id</span> <span class="o">==</span> <span class="n">item</span><span class="o">.</span><span class="n">get_id</span><span class="p">():</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">item</span>
+                <span class="k">break</span>
+        
+        <span class="k">return</span> <span class="n">node</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># Class &#39;OpenFlowCapableNode&#39;</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div></div>
+<div class="viewcode-block" id="OpenFlowCapableNode"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode">[docs]</a><span class="k">class</span> <span class="nc">OpenFlowCapableNode</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39; Class that represents current state of an OpenFlow capable node</span>
+<span class="sd">        in the Controller&#39;s inventory store</span>
+<span class="sd">        Helper class of the &#39;Inventory&#39; class &#39;&#39;&#39;</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inv_json</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">inv_dict</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ports</span><span class="o">=</span><span class="p">[]</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">inv_json</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__init_from_json__</span><span class="p">(</span><span class="n">inv_json</span><span class="p">)</span>
+            <span class="k">return</span>
+        
+        <span class="k">if</span><span class="p">(</span><span class="n">inv_dict</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__init_from_dict__</span><span class="p">(</span><span class="n">inv_dict</span><span class="p">)</span>
+            <span class="k">return</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">__init_from_json__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">))</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">dict_keys_dashed_to_underscored</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;node_connector&#39;</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">p1</span> <span class="o">==</span> <span class="n">k</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+                    <span class="n">of_port</span> <span class="o">=</span> <span class="n">OpenFlowPort</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">ports</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">of_port</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">__init_from_dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">dict</span><span class="p">))</span>
+        <span class="n">js</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__init_from_json__</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="OpenFlowCapableNode.to_string"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns string representation of this object. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowCapableNode.to_json"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns JSON representation of this object. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowCapableNode.get_id"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode.get_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowCapableNode.get_manufacturer_info"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode.get_manufacturer_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_manufacturer_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;flow_node_inventory:manufacturer&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">info</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">info</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowCapableNode.get_hardware_info"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode.get_hardware_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_hardware_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;flow_node_inventory:hardware&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">info</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">info</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowCapableNode.get_software_info"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode.get_software_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_software_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;flow_node_inventory:software&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">info</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">info</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowCapableNode.get_description"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode.get_description">[docs]</a>    <span class="k">def</span> <span class="nf">get_description</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">descr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;flow_node_inventory:description&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">descr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">descr</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowCapableNode.get_capabilities"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode.get_capabilities">[docs]</a>    <span class="k">def</span> <span class="nf">get_capabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">capabilities</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;flow_node_inventory:switch_features&#39;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">d</span><span class="p">):</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;capabilities&#39;</span>
+            <span class="k">if</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">][</span><span class="n">p2</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">p3</span> <span class="o">=</span> <span class="s">&#39;flow-node-inventory:flow-feature-capability-&#39;</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">][</span><span class="n">p2</span><span class="p">]:</span>
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">p3</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+                    <span class="n">capabilities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">capabilities</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowCapableNode.get_ip_address"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode.get_ip_address">[docs]</a>    <span class="k">def</span> <span class="nf">get_ip_address</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">addr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;flow_node_inventory:ip_address&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">addr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">addr</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowCapableNode.get_flows_cnt"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode.get_flows_cnt">[docs]</a>    <span class="k">def</span> <span class="nf">get_flows_cnt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">flow_cnt</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;flow_node_inventory:table&#39;</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;opendaylight_flow_statistics:aggregate_flow_statistics&#39;</span>
+        <span class="n">p3</span> <span class="o">=</span> <span class="s">&#39;flow_count&#39;</span>
+        <span class="n">flow_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="n">p1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">flow_table</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">item</span><span class="p">):</span>
+                <span class="n">flow_cnt</span> <span class="o">+=</span> <span class="n">item</span><span class="p">[</span><span class="n">p2</span><span class="p">][</span><span class="n">p3</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">flow_cnt</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowCapableNode.get_serial_number"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode.get_serial_number">[docs]</a>    <span class="k">def</span> <span class="nf">get_serial_number</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sn</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;flow_node_inventory:serial_number&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">sn</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">sn</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowCapableNode.get_max_buffers_info"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode.get_max_buffers_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_max_buffers_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;flow_node_inventory:switch_features&#39;</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;max_buffers&#39;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">d</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">]):</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="n">p1</span><span class="p">][</span><span class="n">p2</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">n</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowCapableNode.get_max_tables_info"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode.get_max_tables_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_max_tables_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;flow_node_inventory:switch_features&#39;</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;max_tables&#39;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">d</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">]):</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="n">p1</span><span class="p">][</span><span class="n">p2</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">n</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowCapableNode.get_flow_tables_cnt"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode.get_flow_tables_cnt">[docs]</a>    <span class="k">def</span> <span class="nf">get_flow_tables_cnt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;flow_node_inventory:table&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">cnt</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">cnt</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowCapableNode.get_flows_in_table_cnt"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode.get_flows_in_table_cnt">[docs]</a>    <span class="k">def</span> <span class="nf">get_flows_in_table_cnt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_id</span><span class="p">):</span>
+        <span class="n">flow_cnt</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;flow_node_inventory:table&#39;</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;opendaylight_flow_statistics:aggregate_flow_statistics&#39;</span>
+        <span class="n">p3</span> <span class="o">=</span> <span class="s">&#39;flow_count&#39;</span>
+        <span class="n">flow_table</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="n">p1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">flow_table</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">item</span><span class="p">):</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">table_id</span><span class="p">):</span>
+                    <span class="n">flow_cnt</span> <span class="o">+=</span> <span class="n">item</span><span class="p">[</span><span class="n">p2</span><span class="p">][</span><span class="n">p3</span><span class="p">]</span>
+                    <span class="k">break</span>
+        
+        <span class="k">return</span> <span class="n">flow_cnt</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowCapableNode.get_port_ids"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode.get_port_ids">[docs]</a>    <span class="k">def</span> <span class="nf">get_port_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">port_ids</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ports</span><span class="p">:</span>
+            <span class="n">port_id</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_port_id</span><span class="p">()</span>
+            <span class="n">port_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">port_id</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">port_ids</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowCapableNode.get_port_number"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode.get_port_number">[docs]</a>    <span class="k">def</span> <span class="nf">get_port_number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_id</span><span class="p">):</span>
+        <span class="n">pnum</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ports</span><span class="p">:</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get_port_id</span><span class="p">()</span> <span class="o">==</span> <span class="n">port_id</span><span class="p">):</span>
+                <span class="n">pnum</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_port_number</span><span class="p">()</span>
+                <span class="k">break</span>
+        
+        <span class="k">return</span> <span class="n">pnum</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowCapableNode.get_port_name"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode.get_port_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_port_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_id</span><span class="p">):</span>
+        <span class="n">pname</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ports</span><span class="p">:</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get_port_id</span><span class="p">()</span> <span class="o">==</span> <span class="n">port_id</span><span class="p">):</span>
+                <span class="n">pname</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_port_name</span><span class="p">()</span>
+                <span class="k">break</span>
+        
+        <span class="k">return</span> <span class="n">pname</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowCapableNode.get_port_obj"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowCapableNode.get_port_obj">[docs]</a>    <span class="k">def</span> <span class="nf">get_port_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_id</span><span class="p">):</span>
+        <span class="n">port_obj</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ports</span><span class="p">:</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get_port_id</span><span class="p">()</span> <span class="o">==</span> <span class="n">port_id</span><span class="p">):</span>
+                <span class="n">port_obj</span> <span class="o">=</span> <span class="n">item</span>
+        
+        <span class="k">return</span> <span class="n">port_obj</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># Class &#39;OpenFlowPort&#39;</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div></div>
+<div class="viewcode-block" id="OpenFlowPort"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowPort">[docs]</a><span class="k">class</span> <span class="nc">OpenFlowPort</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39; Class that represents current state of an OpenFlow enabled port</span>
+<span class="sd">        Helper class of the &#39;OpenFlowCapableNode&#39; class &#39;&#39;&#39;</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">dict</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="OpenFlowPort.to_string"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowPort.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns string representation of this object. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowPort.to_json"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowPort.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns JSON representation of this object. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowPort.get_port_id"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowPort.get_port_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_port_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pid</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;id&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">pid</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">pid</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowPort.get_port_number"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowPort.get_port_number">[docs]</a>    <span class="k">def</span> <span class="nf">get_port_number</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pnum</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;flow_node_inventory:port_number&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">pnum</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">pnum</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowPort.get_port_name"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowPort.get_port_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_port_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pname</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;flow_node_inventory:name&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">pname</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">pname</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowPort.get_mac_address"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowPort.get_mac_address">[docs]</a>    <span class="k">def</span> <span class="nf">get_mac_address</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pmac</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;flow_node_inventory:hardware_address&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">pmac</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">pmac</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowPort.get_link_state"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowPort.get_link_state">[docs]</a>    <span class="k">def</span> <span class="nf">get_link_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;flow_node_inventory:state&#39;</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;link_down&#39;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">d</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">]):</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="s">&quot;UP&quot;</span> <span class="k">if</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">][</span><span class="n">p2</span><span class="p">]</span> <span class="o">==</span> <span class="bp">False</span><span class="p">)</span> <span class="k">else</span> <span class="s">&quot;DOWN&quot;</span>
+        
+        <span class="k">return</span> <span class="n">state</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowPort.get_forwarding_state"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowPort.get_forwarding_state">[docs]</a>    <span class="k">def</span> <span class="nf">get_forwarding_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;flow_node_inventory:state&#39;</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;blocked&#39;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">d</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">]):</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="s">&quot;FORWARDING&quot;</span> <span class="k">if</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">][</span><span class="n">p2</span><span class="p">]</span> <span class="o">==</span> <span class="bp">False</span><span class="p">)</span> <span class="k">else</span> <span class="s">&quot;BLOCKED&quot;</span>
+        
+        <span class="k">return</span> <span class="n">state</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowPort.get_packets_received"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowPort.get_packets_received">[docs]</a>    <span class="k">def</span> <span class="nf">get_packets_received</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pkts_cnt</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;opendaylight_port_statistics:flow_capable_node_connector_statistics&#39;</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;packets&#39;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">d</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">]):</span>
+            <span class="n">p3</span> <span class="o">=</span> <span class="s">&#39;received&#39;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">p3</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">][</span><span class="n">p2</span><span class="p">]):</span>
+                <span class="n">pkts_cnt</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">][</span><span class="n">p2</span><span class="p">][</span><span class="n">p3</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">pkts_cnt</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowPort.get_packets_transmitted"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowPort.get_packets_transmitted">[docs]</a>    <span class="k">def</span> <span class="nf">get_packets_transmitted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pkts_cnt</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;opendaylight_port_statistics:flow_capable_node_connector_statistics&#39;</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;packets&#39;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">d</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">]):</span>
+            <span class="n">p3</span> <span class="o">=</span> <span class="s">&#39;transmitted&#39;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">p3</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">][</span><span class="n">p2</span><span class="p">]):</span>
+                <span class="n">pkts_cnt</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">][</span><span class="n">p2</span><span class="p">][</span><span class="n">p3</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">pkts_cnt</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowPort.get_bytes_received"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowPort.get_bytes_received">[docs]</a>    <span class="k">def</span> <span class="nf">get_bytes_received</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">bytes_cnt</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;opendaylight_port_statistics:flow_capable_node_connector_statistics&#39;</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;bytes&#39;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">d</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">]):</span>
+            <span class="n">p3</span> <span class="o">=</span> <span class="s">&#39;received&#39;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">p3</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">][</span><span class="n">p2</span><span class="p">]):</span>
+                <span class="n">bytes_cnt</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">][</span><span class="n">p2</span><span class="p">][</span><span class="n">p3</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">bytes_cnt</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowPort.get_bytes_transmitted"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowPort.get_bytes_transmitted">[docs]</a>    <span class="k">def</span> <span class="nf">get_bytes_transmitted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">bytes_cnt</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;opendaylight_port_statistics:flow_capable_node_connector_statistics&#39;</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;bytes&#39;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">p1</span> <span class="ow">in</span> <span class="n">d</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">]):</span>
+            <span class="n">p3</span> <span class="o">=</span> <span class="s">&#39;transmitted&#39;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">p3</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">][</span><span class="n">p2</span><span class="p">]):</span>
+                <span class="n">bytes_cnt</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">p1</span><span class="p">][</span><span class="n">p2</span><span class="p">][</span><span class="n">p3</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">bytes_cnt</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OpenFlowPort.get_current_features"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.OpenFlowPort.get_current_features">[docs]</a>    <span class="k">def</span> <span class="nf">get_current_features</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;flow_node_inventory:current_feature&#39;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="ow">in</span> <span class="n">d</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">p</span><span class="p">],</span> <span class="nb">basestring</span><span class="p">)):</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39;-&#39;</span><span class="p">)</span>
+            <span class="n">features</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        
+        <span class="k">return</span> <span class="n">features</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># Class &#39;NetconfCapableNode&#39;</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div></div>
+<div class="viewcode-block" id="NetconfCapableNode"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.NetconfCapableNode">[docs]</a><span class="k">class</span> <span class="nc">NetconfCapableNode</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39; Class that represents current state of a NETCONF capable node</span>
+<span class="sd">        Helper class of the &#39;Inventory&#39; class &#39;&#39;&#39;</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inv_json</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">inv_dict</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">inv_dict</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__init_from_dict__</span><span class="p">(</span><span class="n">inv_dict</span><span class="p">)</span>
+            <span class="k">return</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">inv_json</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__init_from_json__</span><span class="p">(</span><span class="n">inv_json</span><span class="p">)</span>
+            <span class="k">return</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">__init_from_json__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">))</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">dict_keys_dashed_to_underscored</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">__init_from_dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">dict</span><span class="p">))</span>
+        <span class="n">js</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__init_from_json__</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="NetconfCapableNode.to_string"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.NetconfCapableNode.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns string representation of this object. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="NetconfCapableNode.to_json"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.NetconfCapableNode.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns JSON representation of this object. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="NetconfCapableNode.get_id"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.NetconfCapableNode.get_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">myid</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;id&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">myid</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">myid</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="NetconfCapableNode.is_connected"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.NetconfCapableNode.is_connected">[docs]</a>    <span class="k">def</span> <span class="nf">is_connected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&quot;netconf_node_inventory:connected&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">res</span>
+        
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="NetconfCapableNode.get_conn_status"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.NetconfCapableNode.get_conn_status">[docs]</a>    <span class="k">def</span> <span class="nf">get_conn_status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="s">&quot;CONNECTED&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_connected</span> <span class="k">else</span> <span class="s">&quot;DISCONNECTED&quot;</span>
+        <span class="k">return</span> <span class="n">status</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="NetconfCapableNode.get_initial_capabilities"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.NetconfCapableNode.get_initial_capabilities">[docs]</a>    <span class="k">def</span> <span class="nf">get_initial_capabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">clist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;netconf_node_inventory:initial_capability&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+            <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">attr</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_capability_str_to_schema_str</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="n">clist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">clist</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="NetconfCapableNode.get_current_capabilities"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.NetconfCapableNode.get_current_capabilities">[docs]</a>    <span class="k">def</span> <span class="nf">get_current_capabilities</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+    <span class="k">def</span> <span class="nf">_capability_str_to_schema_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">capability_str</span><span class="p">):</span>
+        <span class="n">revision</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">schema</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">r&#39;[(?)]&#39;</span><span class="p">,</span> <span class="n">capability_str</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+                <span class="n">revision</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;revision=&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39;-&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">i</span><span class="o">==</span><span class="mi">3</span><span class="p">:</span>
+                <span class="n">schema</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39;-&#39;</span><span class="p">)</span>
+    
+        <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">@</span><span class="si">%s</span><span class="s">.yang&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">revision</span><span class="p">)</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># Class &#39;NetconfConfigModule&#39;</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="NetconfConfigModule"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.NetconfConfigModule">[docs]</a><span class="k">class</span> <span class="nc">NetconfConfigModule</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39; Class that represents NETCONF node configuration module</span>
+<span class="sd">        on the Controller &#39;&#39;&#39;</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">dict</span><span class="p">))</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;odl-sal-netconf-connector-cfg:&#39;</span>
+        <span class="n">js</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">js</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">))</span>
+        <span class="n">d1</span> <span class="o">=</span> <span class="n">dict_keys_dashed_to_underscored</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d1</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="NetconfConfigModule.to_string"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.NetconfConfigModule.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns string representation of this object. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="NetconfConfigModule.to_json"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.NetconfConfigModule.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns JSON representation of this object. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="NetconfConfigModule.get_name"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.NetconfConfigModule.get_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;name&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">name</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="NetconfConfigModule.get_ip_address"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.NetconfConfigModule.get_ip_address">[docs]</a>    <span class="k">def</span> <span class="nf">get_ip_address</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">addr</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;address&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">addr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+       
+        <span class="k">return</span> <span class="n">addr</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="NetconfConfigModule.get_tcp_port"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.NetconfConfigModule.get_tcp_port">[docs]</a>    <span class="k">def</span> <span class="nf">get_tcp_port</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;port&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">port</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+       
+        <span class="k">return</span> <span class="n">port</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="NetconfConfigModule.get_conn_timeout"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.NetconfConfigModule.get_conn_timeout">[docs]</a>    <span class="k">def</span> <span class="nf">get_conn_timeout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">timeout</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;connection_timeout_millis&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">timeout</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+       
+        <span class="k">return</span> <span class="n">timeout</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="NetconfConfigModule.get_retry_conn_timeout"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.NetconfConfigModule.get_retry_conn_timeout">[docs]</a>    <span class="k">def</span> <span class="nf">get_retry_conn_timeout</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">timeout</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;between_attempts_timeout_millis&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">timeout</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+       
+        <span class="k">return</span> <span class="n">timeout</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="NetconfConfigModule.get_max_conn_attempts"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.NetconfConfigModule.get_max_conn_attempts">[docs]</a>    <span class="k">def</span> <span class="nf">get_max_conn_attempts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;max_connection_attempts&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">cnt</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+       
+        <span class="k">return</span> <span class="n">cnt</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="NetconfConfigModule.get_admin_name"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.NetconfConfigModule.get_admin_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_admin_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">uname</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;username&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">uname</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+       
+        <span class="k">return</span> <span class="n">uname</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="NetconfConfigModule.get_admin_pswd"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.inventory.NetconfConfigModule.get_admin_pswd">[docs]</a>    <span class="k">def</span> <span class="nf">get_admin_pswd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pswd</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;password&#39;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+            <span class="n">pswd</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+       
+        <span class="k">return</span> <span class="n">pswd</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pybvc 1.2.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Author.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,545 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pybvc.controller.topology &mdash; pybvc 1.2.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="pybvc 1.2.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pybvc 1.2.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for pybvc.controller.topology</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">pybvc.common.utils</span> <span class="kn">import</span> <span class="n">dict_keys_dashed_to_underscored</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># Class &#39;Topology&#39;</span>
+<span class="c">#-------------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Topology"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Topology">[docs]</a><span class="k">class</span> <span class="nc">Topology</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Class that represents Controller&#39;s view on a Network Topology instance.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topo_json</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">topo_dict</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">topology_id</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">links</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">switches</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hosts</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="n">assert_msg</span> <span class="o">=</span> <span class="s">&quot;[Topology] either &#39;</span><span class="si">%s</span><span class="s">&#39; or &#39;</span><span class="si">%s</span><span class="s">&#39; should be used, &quot;</span> \
+                     <span class="s">&quot;not both&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;topo_json&#39;</span><span class="p">,</span> <span class="s">&#39;topo_dict&#39;</span><span class="p">)</span>
+        <span class="k">assert</span><span class="p">(((</span><span class="n">topo_json</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">topo_dict</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">))</span> <span class="o">==</span> <span class="bp">False</span><span class="p">),</span> <span class="n">assert_msg</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">topo_dict</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__init_from_dict__</span><span class="p">(</span><span class="n">topo_dict</span><span class="p">)</span>
+            <span class="k">return</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">topo_json</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__init_from_json__</span><span class="p">(</span><span class="n">topo_json</span><span class="p">)</span>
+            <span class="k">return</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">__init_from_json__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">)):</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">dict_keys_dashed_to_underscored</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="p">(</span><span class="s">&#39;topology_id&#39;</span> <span class="o">==</span> <span class="n">k</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">topology_id</span> <span class="o">=</span> <span class="n">v</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="s">&#39;node&#39;</span> <span class="o">==</span> <span class="n">k</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+                            <span class="n">node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="s">&#39;link&#39;</span> <span class="o">==</span> <span class="n">k</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+                            <span class="n">link</span> <span class="o">=</span> <span class="n">Link</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">add_link</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;[Topology] wrong argument type &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span>
+                            <span class="s">&quot; (JSON &#39;string&#39; is expected)&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">__init_from_dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
+            <span class="n">js</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__init_from_json__</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;[Topology] wrong argument type &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span>
+                            <span class="s">&quot; (&#39;dict&#39; is expected)&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Topology.to_string"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Topology.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns string representation of this object. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Topology.add_node"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Topology.add_node">[docs]</a>    <span class="k">def</span> <span class="nf">add_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Node</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">is_switch</span><span class="p">()):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">switches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">is_host</span><span class="p">()):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hosts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Topology.add_link"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Topology.add_link">[docs]</a>    <span class="k">def</span> <span class="nf">add_link</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">Link</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Topology.get_id"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Topology.get_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">topology_id</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Topology.get_switch_ids"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Topology.get_switch_ids">[docs]</a>    <span class="k">def</span> <span class="nf">get_switch_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">snames</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">is_switch</span><span class="p">()):</span>
+                <span class="n">snames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">node_id</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">snames</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Topology.get_host_ids"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Topology.get_host_ids">[docs]</a>    <span class="k">def</span> <span class="nf">get_host_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">snames</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">is_host</span><span class="p">()):</span>
+                <span class="n">snames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">node_id</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">snames</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Topology.get_switches_cnt"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Topology.get_switches_cnt">[docs]</a>    <span class="k">def</span> <span class="nf">get_switches_cnt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">switches</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Topology.get_hosts_cnt"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Topology.get_hosts_cnt">[docs]</a>    <span class="k">def</span> <span class="nf">get_hosts_cnt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hosts</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Topology.get_inter_switch_links_cnt"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Topology.get_inter_switch_links_cnt">[docs]</a>    <span class="k">def</span> <span class="nf">get_inter_switch_links_cnt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">links</span><span class="p">:</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">is_switch_to_switch</span><span class="p">()):</span>
+                <span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="k">assert</span><span class="p">(</span><span class="n">cnt</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cnt</span><span class="o">/</span><span class="mi">2</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Topology.get_nodes"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Topology.get_nodes">[docs]</a>    <span class="k">def</span> <span class="nf">get_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Topology.get_switches"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Topology.get_switches">[docs]</a>    <span class="k">def</span> <span class="nf">get_switches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">switches</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span><span class="o">.</span><span class="n">get_id</span><span class="p">())</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Topology.get_switch"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Topology.get_switch">[docs]</a>    <span class="k">def</span> <span class="nf">get_switch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">switch_id</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">switches</span><span class="p">:</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get_id</span><span class="p">()</span> <span class="o">==</span> <span class="n">switch_id</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">item</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Topology.get_hosts"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Topology.get_hosts">[docs]</a>    <span class="k">def</span> <span class="nf">get_hosts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">hosts</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Topology.get_peer_list_for_node"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Topology.get_peer_list_for_node">[docs]</a>    <span class="k">def</span> <span class="nf">get_peer_list_for_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="n">plist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">print</span> <span class="n">node</span><span class="o">.</span><span class="n">get_id</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">links</span><span class="p">:</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">is_dst_node</span><span class="p">(</span><span class="n">node</span><span class="p">)):</span>
+                <span class="n">plist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">plist</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Topology.get_peer_list_for_node_port_"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Topology.get_peer_list_for_node_port_">[docs]</a>    <span class="k">def</span> <span class="nf">get_peer_list_for_node_port_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">pnum</span><span class="p">):</span>
+        <span class="n">plist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">links</span><span class="p">:</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">is_dst_node_port</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">pnum</span><span class="p">)):</span>
+                <span class="n">src_node_id</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">get_src_node_id</span><span class="p">()</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">src_node_id</span><span class="p">):</span>
+                    <span class="n">src_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_node_by_id</span><span class="p">(</span><span class="n">src_node_id</span><span class="p">)</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">src_node</span><span class="p">):</span>
+                        <span class="n">plist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">src_node</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">plist</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Topology.get_node_by_id"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Topology.get_node_by_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_node_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_id</span><span class="p">):</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">get_id</span><span class="p">()</span> <span class="o">==</span> <span class="n">node_id</span><span class="p">:</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">item</span>
+                <span class="k">break</span>
+        
+        <span class="k">return</span> <span class="n">node</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># Class &#39;Node&#39;</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div></div>
+<div class="viewcode-block" id="Node"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Node">[docs]</a><span class="k">class</span> <span class="nc">Node</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; A node in the topology instance.</span>
+<span class="sd">        Helper class of the &#39;Topology&#39; class &quot;&quot;&quot;</span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">dict</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Node.to_string"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Node.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns string representation of this object. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Node.to_json"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Node.to_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns JSON representation of this object. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="k">lambda</span> <span class="n">o</span><span class="p">:</span> <span class="n">o</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span>
+                          <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Node.is_switch"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Node.is_switch">[docs]</a>    <span class="k">def</span> <span class="nf">is_switch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;openflow&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_id</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Node.is_host"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Node.is_host">[docs]</a>    <span class="k">def</span> <span class="nf">is_host</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;host&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_id</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Node.get_type_str"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Node.get_type_str">[docs]</a>    <span class="k">def</span> <span class="nf">get_type_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">type_str</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">is_host</span><span class="p">()):</span>
+            <span class="n">type_str</span> <span class="o">=</span> <span class="s">&quot;host&quot;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">is_switch</span><span class="p">()):</span>
+            <span class="n">type_str</span> <span class="o">=</span> <span class="s">&quot;switch&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">type_str</span>
+        
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Node.get_id"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Node.get_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_id</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Node.get_port_numbers"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Node.get_port_numbers">[docs]</a>    <span class="k">def</span> <span class="nf">get_port_numbers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pnums</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_switch</span><span class="p">():</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;termination_point&#39;</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;tp_id&#39;</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p1</span><span class="p">):</span>
+                <span class="n">tplist</span> <span class="o">=</span>  <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p1</span><span class="p">)</span>
+                <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">tplist</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">tplist</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
+                        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_id</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot;:&quot;</span>
+                        <span class="n">pnum</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="n">p2</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+                        <span class="n">pnums</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pnum</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">pnums</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Node.get_mac_address"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Node.get_mac_address">[docs]</a>    <span class="k">def</span> <span class="nf">get_mac_address</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">mac_addr</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;host_tracker_service:id&#39;</span>
+        <span class="k">if</span><span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)):</span>
+            <span class="n">mac_addr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">mac_addr</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Node.get_ip_address_for_mac"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Node.get_ip_address_for_mac">[docs]</a>    <span class="k">def</span> <span class="nf">get_ip_address_for_mac</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mac_addr</span><span class="p">):</span>
+        <span class="n">ip_addr</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;host_tracker_service:addresses&#39;</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;mac&#39;</span>
+        <span class="n">p3</span> <span class="o">=</span> <span class="s">&#39;ip&#39;</span>
+        <span class="k">if</span><span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p1</span><span class="p">)):</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p1</span><span class="p">)</span>
+            <span class="k">if</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">attr</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">item</span> <span class="ow">and</span> <span class="n">p3</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="n">p2</span><span class="p">]</span> <span class="o">==</span> <span class="n">mac_addr</span><span class="p">):</span>
+                            <span class="n">ip_addr</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="n">p3</span><span class="p">]</span>
+                            <span class="k">break</span>
+        
+        <span class="k">return</span> <span class="n">ip_addr</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Node.get_openflow_id"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Node.get_openflow_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_openflow_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_switch</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_id</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># Class &#39;TerminationPoint&#39;</span>
+<span class="c">#-------------------------------------------------------------------------------</span></div></div>
+<div class="viewcode-block" id="Link"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Link">[docs]</a><span class="k">class</span> <span class="nc">Link</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; A link in the topology instance.</span>
+<span class="sd">        Helper class of the &#39;Topology&#39; class &quot;&quot;&quot;</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">dict</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="Link.to_string"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Link.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns string representation of this object. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Link.is_switch_to_switch"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Link.is_switch_to_switch">[docs]</a>    <span class="k">def</span> <span class="nf">is_switch_to_switch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">src_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">[</span><span class="s">&#39;source_node&#39;</span><span class="p">]</span>
+        <span class="n">dst_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">destination</span><span class="p">[</span><span class="s">&#39;dest_node&#39;</span><span class="p">]</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">src_node</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;openflow&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">dst_node</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;openflow&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">src_node</span> <span class="o">!=</span> <span class="n">dst_node</span><span class="p">):</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="bp">True</span>
+        
+        <span class="k">return</span> <span class="n">res</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Link.is_loopback"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Link.is_loopback">[docs]</a>    <span class="k">def</span> <span class="nf">is_loopback</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">src_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">[</span><span class="s">&#39;source_node&#39;</span><span class="p">]</span>
+        <span class="n">dst_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">destination</span><span class="p">[</span><span class="s">&#39;dest_node&#39;</span><span class="p">]</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">src_node</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;openflow&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">dst_node</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;openflow&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">src_node</span> <span class="o">==</span> <span class="n">dst_node</span><span class="p">):</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="bp">True</span>
+        
+        <span class="k">return</span> <span class="n">res</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Link.is_host_to_switch"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Link.is_host_to_switch">[docs]</a>    <span class="k">def</span> <span class="nf">is_host_to_switch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">src_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">[</span><span class="s">&#39;source_node&#39;</span><span class="p">]</span>
+        <span class="n">dst_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">destination</span><span class="p">[</span><span class="s">&#39;dest_node&#39;</span><span class="p">]</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">src_node</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;host&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">dst_node</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;openflow&#39;</span><span class="p">)):</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="bp">True</span>
+        
+        <span class="k">return</span> <span class="n">res</span>
+        
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Link.is_switch_to_host"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Link.is_switch_to_host">[docs]</a>    <span class="k">def</span> <span class="nf">is_switch_to_host</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">src_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span><span class="p">[</span><span class="s">&#39;source_node&#39;</span><span class="p">]</span>
+        <span class="n">dst_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">destination</span><span class="p">[</span><span class="s">&#39;dest_node&#39;</span><span class="p">]</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">src_node</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;openflow&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">dst_node</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;host&#39;</span><span class="p">)):</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="bp">True</span>
+        
+        <span class="k">return</span> <span class="n">res</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Link.is_dst_node"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Link.is_dst_node">[docs]</a>    <span class="k">def</span> <span class="nf">is_dst_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;destination&#39;</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;dest_node&#39;</span>
+        <span class="k">if</span><span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p1</span><span class="p">)):</span>
+            <span class="n">dst</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p1</span><span class="p">)</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">p2</span> <span class="ow">in</span> <span class="n">dst</span> <span class="ow">and</span> <span class="n">dst</span><span class="p">[</span><span class="n">p2</span><span class="p">]</span> <span class="o">==</span> <span class="n">node</span><span class="o">.</span><span class="n">get_id</span><span class="p">()):</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="bp">True</span>
+        
+        <span class="k">return</span> <span class="n">res</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Link.is_dst_node_port"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Link.is_dst_node_port">[docs]</a>    <span class="k">def</span> <span class="nf">is_dst_node_port</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">pnum</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;destination&#39;</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;dest_node&#39;</span>
+        <span class="n">p3</span> <span class="o">=</span> <span class="s">&#39;dest_tp&#39;</span>
+        <span class="k">if</span><span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p1</span><span class="p">)):</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p1</span><span class="p">)</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">p2</span> <span class="ow">in</span> <span class="n">attr</span> <span class="ow">and</span> <span class="n">p3</span> <span class="ow">in</span> <span class="n">attr</span><span class="p">):</span>
+                <span class="n">node_id</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">get_id</span><span class="p">()</span>
+                <span class="n">tp_id</span> <span class="o">=</span> <span class="n">node_id</span>  <span class="o">+</span> <span class="s">&quot;:&quot;</span> <span class="o">+</span> <span class="n">pnum</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="n">attr</span><span class="p">[</span><span class="n">p2</span><span class="p">]</span> <span class="o">==</span> <span class="n">node_id</span> <span class="ow">and</span> <span class="n">attr</span><span class="p">[</span><span class="n">p3</span><span class="p">]</span> <span class="o">==</span> <span class="n">tp_id</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">res</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Link.get_src_node_id"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Link.get_src_node_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_src_node_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">src_node_id</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;source&#39;</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;source_node&#39;</span>
+        <span class="k">if</span><span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p1</span><span class="p">)):</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p1</span><span class="p">)</span>
+            <span class="k">if</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="n">p2</span> <span class="ow">in</span> <span class="n">attr</span><span class="p">):</span>
+                <span class="n">src_node_id</span> <span class="o">=</span> <span class="n">attr</span><span class="p">[</span><span class="n">p2</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="n">src_node_id</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="Link.get_id"><a class="viewcode-back" href="../../../pybvc.controller.html#pybvc.controller.topology.Link.get_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;link_id&#39;</span>
+        <span class="k">if</span><span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">pybvc 1.2.0 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Author.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

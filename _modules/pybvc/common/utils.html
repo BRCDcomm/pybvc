@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pybvc.common.utils &mdash; pybvc 1.1.1 documentation</title>
+    <title>pybvc.common.utils &mdash; pybvc 1.2.0 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '1.1.1',
+        VERSION:     '1.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="pybvc 1.1.1 documentation" href="../../../index.html" />
+    <link rel="top" title="pybvc 1.2.0 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">pybvc 1.2.0 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -81,10 +81,12 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
 
 <span class="c">#-------------------------------------------------------------------------------</span>
 <span class="c"># </span>
@@ -225,6 +227,24 @@
 <span class="c">#-------------------------------------------------------------------------------</span>
 <span class="c"># </span>
 <span class="c">#-------------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="dict_keys_dashed_to_underscored"><a class="viewcode-back" href="../../../pybvc.common.html#pybvc.common.utils.dict_keys_dashed_to_underscored">[docs]</a><span class="k">def</span> <span class="nf">dict_keys_dashed_to_underscored</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="n">new_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    
+    <span class="k">if</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">dict_keys_dashed_to_underscored</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="n">dict_keys_dashed_to_underscored</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">v</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">and</span> <span class="n">dict_keys_dashed_to_underscored</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+            <span class="n">new_dict</span><span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">,</span> <span class="s">&#39;_&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">v</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">d</span>
+    
+    <span class="k">return</span> <span class="n">new_dict</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># </span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="progress_wait_secs"><a class="viewcode-back" href="../../../pybvc.common.html#pybvc.common.utils.progress_wait_secs">[docs]</a><span class="k">def</span> <span class="nf">progress_wait_secs</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">waitTime</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">sym</span><span class="o">=</span><span class="s">&quot;.&quot;</span><span class="p">):</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">waitTime</span> <span class="o">!=</span> <span class="bp">None</span><span class="p">):</span>
 <span class="c">#        sys.stdout.write (&quot;(waiting for %s seconds) &quot; % waitTime)</span>
@@ -236,7 +256,25 @@
             <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">sym</span><span class="p">,</span> <span class="c"># &lt;- no newline</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span> <span class="c">#&lt;- makes python print it anyway</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span> <span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span></div>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span> <span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
+
+<span class="c">#-------------------------------------------------------------------------------</span>
+<span class="c"># </span>
+<span class="c">#-------------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="dbg_print"><a class="viewcode-back" href="../../../pybvc.common.html#pybvc.common.utils.dbg_print">[docs]</a><span class="k">def</span> <span class="nf">dbg_print</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">f_back</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_filename</span><span class="p">)</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_back</span><span class="o">.</span><span class="n">f_lineno</span>
+        <span class="k">if</span> <span class="n">msg</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;[</span><span class="si">%s</span><span class="s">:</span><span class="si">%d</span><span class="s">] </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s">&#39;[</span><span class="si">%s</span><span class="s">:</span><span class="si">%d</span><span class="s">]&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">s</span><span class="p">:</span> <span class="k">print</span> <span class="n">s</span>
+        <span class="k">del</span> <span class="n">frame</span></div>
 </pre></div>
 
           </div>
@@ -270,7 +308,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">pybvc 1.2.0 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

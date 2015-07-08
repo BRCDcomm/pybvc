@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pybvc.openflowdev.ofswitch &mdash; pybvc 1.1.1 documentation</title>
+    <title>pybvc.openflowdev.ofswitch &mdash; pybvc 1.2.0 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '1.1.1',
+        VERSION:     '1.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="pybvc 1.1.1 documentation" href="../../../index.html" />
+    <link rel="top" title="pybvc 1.2.0 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">pybvc 1.2.0 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -52,7 +52,7 @@
 
 <span class="sd">Redistribution and use in source and binary forms, with or without</span>
 <span class="sd">modification, are permitted provided that the following conditions are met:</span>
-<span class="sd"> - Redistributions of source code must retain the above copyright notice,</span>
+<span class="sd">-  Redistributions of source code must retain the above copyright notice,</span>
 <span class="sd">   this list of conditions and the following disclaimer.</span>
 <span class="sd">-  Redistributions in binary form must reproduce the above copyright notice,</span>
 <span class="sd">   this list of conditions and the following disclaimer in the documentation</span>
@@ -83,6 +83,7 @@
 
 <span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">urllib2</span>
 
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 
@@ -94,6 +95,7 @@
 <span class="kn">from</span> <span class="nn">pybvc.common.utils</span> <span class="kn">import</span> <span class="n">find_key_value_in_dict</span>
 <span class="kn">from</span> <span class="nn">pybvc.common.utils</span> <span class="kn">import</span> <span class="n">find_dict_in_list</span>
 <span class="kn">from</span> <span class="nn">pybvc.common.utils</span> <span class="kn">import</span> <span class="n">strip_none</span>
+<span class="kn">from</span> <span class="nn">pybvc.common.utils</span> <span class="kn">import</span> <span class="n">dict_keys_dashed_to_underscored</span>
 
 <span class="c">#-------------------------------------------------------------------------------</span>
 <span class="c"># </span>
@@ -241,7 +243,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
         
-        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">plist</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">plist</span><span class="p">))</span>
         
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># TBD</span>
@@ -303,9 +305,7 @@
             <span class="n">urlext</span> <span class="o">=</span> <span class="n">templateUrlExt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">flow_entry</span><span class="o">.</span><span class="n">get_flow_table_id</span><span class="p">(),</span>
                                            <span class="n">flow_entry</span><span class="o">.</span><span class="n">get_flow_id</span><span class="p">())</span>
             <span class="n">url</span> <span class="o">+=</span> <span class="n">urlext</span>
-<span class="c">#            print url</span>
             <span class="n">payload</span> <span class="o">=</span> <span class="n">flow_entry</span><span class="o">.</span><span class="n">get_payload</span><span class="p">()</span>
-<span class="c">#            print payload </span>
             <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_put_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
             <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
                 <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
@@ -324,12 +324,36 @@
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="OFSwitch.delete_flow"><a class="viewcode-back" href="../../../pybvc.openflowdev.html#pybvc.openflowdev.ofswitch.OFSwitch.delete_flow">[docs]</a>    <span class="k">def</span> <span class="nf">delete_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flow_table_id</span><span class="p">,</span> <span class="n">flow_id</span><span class="p">):</span>
+<div class="viewcode-block" id="OFSwitch.delete_flow"><a class="viewcode-back" href="../../../pybvc.openflowdev.html#pybvc.openflowdev.ofswitch.OFSwitch.delete_flow">[docs]</a>    <span class="k">def</span> <span class="nf">delete_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_id</span><span class="p">,</span> <span class="n">flow_id</span><span class="p">):</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
         <span class="n">templateUrlExt</span> <span class="o">=</span> <span class="s">&quot;/table/{}/flow/{}&quot;</span>
         <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_node_config_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>        
-        <span class="n">urlext</span> <span class="o">=</span> <span class="n">templateUrlExt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">flow_table_id</span><span class="p">,</span> <span class="n">flow_id</span><span class="p">)</span>        
+        <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_node_config_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">urlext</span> <span class="o">=</span> <span class="n">templateUrlExt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">table_id</span><span class="p">,</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">flow_id</span><span class="p">)))</span>
+        <span class="n">url</span> <span class="o">+=</span> <span class="n">urlext</span>
+        
+        <span class="k">print</span> <span class="s">&quot; +++ </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">url</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_delete_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OFSwitch.delete_flows"><a class="viewcode-back" href="../../../pybvc.openflowdev.html#pybvc.openflowdev.ofswitch.OFSwitch.delete_flows">[docs]</a>    <span class="k">def</span> <span class="nf">delete_flows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flow_table_id</span><span class="p">):</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">templateUrlExt</span> <span class="o">=</span> <span class="s">&quot;/table/{}&quot;</span>
+        <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_node_config_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">urlext</span> <span class="o">=</span> <span class="n">templateUrlExt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">flow_table_id</span><span class="p">)</span>
         <span class="n">url</span> <span class="o">+=</span> <span class="n">urlext</span>
         
         <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_delete_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
@@ -347,22 +371,9 @@
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="OFSwitch.delete_flows"><a class="viewcode-back" href="../../../pybvc.openflowdev.html#pybvc.openflowdev.ofswitch.OFSwitch.delete_flows">[docs]</a>    <span class="k">def</span> <span class="nf">delete_flows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flow_table_id</span><span class="p">):</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_configured_FlowEntries</span><span class="p">(</span><span class="n">flow_table_id</span><span class="p">)</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_status</span><span class="p">()</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">):</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
-            <span class="k">for</span> <span class="n">fe</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">delete_flow</span><span class="p">(</span><span class="n">flow_table_id</span><span class="p">,</span> <span class="n">fe</span><span class="o">.</span><span class="n">get_flow_id</span><span class="p">())</span>
-        
-        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-    
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="OFSwitch.get_port_detail_info"><a class="viewcode-back" href="../../../pybvc.openflowdev.html#pybvc.openflowdev.ofswitch.OFSwitch.get_port_detail_info">[docs]</a>    <span class="k">def</span> <span class="nf">get_port_detail_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">portnum</span><span class="p">):</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
-        <span class="n">info</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="n">templateUrlExt</span> <span class="o">=</span> <span class="s">&quot;/node-connector/{}:{}&quot;</span>
         <span class="n">urlext</span> <span class="o">=</span> <span class="n">templateUrlExt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">portnum</span><span class="p">)</span>
         <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
@@ -375,17 +386,14 @@
         <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
             <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
         <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
-            <span class="n">dictionary</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;node-connector&#39;</span>
-                <span class="n">vlist</span> <span class="o">=</span> <span class="n">dictionary</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vlist</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">vlist</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">)):</span>
-                    <span class="n">info</span> <span class="o">=</span> <span class="n">vlist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
-            <span class="k">except</span> <span class="p">()</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;node-connector&#39;</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">info</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span>
+                              <span class="k">if</span> <span class="n">info</span> <span class="o">!=</span> <span class="bp">None</span>
+                              <span class="k">else</span> <span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
         
@@ -394,18 +402,18 @@
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="OFSwitch.get_flows"><a class="viewcode-back" href="../../../pybvc.openflowdev.html#pybvc.openflowdev.ofswitch.OFSwitch.get_flows">[docs]</a>    <span class="k">def</span> <span class="nf">get_flows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tableid</span><span class="p">,</span> <span class="n">operational</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="OFSwitch.get_flow"><a class="viewcode-back" href="../../../pybvc.openflowdev.html#pybvc.openflowdev.ofswitch.OFSwitch.get_flow">[docs]</a>    <span class="k">def</span> <span class="nf">get_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tableid</span><span class="p">,</span> <span class="n">flowid</span><span class="p">,</span> <span class="n">operational</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
         <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
-        <span class="n">flows</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">templateUrlExt</span> <span class="o">=</span> <span class="s">&quot;/flow-node-inventory:table/{}&quot;</span>
-        <span class="n">urlext</span> <span class="o">=</span> <span class="n">templateUrlExt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tableid</span><span class="p">)</span>
+        <span class="n">flow</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">templateUrlExt</span> <span class="o">=</span> <span class="s">&quot;/flow-node-inventory:table/{}/flow/{}&quot;</span>
+        <span class="n">urlext</span> <span class="o">=</span> <span class="n">templateUrlExt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tableid</span><span class="p">,</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">flowid</span><span class="p">)))</span>
         <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
         
         <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">operational</span><span class="p">):</span>
             <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_node_operational_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_node_config_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>        
+            <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_node_config_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="n">url</span> <span class="o">+=</span> <span class="n">urlext</span>
         
         <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
@@ -414,18 +422,67 @@
         <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
             <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
         <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
-            <span class="n">dictionary</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;flow-node-inventory:table&#39;</span>
-                <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;flow&#39;</span>
-                <span class="n">vlist</span> <span class="o">=</span> <span class="n">dictionary</span><span class="p">[</span><span class="n">p1</span><span class="p">]</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vlist</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">vlist</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">p2</span> <span class="ow">in</span> <span class="n">vlist</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
-                    <span class="n">flows</span> <span class="o">=</span> <span class="n">vlist</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">p2</span><span class="p">]</span>
-                    <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
-            <span class="k">except</span> <span class="p">()</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="s">&#39;flow-node-inventory:flow&#39;</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">flow</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span>
+                              <span class="k">if</span> <span class="n">flow</span> <span class="o">!=</span> <span class="bp">None</span>
+                              <span class="k">else</span> <span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">flow</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OFSwitch.get_operational_flow"><a class="viewcode-back" href="../../../pybvc.openflowdev.html#pybvc.openflowdev.ofswitch.OFSwitch.get_operational_flow">[docs]</a>    <span class="k">def</span> <span class="nf">get_operational_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tableid</span><span class="p">,</span> <span class="n">flowid</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_flow</span><span class="p">(</span><span class="n">tableid</span><span class="p">,</span> <span class="n">flowid</span><span class="p">,</span> <span class="n">operational</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OFSwitch.get_configured_flow"><a class="viewcode-back" href="../../../pybvc.openflowdev.html#pybvc.openflowdev.ofswitch.OFSwitch.get_configured_flow">[docs]</a>    <span class="k">def</span> <span class="nf">get_configured_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tableid</span><span class="p">,</span> <span class="n">flowid</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_flow</span><span class="p">(</span><span class="n">tableid</span><span class="p">,</span> <span class="n">flowid</span><span class="p">,</span> <span class="n">operational</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OFSwitch.get_flows"><a class="viewcode-back" href="../../../pybvc.openflowdev.html#pybvc.openflowdev.ofswitch.OFSwitch.get_flows">[docs]</a>    <span class="k">def</span> <span class="nf">get_flows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tableid</span><span class="p">,</span> <span class="n">operational</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
+        <span class="n">flows</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">templateUrlExt</span> <span class="o">=</span> <span class="s">&quot;/flow-node-inventory:table/{}&quot;</span>
+        <span class="n">urlext</span> <span class="o">=</span> <span class="n">templateUrlExt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tableid</span><span class="p">)</span>
+        <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
+        
+        <span class="n">url</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">operational</span><span class="p">):</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_node_operational_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_node_config_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">+=</span> <span class="n">urlext</span>
+        
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
+            <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;flow-node-inventory:table&#39;</span>
+            <span class="n">p2</span> <span class="o">=</span> <span class="s">&#39;flow&#39;</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">flows</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p2</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span>
+                              <span class="k">if</span> <span class="n">flows</span> <span class="o">!=</span> <span class="bp">None</span>
+                              <span class="k">else</span> <span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">):</span>
+            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
         
@@ -446,35 +503,27 @@
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="OFSwitch.get_configured_flow"><a class="viewcode-back" href="../../../pybvc.openflowdev.html#pybvc.openflowdev.ofswitch.OFSwitch.get_configured_flow">[docs]</a>    <span class="k">def</span> <span class="nf">get_configured_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_id</span><span class="p">,</span> <span class="n">flow_id</span><span class="p">):</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="n">OperStatus</span><span class="p">()</span>
-        <span class="n">flow</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">templateUrlExt</span> <span class="o">=</span> <span class="s">&quot;/table/{}/flow/{}&quot;</span>
-        <span class="n">ctrl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ctrl</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">get_node_config_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-        <span class="n">urlext</span> <span class="o">=</span> <span class="n">templateUrlExt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">table_id</span><span class="p">,</span> <span class="n">flow_id</span><span class="p">)</span>
-        <span class="n">url</span> <span class="o">+=</span> <span class="n">urlext</span>
-        <span class="n">resp</span> <span class="o">=</span> <span class="n">ctrl</span><span class="o">.</span><span class="n">http_get_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">resp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
-            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CONN_ERROR</span><span class="p">)</span>
-        <span class="k">elif</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
-            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">CTRL_INTERNAL_ERROR</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">):</span>
-            <span class="n">dictionary</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">p1</span> <span class="o">=</span> <span class="s">&#39;flow-node-inventory:flow&#39;</span>
-                <span class="n">vlist</span> <span class="o">=</span> <span class="n">dictionary</span><span class="p">[</span><span class="n">p1</span><span class="p">]</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vlist</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">vlist</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">dict</span><span class="p">)):</span>
-                    <span class="n">flow</span> <span class="o">=</span> <span class="n">vlist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
-            <span class="k">except</span> <span class="p">()</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">DATA_NOT_FOUND</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">status</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">HTTP_ERROR</span><span class="p">,</span> <span class="n">resp</span><span class="p">)</span>
+<div class="viewcode-block" id="OFSwitch.get_FlowEntry"><a class="viewcode-back" href="../../../pybvc.openflowdev.html#pybvc.openflowdev.ofswitch.OFSwitch.get_FlowEntry">[docs]</a>    <span class="k">def</span> <span class="nf">get_FlowEntry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table_id</span><span class="p">,</span> <span class="n">flow_id</span><span class="p">,</span> <span class="n">operational</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="n">flowEntry</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_flow</span><span class="p">(</span><span class="n">table_id</span><span class="p">,</span> <span class="n">flow_id</span><span class="p">,</span> <span class="n">operational</span><span class="p">)</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_status</span><span class="p">()</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">):</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+            <span class="n">flowEntry</span> <span class="o">=</span> <span class="n">FlowEntry</span><span class="p">(</span><span class="n">flow_dict</span> <span class="o">=</span> <span class="n">d</span><span class="p">)</span>
         
-        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">flow</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">flowEntry</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OFSwitch.get_operational_FlowEntry"><a class="viewcode-back" href="../../../pybvc.openflowdev.html#pybvc.openflowdev.ofswitch.OFSwitch.get_operational_FlowEntry">[docs]</a>    <span class="k">def</span> <span class="nf">get_operational_FlowEntry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tableid</span><span class="p">,</span> <span class="n">flowid</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_FlowEntry</span><span class="p">(</span><span class="n">tableid</span><span class="p">,</span> <span class="n">flowid</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="OFSwitch.get_configured_FlowEntry"><a class="viewcode-back" href="../../../pybvc.openflowdev.html#pybvc.openflowdev.ofswitch.OFSwitch.get_configured_FlowEntry">[docs]</a>    <span class="k">def</span> <span class="nf">get_configured_FlowEntry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tableid</span><span class="p">,</span> <span class="n">flowid</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_FlowEntry</span><span class="p">(</span><span class="n">tableid</span><span class="p">,</span> <span class="n">flowid</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
     
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
@@ -502,19 +551,6 @@
     <span class="c">#---------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="OFSwitch.get_configured_FlowEntries"><a class="viewcode-back" href="../../../pybvc.openflowdev.html#pybvc.openflowdev.ofswitch.OFSwitch.get_configured_FlowEntries">[docs]</a>    <span class="k">def</span> <span class="nf">get_configured_FlowEntries</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flow_table_id</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_FlowEntries</span><span class="p">(</span><span class="n">flow_table_id</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
-    
-    <span class="c">#---------------------------------------------------------------------------</span>
-    <span class="c"># </span>
-    <span class="c">#---------------------------------------------------------------------------</span></div>
-<div class="viewcode-block" id="OFSwitch.get_configured_FlowEntry"><a class="viewcode-back" href="../../../pybvc.openflowdev.html#pybvc.openflowdev.ofswitch.OFSwitch.get_configured_FlowEntry">[docs]</a>    <span class="k">def</span> <span class="nf">get_configured_FlowEntry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flow_table_id</span><span class="p">,</span> <span class="n">flow_id</span><span class="p">):</span>
-        <span class="n">flowEntry</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_configured_flow</span><span class="p">(</span><span class="n">flow_table_id</span><span class="p">,</span> <span class="n">flow_id</span><span class="p">)</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_status</span><span class="p">()</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">status</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">STATUS</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">):</span>
-            <span class="n">d</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
-            <span class="n">flowEntry</span> <span class="o">=</span> <span class="n">FlowEntry</span><span class="p">(</span><span class="n">flow_dict</span> <span class="o">=</span> <span class="n">d</span><span class="p">)</span>
-        
-        <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">flowEntry</span><span class="p">)</span>
 
 <span class="c">#---------------------------------------------------------------------------</span>
 <span class="c"># </span>
@@ -659,9 +695,9 @@
     <span class="k">def</span> <span class="nf">__init_from_json__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">!=</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">)):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">instructions</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;instruction&#39;</span><span class="p">:</span> <span class="p">[]}</span>
-            <span class="n">js</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s">&#39;-&#39;</span><span class="p">,</span> <span class="s">&#39;_&#39;</span><span class="p">)</span>
-            <span class="n">js</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">js</span><span class="p">,</span> <span class="s">&#39;opendaylight_flow_statistics:flow_statistics&#39;</span><span class="p">,</span> <span class="s">&#39;flow_statistics&#39;</span><span class="p">)</span>
-            <span class="n">d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+            <span class="n">js</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s">&#39;opendaylight_flow_statistics:flow_statistics&#39;</span><span class="p">,</span> <span class="s">&#39;flow_statistics&#39;</span><span class="p">)</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">dict_keys_dashed_to_underscored</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">if</span> <span class="p">(</span><span class="s">&#39;match&#39;</span> <span class="o">==</span> <span class="n">k</span><span class="p">):</span>
                     <span class="n">match</span> <span class="o">=</span> <span class="n">Match</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
@@ -696,6 +732,21 @@
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
+<div class="viewcode-block" id="FlowEntry.to_yang_json"><a class="viewcode-back" href="../../../pybvc.openflowdev.html#pybvc.openflowdev.ofswitch.FlowEntry.to_yang_json">[docs]</a>    <span class="k">def</span> <span class="nf">to_yang_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>
+        <span class="c"># Convert all &#39;underscored&#39; keywords to &#39;dash-separated&#39; form used</span>
+        <span class="c"># by ODL YANG models naming conventions</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39;-&#39;</span><span class="p">)</span>
+        <span class="c"># Following are exceptions from the common ODL rules for having all</span>
+        <span class="c"># multi-part keywords in YANG models being hash separated</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s">&#39;table-id&#39;</span><span class="p">,</span> <span class="s">&#39;table_id&#39;</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s">&#39;cookie-mask&#39;</span><span class="p">,</span> <span class="s">&#39;cookie_mask&#39;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">s</span>
+    
+    <span class="c">#---------------------------------------------------------------------------</span>
+    <span class="c"># </span>
+    <span class="c">#---------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="FlowEntry.get_payload"><a class="viewcode-back" href="../../../pybvc.openflowdev.html#pybvc.openflowdev.ofswitch.FlowEntry.get_payload">[docs]</a>    <span class="k">def</span> <span class="nf">get_payload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return FlowEntry as a payload for the HTTP request body &quot;&quot;&quot;</span>
         <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_json</span><span class="p">()</span>
@@ -715,11 +766,6 @@
     <span class="c"># </span>
     <span class="c">#---------------------------------------------------------------------------</span></div>
 <div class="viewcode-block" id="FlowEntry.to_ofp_oxm_syntax"><a class="viewcode-back" href="../../../pybvc.openflowdev.html#pybvc.openflowdev.ofswitch.FlowEntry.to_ofp_oxm_syntax">[docs]</a>    <span class="k">def</span> <span class="nf">to_ofp_oxm_syntax</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="c">#        d = self.__dict__</span>
-<span class="c">#        print d</span>
-<span class="c">#        print dir(self)</span>
-<span class="c">#        print hasattr(self, &#39;cookie&#39;)</span>
-        
         <span class="n">odc</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
         
         <span class="c"># Flow Cookie</span>
@@ -973,9 +1019,7 @@
             <span class="n">sa</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">actions_list</span><span class="p">)</span>
         <span class="n">sa</span> <span class="o">+=</span> <span class="s">&quot;}&quot;</span>
         
-        <span class="n">res</span> <span class="o">=</span> <span class="n">sc</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="n">sm</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="n">sa</span>
-<span class="c">#        print res</span>
-        <span class="k">return</span> <span class="n">res</span>
+        <span class="k">return</span> <span class="n">sc</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="n">sm</span> <span class="o">+</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="n">sa</span>
     
     <span class="c">#---------------------------------------------------------------------------</span>
     <span class="c"># </span>
@@ -3795,7 +3839,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">pybvc 1.1.1 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">pybvc 1.2.0 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
