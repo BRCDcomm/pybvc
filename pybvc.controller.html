@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pybvc.controller package &mdash; pybvc 1.2.0 documentation</title>
+    <title>pybvc.controller package &mdash; pybvc 1.3.0 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.2.0',
+        VERSION:     '1.3.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,13 +23,12 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="pybvc 1.2.0 documentation" href="index.html" />
-    <link rel="up" title="pybvc package" href="pybvc.html" />
+    <link rel="top" title="pybvc 1.3.0 documentation" href="index.html" />
     <link rel="next" title="pybvc.netconfdev package" href="pybvc.netconfdev.html" />
     <link rel="prev" title="pybvc.common package" href="pybvc.common.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -44,15 +43,14 @@
         <li class="right" >
           <a href="pybvc.common.html" title="pybvc.common package"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">pybvc 1.2.0 documentation</a> &raquo;</li>
-          <li><a href="pybvc.html" accesskey="U">pybvc package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.0 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="pybvc-controller-package">
 <h1>pybvc.controller package<a class="headerlink" href="#pybvc-controller-package" title="Permalink to this headline">¶</a></h1>
@@ -61,41 +59,13 @@
 </div>
 <div class="section" id="module-pybvc.controller.controller">
 <span id="pybvc-controller-controller-module"></span><h2>pybvc.controller.controller module<a class="headerlink" href="#module-pybvc.controller.controller" title="Permalink to this headline">¶</a></h2>
-<p>Copyright (c) 2015</p>
-<p>Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
--  Redistributions of source code must retain the above copyright notice,</p>
-<blockquote>
-<div>this list of conditions and the following disclaimer.</div></blockquote>
-<ul class="simple">
-<li>Redistributions in binary form must reproduce the above copyright notice,
-this list of conditions and the following disclaimer in the documentation
-and/or other materials provided with the distribution.</li>
-<li>Neither the name of the copyright holder nor the names of its contributors
-may be used to endorse or promote products derived from this software
-without specific prior written permission.</li>
-</ul>
-<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#8220;AS IS&#8221;
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
-<p>&#64;authors: Sergei Garbuzov
-&#64;status: Development
-&#64;version: 1.1.0</p>
-<p>controller.py: Controller&#8217;s properties and communication methods</p>
 <dl class="class">
 <dt id="pybvc.controller.controller.Controller">
-<em class="property">class </em><tt class="descclassname">pybvc.controller.controller.</tt><tt class="descname">Controller</tt><big>(</big><em>ipAddr</em>, <em>portNum</em>, <em>adminName</em>, <em>adminPassword</em>, <em>timeout=5</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.controller.controller.</code><code class="descname">Controller</code><span class="sig-paren">(</span><em>ipAddr</em>, <em>portNum</em>, <em>adminName</em>, <em>adminPassword</em>, <em>timeout=5</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class that represents a Controller device.</p>
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.add_netconf_node">
-<tt class="descname">add_netconf_node</tt><big>(</big><em>node</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.add_netconf_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.add_netconf_node" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_netconf_node</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.add_netconf_node" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Connect a netconf device to the controller</dt>
 <dd>(for example connect vrouter to controller via NETCONF)</dd>
@@ -104,11 +74,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> &#8211; <a class="reference internal" href="#pybvc.controller.netconfnode.NetconfNode" title="pybvc.controller.netconfnode.NetconfNode"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.controller.netconfnode.NetconfNode</span></tt></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>node</strong> &#8211; <a class="reference internal" href="#pybvc.controller.netconfnode.NetconfNode" title="pybvc.controller.netconfnode.NetconfNode"><code class="xref py py-class docutils literal"><span class="pre">pybvc.controller.netconfnode.NetconfNode</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Status, JSON response from controller.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a>,
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><code class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></code></a>,
 JSON providing response from adding netconf noed.</td>
 </tr>
 </tbody>
@@ -139,43 +109,43 @@ JSON providing response from adding netconf noed.</td>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.brief_json">
-<tt class="descname">brief_json</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.brief_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.brief_json" title="Permalink to this definition">¶</a></dt>
+<code class="descname">brief_json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.brief_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns JSON representation of this object (brief info).</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.build_inventory_object">
-<tt class="descname">build_inventory_object</tt><big>(</big><em>operational=True</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.build_inventory_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.build_inventory_object" title="Permalink to this definition">¶</a></dt>
+<code class="descname">build_inventory_object</code><span class="sig-paren">(</span><em>operational=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.build_inventory_object" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.build_netconf_config_object">
-<tt class="descname">build_netconf_config_object</tt><big>(</big><em>netconf_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.build_netconf_config_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.build_netconf_config_object" title="Permalink to this definition">¶</a></dt>
+<code class="descname">build_netconf_config_object</code><span class="sig-paren">(</span><em>netconf_id</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.build_netconf_config_object" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.build_netconf_config_objects">
-<tt class="descname">build_netconf_config_objects</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.build_netconf_config_objects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.build_netconf_config_objects" title="Permalink to this definition">¶</a></dt>
+<code class="descname">build_netconf_config_objects</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.build_netconf_config_objects" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.build_netconf_node_inventory_object">
-<tt class="descname">build_netconf_node_inventory_object</tt><big>(</big><em>node_id</em>, <em>operational=True</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.build_netconf_node_inventory_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.build_netconf_node_inventory_object" title="Permalink to this definition">¶</a></dt>
+<code class="descname">build_netconf_node_inventory_object</code><span class="sig-paren">(</span><em>node_id</em>, <em>operational=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.build_netconf_node_inventory_object" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.build_openflow_node_inventory_object">
-<tt class="descname">build_openflow_node_inventory_object</tt><big>(</big><em>node_id</em>, <em>operational=True</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.build_openflow_node_inventory_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.build_openflow_node_inventory_object" title="Permalink to this definition">¶</a></dt>
+<code class="descname">build_openflow_node_inventory_object</code><span class="sig-paren">(</span><em>node_id</em>, <em>operational=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.build_openflow_node_inventory_object" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.build_topology_object">
-<tt class="descname">build_topology_object</tt><big>(</big><em>topo_name</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.build_topology_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.build_topology_object" title="Permalink to this definition">¶</a></dt>
+<code class="descname">build_topology_object</code><span class="sig-paren">(</span><em>topo_name</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.build_topology_object" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.check_node_config_status">
-<tt class="descname">check_node_config_status</tt><big>(</big><em>nodeId</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.check_node_config_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.check_node_config_status" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_node_config_status</code><span class="sig-paren">(</span><em>nodeId</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.check_node_config_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the configuration status of the node:</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -186,7 +156,7 @@ the config status</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Configuration status of the node.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">None or <a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">None or <a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><code class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -208,7 +178,7 @@ the config status</td>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.check_node_conn_status">
-<tt class="descname">check_node_conn_status</tt><big>(</big><em>nodeId</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.check_node_conn_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.check_node_conn_status" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_node_conn_status</code><span class="sig-paren">(</span><em>nodeId</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.check_node_conn_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the connection status of the node to the controller:</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -219,7 +189,7 @@ the config status</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Status of the node&#8217;s connection to the controller.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">None or <a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">None or <a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><code class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -249,22 +219,22 @@ the config status</td>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.create_data_change_event_subscription">
-<tt class="descname">create_data_change_event_subscription</tt><big>(</big><em>datastore</em>, <em>scope</em>, <em>path</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.create_data_change_event_subscription"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.create_data_change_event_subscription" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_data_change_event_subscription</code><span class="sig-paren">(</span><em>datastore</em>, <em>scope</em>, <em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.create_data_change_event_subscription" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.delete_netconf_node">
-<tt class="descname">delete_netconf_node</tt><big>(</big><em>netconfdev</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.delete_netconf_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.delete_netconf_node" title="Permalink to this definition">¶</a></dt>
+<code class="descname">delete_netconf_node</code><span class="sig-paren">(</span><em>netconfdev</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.delete_netconf_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Disconnect a netconf device from the controller</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>netconfdev</strong> &#8211; <a class="reference internal" href="#pybvc.controller.netconfnode.NetconfNode" title="pybvc.controller.netconfnode.NetconfNode"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.controller.netconfnode.NetconfNode</span></tt></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>netconfdev</strong> &#8211; <a class="reference internal" href="#pybvc.controller.netconfnode.NetconfNode" title="pybvc.controller.netconfnode.NetconfNode"><code class="xref py py-class docutils literal"><span class="pre">pybvc.controller.netconfnode.NetconfNode</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Status, None.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a>,
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><code class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></code></a>,
 JSON providing response from adding netconf noed.</td>
 </tr>
 </tbody>
@@ -291,7 +261,7 @@ JSON providing response from adding netconf noed.</td>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_all_nodes_conn_status">
-<tt class="descname">get_all_nodes_conn_status</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_all_nodes_conn_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_all_nodes_conn_status" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_all_nodes_conn_status</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_all_nodes_conn_status" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Return a list of nodes and the status of their connection</dt>
 <dd>to the controller.</dd>
@@ -303,7 +273,7 @@ JSON providing response from adding netconf noed.</td>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Status, list of nodes the status of their
 connection to the controller</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a>,
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><code class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></code></a>,
 list of dict [{node:&lt;node id&gt;, connected:&lt;boolean&gt;},...]</td>
 </tr>
 </tbody>
@@ -332,7 +302,7 @@ list of dict [{node:&lt;node id&gt;, connected:&lt;boolean&gt;},...]</td>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_all_nodes_in_config">
-<tt class="descname">get_all_nodes_in_config</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_all_nodes_in_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_all_nodes_in_config" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_all_nodes_in_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_all_nodes_in_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of nodes in the controller&#8217;s configuration data store</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -341,7 +311,7 @@ list of dict [{node:&lt;node id&gt;, connected:&lt;boolean&gt;},...]</td>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Status, list of nodes in the config data store
 of the controller</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a>, list</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><code class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></code></a>, list</td>
 </tr>
 </tbody>
 </table>
@@ -369,7 +339,7 @@ of the controller</td>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_config_modules">
-<tt class="descname">get_config_modules</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_config_modules"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_config_modules" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_config_modules</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_config_modules" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of configuration modules.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -377,7 +347,7 @@ of the controller</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Status, configuration modules.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a>,
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><code class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></code></a>,
 JSON listing modules and their operational state</td>
 </tr>
 </tbody>
@@ -406,17 +376,17 @@ JSON listing modules and their operational state</td>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_ext_mount_config_url">
-<tt class="descname">get_ext_mount_config_url</tt><big>(</big><em>node</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_ext_mount_config_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_ext_mount_config_url" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_ext_mount_config_url</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_ext_mount_config_url" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_ext_mount_operational_url">
-<tt class="descname">get_ext_mount_operational_url</tt><big>(</big><em>node</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_ext_mount_operational_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_ext_mount_operational_url" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_ext_mount_operational_url</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_ext_mount_operational_url" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_module_operational_state">
-<tt class="descname">get_module_operational_state</tt><big>(</big><em>moduleType</em>, <em>moduleName</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_module_operational_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_module_operational_state" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_module_operational_state</code><span class="sig-paren">(</span><em>moduleType</em>, <em>moduleName</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_module_operational_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return operational state for specified module.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -431,7 +401,7 @@ JSON listing modules and their operational state</td>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Status, operational state for specified module.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a>,
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><code class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></code></a>,
 JSON providing operational state</p>
 </td>
 </tr>
@@ -462,7 +432,7 @@ State info is empty.</p>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_netconf_nodes_conn_status">
-<tt class="descname">get_netconf_nodes_conn_status</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_netconf_nodes_conn_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_netconf_nodes_conn_status" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_netconf_nodes_conn_status</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_netconf_nodes_conn_status" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Return a list of NETCONF nodes and the status of their connection</dt>
 <dd>to the controller.</dd>
@@ -474,7 +444,7 @@ State info is empty.</p>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Status, list of nodes the status of their connection
 to the controller</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a>,
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><code class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></code></a>,
 list of dict [{node:&lt;node id&gt;, connected:&lt;boolean&gt;},...]</td>
 </tr>
 </tbody>
@@ -503,7 +473,7 @@ list of dict [{node:&lt;node id&gt;, connected:&lt;boolean&gt;},...]</td>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_netconf_nodes_in_config">
-<tt class="descname">get_netconf_nodes_in_config</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_netconf_nodes_in_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_netconf_nodes_in_config" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_netconf_nodes_in_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_netconf_nodes_in_config" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Return a list of NETCONF nodes in the controller&#8217;s configuration</dt>
 <dd>data store</dd>
@@ -515,7 +485,7 @@ list of dict [{node:&lt;node id&gt;, connected:&lt;boolean&gt;},...]</td>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Status, list of nodes in the config data store
 of the controller</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a>, list</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><code class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></code></a>, list</td>
 </tr>
 </tbody>
 </table>
@@ -543,7 +513,7 @@ of the controller</td>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_netconf_operations">
-<tt class="descname">get_netconf_operations</tt><big>(</big><em>nodeName</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_netconf_operations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_netconf_operations" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_netconf_operations</code><span class="sig-paren">(</span><em>nodeName</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_netconf_operations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of operations supported by the indicated node.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -553,7 +523,7 @@ of the controller</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A tuple:  Status, operations supported by indicated node.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a>,
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><code class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></code></a>,
 JSON listing the operations</td>
 </tr>
 </tbody>
@@ -587,37 +557,37 @@ Operations info is empty.</p>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_node_config_url">
-<tt class="descname">get_node_config_url</tt><big>(</big><em>node</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_node_config_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_node_config_url" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_node_config_url</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_node_config_url" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_node_info">
-<tt class="descname">get_node_info</tt><big>(</big><em>nodeId</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_node_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_node_info" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_node_info</code><span class="sig-paren">(</span><em>nodeId</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_node_info" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_node_operational_url">
-<tt class="descname">get_node_operational_url</tt><big>(</big><em>node</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_node_operational_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_node_operational_url" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_node_operational_url</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_node_operational_url" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_nodes_operational_list">
-<tt class="descname">get_nodes_operational_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_nodes_operational_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_nodes_operational_list" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_nodes_operational_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_nodes_operational_list" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_openflow_nodes_operational_list">
-<tt class="descname">get_openflow_nodes_operational_list</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_openflow_nodes_operational_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_openflow_nodes_operational_list" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_openflow_nodes_operational_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_openflow_nodes_operational_list" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_openflow_operational_flows_total_cnt">
-<tt class="descname">get_openflow_operational_flows_total_cnt</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_openflow_operational_flows_total_cnt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_openflow_operational_flows_total_cnt" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_openflow_operational_flows_total_cnt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_openflow_operational_flows_total_cnt" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_schema">
-<tt class="descname">get_schema</tt><big>(</big><em>nodeName</em>, <em>schemaId</em>, <em>schemaVersion</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_schema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_schema" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_schema</code><span class="sig-paren">(</span><em>nodeName</em>, <em>schemaId</em>, <em>schemaVersion</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_schema" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a YANG schema for the indicated schema on the indicated node.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -633,7 +603,7 @@ Operations info is empty.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Status, YANG schema.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a>, YANG schema</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><code class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></code></a>, YANG schema</p>
 </td>
 </tr>
 </tbody>
@@ -662,7 +632,7 @@ Operations info is empty.</p>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_schemas">
-<tt class="descname">get_schemas</tt><big>(</big><em>nodeName</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_schemas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_schemas" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_schemas</code><span class="sig-paren">(</span><em>nodeName</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_schemas" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of YANG model schemas for the node.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -672,7 +642,7 @@ Operations info is empty.</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Status, list of YANG schemas for the node.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a>,
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><code class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></code></a>,
 JSON listing information about the YANG schemas for the node</td>
 </tr>
 </tbody>
@@ -699,7 +669,7 @@ JSON listing information about the YANG schemas for the node</td>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_service_provider_info">
-<tt class="descname">get_service_provider_info</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_service_provider_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_service_provider_info" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_service_provider_info</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_service_provider_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return info about a single service provider.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -709,7 +679,7 @@ JSON listing information about the YANG schemas for the node</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Status, info about the service provider</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a>,
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><code class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></code></a>,
 JSON providing info about the service provider</td>
 </tr>
 </tbody>
@@ -742,7 +712,7 @@ JSON providing info about the service provider</td>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_service_providers_info">
-<tt class="descname">get_service_providers_info</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_service_providers_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_service_providers_info" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_service_providers_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_service_providers_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of service providers available.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -750,7 +720,7 @@ JSON providing info about the service provider</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Status, list of service providers</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a>, 
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><code class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></code></a>, 
 JSON providing list of service providers</td>
 </tr>
 </tbody>
@@ -783,7 +753,7 @@ JSON providing list of service providers</td>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_sessions_info">
-<tt class="descname">get_sessions_info</tt><big>(</big><em>nodeName</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_sessions_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_sessions_info" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_sessions_info</code><span class="sig-paren">(</span><em>nodeName</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_sessions_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return sessions for indicated node.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -793,7 +763,7 @@ JSON providing list of service providers</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Status, list of sessions for indicated node</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a>,
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><code class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></code></a>,
 JSON providing sessions</td>
 </tr>
 </tbody>
@@ -826,7 +796,7 @@ JSON providing sessions</td>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_streams_info">
-<tt class="descname">get_streams_info</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_streams_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_streams_info" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_streams_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_streams_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return streams available for subscription.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -834,7 +804,7 @@ JSON providing sessions</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Status, list of streams</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a>,
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><code class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></code></a>,
 JSON providing list of streams</td>
 </tr>
 </tbody>
@@ -867,12 +837,12 @@ JSON providing list of streams</td>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_topology_ids">
-<tt class="descname">get_topology_ids</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.get_topology_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.get_topology_ids" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_topology_ids</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_topology_ids" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.http_delete_request">
-<tt class="descname">http_delete_request</tt><big>(</big><em>url</em>, <em>data</em>, <em>headers</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.http_delete_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.http_delete_request" title="Permalink to this definition">¶</a></dt>
+<code class="descname">http_delete_request</code><span class="sig-paren">(</span><em>url</em>, <em>data</em>, <em>headers</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.http_delete_request" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sends HTTP DELETE request to a remote server and returns the response.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -900,7 +870,7 @@ Typically set to None.</li>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.http_get_request">
-<tt class="descname">http_get_request</tt><big>(</big><em>url</em>, <em>data</em>, <em>headers</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.http_get_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.http_get_request" title="Permalink to this definition">¶</a></dt>
+<code class="descname">http_get_request</code><span class="sig-paren">(</span><em>url</em>, <em>data</em>, <em>headers</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.http_get_request" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sends HTTP GET request to a remote server and returns the response.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -928,7 +898,7 @@ Typically set to None.</li>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.http_post_request">
-<tt class="descname">http_post_request</tt><big>(</big><em>url</em>, <em>data</em>, <em>headers</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.http_post_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.http_post_request" title="Permalink to this definition">¶</a></dt>
+<code class="descname">http_post_request</code><span class="sig-paren">(</span><em>url</em>, <em>data</em>, <em>headers</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.http_post_request" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sends HTTP POST request to a remote server and returns the response.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -956,7 +926,7 @@ Typically set to None.</li>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.http_put_request">
-<tt class="descname">http_put_request</tt><big>(</big><em>url</em>, <em>data</em>, <em>headers</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.http_put_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.http_put_request" title="Permalink to this definition">¶</a></dt>
+<code class="descname">http_put_request</code><span class="sig-paren">(</span><em>url</em>, <em>data</em>, <em>headers</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.http_put_request" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sends HTTP PUT request to a remote server and returns the response.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -984,17 +954,17 @@ Typically set to None.</li>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.modify_netconf_node_in_config">
-<tt class="descname">modify_netconf_node_in_config</tt><big>(</big><em>netconfdev</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.modify_netconf_node_in_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.modify_netconf_node_in_config" title="Permalink to this definition">¶</a></dt>
+<code class="descname">modify_netconf_node_in_config</code><span class="sig-paren">(</span><em>netconfdev</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.modify_netconf_node_in_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Modify connected netconf device&#8217;s info in the controller</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>netconfdev</strong> &#8211; <a class="reference internal" href="#pybvc.controller.netconfnode.NetconfNode" title="pybvc.controller.netconfnode.NetconfNode"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.controller.netconfnode.NetconfNode</span></tt></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>netconfdev</strong> &#8211; <a class="reference internal" href="#pybvc.controller.netconfnode.NetconfNode" title="pybvc.controller.netconfnode.NetconfNode"><code class="xref py py-class docutils literal"><span class="pre">pybvc.controller.netconfnode.NetconfNode</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Status, None.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></tt></a>,
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="pybvc.common.html#pybvc.common.status.OperStatus" title="pybvc.common.status.OperStatus"><code class="xref py py-class docutils literal"><span class="pre">pybvc.common.status.OperStatus</span></code></a>,
 JSON providing response from adding netconf noed.</td>
 </tr>
 </tbody>
@@ -1021,18 +991,18 @@ JSON providing response from adding netconf noed.</td>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.subscribe_to_stream">
-<tt class="descname">subscribe_to_stream</tt><big>(</big><em>stream_name</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.subscribe_to_stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.subscribe_to_stream" title="Permalink to this definition">¶</a></dt>
+<code class="descname">subscribe_to_stream</code><span class="sig-paren">(</span><em>stream_name</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.subscribe_to_stream" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.to_json">
-<tt class="descname">to_json</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.to_json" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.to_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns JSON representation of this object.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.to_string">
-<tt class="descname">to_string</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/controller.html#Controller.to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.controller.Controller.to_string" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.to_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns string representation of this object.</p>
 </dd></dl>
 
@@ -1041,115 +1011,87 @@ JSON providing response from adding netconf noed.</td>
 </div>
 <div class="section" id="module-pybvc.controller.inventory">
 <span id="pybvc-controller-inventory-module"></span><h2>pybvc.controller.inventory module<a class="headerlink" href="#module-pybvc.controller.inventory" title="Permalink to this headline">¶</a></h2>
-<p>Copyright (c) 2015</p>
-<p>Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
--  Redistributions of source code must retain the above copyright notice,</p>
-<blockquote>
-<div>this list of conditions and the following disclaimer.</div></blockquote>
-<ul class="simple">
-<li>Redistributions in binary form must reproduce the above copyright notice,
-this list of conditions and the following disclaimer in the documentation
-and/or other materials provided with the distribution.</li>
-<li>Neither the name of the copyright holder nor the names of its contributors
-may be used to endorse or promote products derived from this software
-without specific prior written permission.</li>
-</ul>
-<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#8220;AS IS&#8221;
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOS EARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
-<p>&#64;authors: Sergei Garbuzov
-&#64;status: Development
-&#64;version: 1.1.0</p>
-<p>netconfnode.py: Controller&#8217;s NETCONF node specific properties</p>
 <dl class="class">
 <dt id="pybvc.controller.inventory.Inventory">
-<em class="property">class </em><tt class="descclassname">pybvc.controller.inventory.</tt><tt class="descname">Inventory</tt><big>(</big><em>inv_json=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#Inventory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.Inventory" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.controller.inventory.</code><code class="descname">Inventory</code><span class="sig-paren">(</span><em>inv_json=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.Inventory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class that represents current state of
 the Controller&#8217;s inventory store</p>
 <dl class="method">
 <dt id="pybvc.controller.inventory.Inventory.add_netconf_node">
-<tt class="descname">add_netconf_node</tt><big>(</big><em>node</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#Inventory.add_netconf_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.Inventory.add_netconf_node" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_netconf_node</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.Inventory.add_netconf_node" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.Inventory.add_openflow_node">
-<tt class="descname">add_openflow_node</tt><big>(</big><em>node</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#Inventory.add_openflow_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.Inventory.add_openflow_node" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_openflow_node</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.Inventory.add_openflow_node" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.Inventory.get_netconf_node">
-<tt class="descname">get_netconf_node</tt><big>(</big><em>node_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#Inventory.get_netconf_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.Inventory.get_netconf_node" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_netconf_node</code><span class="sig-paren">(</span><em>node_id</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.Inventory.get_netconf_node" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.Inventory.get_netconf_node_ids">
-<tt class="descname">get_netconf_node_ids</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#Inventory.get_netconf_node_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.Inventory.get_netconf_node_ids" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_netconf_node_ids</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.Inventory.get_netconf_node_ids" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.Inventory.get_openflow_node">
-<tt class="descname">get_openflow_node</tt><big>(</big><em>node_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#Inventory.get_openflow_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.Inventory.get_openflow_node" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_openflow_node</code><span class="sig-paren">(</span><em>node_id</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.Inventory.get_openflow_node" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.Inventory.get_openflow_node_flows_cnt">
-<tt class="descname">get_openflow_node_flows_cnt</tt><big>(</big><em>node_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#Inventory.get_openflow_node_flows_cnt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.Inventory.get_openflow_node_flows_cnt" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_openflow_node_flows_cnt</code><span class="sig-paren">(</span><em>node_id</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.Inventory.get_openflow_node_flows_cnt" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.Inventory.get_openflow_node_ids">
-<tt class="descname">get_openflow_node_ids</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#Inventory.get_openflow_node_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.Inventory.get_openflow_node_ids" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_openflow_node_ids</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.Inventory.get_openflow_node_ids" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="pybvc.controller.inventory.NetconfCapableNode">
-<em class="property">class </em><tt class="descclassname">pybvc.controller.inventory.</tt><tt class="descname">NetconfCapableNode</tt><big>(</big><em>inv_json=None</em>, <em>inv_dict=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#NetconfCapableNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.NetconfCapableNode" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.controller.inventory.</code><code class="descname">NetconfCapableNode</code><span class="sig-paren">(</span><em>inv_json=None</em>, <em>inv_dict=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.NetconfCapableNode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class that represents current state of a NETCONF capable node
 Helper class of the &#8216;Inventory&#8217; class</p>
 <dl class="method">
 <dt id="pybvc.controller.inventory.NetconfCapableNode.get_conn_status">
-<tt class="descname">get_conn_status</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#NetconfCapableNode.get_conn_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.NetconfCapableNode.get_conn_status" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_conn_status</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.NetconfCapableNode.get_conn_status" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.NetconfCapableNode.get_current_capabilities">
-<tt class="descname">get_current_capabilities</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#NetconfCapableNode.get_current_capabilities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.NetconfCapableNode.get_current_capabilities" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_current_capabilities</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.NetconfCapableNode.get_current_capabilities" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.NetconfCapableNode.get_id">
-<tt class="descname">get_id</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#NetconfCapableNode.get_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.NetconfCapableNode.get_id" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.NetconfCapableNode.get_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.NetconfCapableNode.get_initial_capabilities">
-<tt class="descname">get_initial_capabilities</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#NetconfCapableNode.get_initial_capabilities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.NetconfCapableNode.get_initial_capabilities" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_initial_capabilities</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.NetconfCapableNode.get_initial_capabilities" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.NetconfCapableNode.is_connected">
-<tt class="descname">is_connected</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#NetconfCapableNode.is_connected"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.NetconfCapableNode.is_connected" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_connected</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.NetconfCapableNode.is_connected" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.NetconfCapableNode.to_json">
-<tt class="descname">to_json</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#NetconfCapableNode.to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.NetconfCapableNode.to_json" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.NetconfCapableNode.to_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns JSON representation of this object.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.NetconfCapableNode.to_string">
-<tt class="descname">to_string</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#NetconfCapableNode.to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.NetconfCapableNode.to_string" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.NetconfCapableNode.to_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns string representation of this object.</p>
 </dd></dl>
 
@@ -1157,58 +1099,58 @@ Helper class of the &#8216;Inventory&#8217; class</p>
 
 <dl class="class">
 <dt id="pybvc.controller.inventory.NetconfConfigModule">
-<em class="property">class </em><tt class="descclassname">pybvc.controller.inventory.</tt><tt class="descname">NetconfConfigModule</tt><big>(</big><em>d</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#NetconfConfigModule"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.controller.inventory.</code><code class="descname">NetconfConfigModule</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class that represents NETCONF node configuration module
 on the Controller</p>
 <dl class="method">
 <dt id="pybvc.controller.inventory.NetconfConfigModule.get_admin_name">
-<tt class="descname">get_admin_name</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#NetconfConfigModule.get_admin_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.get_admin_name" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_admin_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.get_admin_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.NetconfConfigModule.get_admin_pswd">
-<tt class="descname">get_admin_pswd</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#NetconfConfigModule.get_admin_pswd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.get_admin_pswd" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_admin_pswd</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.get_admin_pswd" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.NetconfConfigModule.get_conn_timeout">
-<tt class="descname">get_conn_timeout</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#NetconfConfigModule.get_conn_timeout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.get_conn_timeout" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_conn_timeout</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.get_conn_timeout" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.NetconfConfigModule.get_ip_address">
-<tt class="descname">get_ip_address</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#NetconfConfigModule.get_ip_address"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.get_ip_address" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_ip_address</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.get_ip_address" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.NetconfConfigModule.get_max_conn_attempts">
-<tt class="descname">get_max_conn_attempts</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#NetconfConfigModule.get_max_conn_attempts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.get_max_conn_attempts" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_max_conn_attempts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.get_max_conn_attempts" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.NetconfConfigModule.get_name">
-<tt class="descname">get_name</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#NetconfConfigModule.get_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.get_name" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.get_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.NetconfConfigModule.get_retry_conn_timeout">
-<tt class="descname">get_retry_conn_timeout</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#NetconfConfigModule.get_retry_conn_timeout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.get_retry_conn_timeout" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_retry_conn_timeout</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.get_retry_conn_timeout" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.NetconfConfigModule.get_tcp_port">
-<tt class="descname">get_tcp_port</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#NetconfConfigModule.get_tcp_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.get_tcp_port" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_tcp_port</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.get_tcp_port" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.NetconfConfigModule.to_json">
-<tt class="descname">to_json</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#NetconfConfigModule.to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.to_json" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.to_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns JSON representation of this object.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.NetconfConfigModule.to_string">
-<tt class="descname">to_string</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#NetconfConfigModule.to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.to_string" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.NetconfConfigModule.to_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns string representation of this object.</p>
 </dd></dl>
 
@@ -1216,104 +1158,104 @@ on the Controller</p>
 
 <dl class="class">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode">
-<em class="property">class </em><tt class="descclassname">pybvc.controller.inventory.</tt><tt class="descname">OpenFlowCapableNode</tt><big>(</big><em>inv_json=None</em>, <em>inv_dict=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.controller.inventory.</code><code class="descname">OpenFlowCapableNode</code><span class="sig-paren">(</span><em>inv_json=None</em>, <em>inv_dict=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class that represents current state of an OpenFlow capable node
 in the Controller&#8217;s inventory store
 Helper class of the &#8216;Inventory&#8217; class</p>
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode.get_capabilities">
-<tt class="descname">get_capabilities</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode.get_capabilities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_capabilities" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_capabilities</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_capabilities" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode.get_description">
-<tt class="descname">get_description</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode.get_description"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_description" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_description</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_description" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode.get_flow_tables_cnt">
-<tt class="descname">get_flow_tables_cnt</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode.get_flow_tables_cnt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_flow_tables_cnt" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_flow_tables_cnt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_flow_tables_cnt" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode.get_flows_cnt">
-<tt class="descname">get_flows_cnt</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode.get_flows_cnt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_flows_cnt" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_flows_cnt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_flows_cnt" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode.get_flows_in_table_cnt">
-<tt class="descname">get_flows_in_table_cnt</tt><big>(</big><em>table_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode.get_flows_in_table_cnt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_flows_in_table_cnt" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_flows_in_table_cnt</code><span class="sig-paren">(</span><em>table_id</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_flows_in_table_cnt" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode.get_hardware_info">
-<tt class="descname">get_hardware_info</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode.get_hardware_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_hardware_info" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_hardware_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_hardware_info" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode.get_id">
-<tt class="descname">get_id</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode.get_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_id" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode.get_ip_address">
-<tt class="descname">get_ip_address</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode.get_ip_address"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_ip_address" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_ip_address</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_ip_address" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode.get_manufacturer_info">
-<tt class="descname">get_manufacturer_info</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode.get_manufacturer_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_manufacturer_info" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_manufacturer_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_manufacturer_info" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode.get_max_buffers_info">
-<tt class="descname">get_max_buffers_info</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode.get_max_buffers_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_max_buffers_info" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_max_buffers_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_max_buffers_info" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode.get_max_tables_info">
-<tt class="descname">get_max_tables_info</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode.get_max_tables_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_max_tables_info" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_max_tables_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_max_tables_info" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode.get_port_ids">
-<tt class="descname">get_port_ids</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode.get_port_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_port_ids" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_port_ids</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_port_ids" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode.get_port_name">
-<tt class="descname">get_port_name</tt><big>(</big><em>port_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode.get_port_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_port_name" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_port_name</code><span class="sig-paren">(</span><em>port_id</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_port_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode.get_port_number">
-<tt class="descname">get_port_number</tt><big>(</big><em>port_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode.get_port_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_port_number" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_port_number</code><span class="sig-paren">(</span><em>port_id</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_port_number" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode.get_port_obj">
-<tt class="descname">get_port_obj</tt><big>(</big><em>port_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode.get_port_obj"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_port_obj" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_port_obj</code><span class="sig-paren">(</span><em>port_id</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_port_obj" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode.get_serial_number">
-<tt class="descname">get_serial_number</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode.get_serial_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_serial_number" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_serial_number</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_serial_number" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode.get_software_info">
-<tt class="descname">get_software_info</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode.get_software_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_software_info" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_software_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.get_software_info" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode.to_json">
-<tt class="descname">to_json</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode.to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.to_json" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.to_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns JSON representation of this object.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowCapableNode.to_string">
-<tt class="descname">to_string</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowCapableNode.to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.to_string" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowCapableNode.to_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns string representation of this object.</p>
 </dd></dl>
 
@@ -1321,73 +1263,73 @@ Helper class of the &#8216;Inventory&#8217; class</p>
 
 <dl class="class">
 <dt id="pybvc.controller.inventory.OpenFlowPort">
-<em class="property">class </em><tt class="descclassname">pybvc.controller.inventory.</tt><tt class="descname">OpenFlowPort</tt><big>(</big><em>d</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowPort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.controller.inventory.</code><code class="descname">OpenFlowPort</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class that represents current state of an OpenFlow enabled port
 Helper class of the &#8216;OpenFlowCapableNode&#8217; class</p>
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowPort.get_bytes_received">
-<tt class="descname">get_bytes_received</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowPort.get_bytes_received"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_bytes_received" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_bytes_received</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_bytes_received" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowPort.get_bytes_transmitted">
-<tt class="descname">get_bytes_transmitted</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowPort.get_bytes_transmitted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_bytes_transmitted" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_bytes_transmitted</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_bytes_transmitted" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowPort.get_current_features">
-<tt class="descname">get_current_features</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowPort.get_current_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_current_features" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_current_features</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_current_features" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowPort.get_forwarding_state">
-<tt class="descname">get_forwarding_state</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowPort.get_forwarding_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_forwarding_state" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_forwarding_state</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_forwarding_state" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowPort.get_link_state">
-<tt class="descname">get_link_state</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowPort.get_link_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_link_state" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_link_state</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_link_state" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowPort.get_mac_address">
-<tt class="descname">get_mac_address</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowPort.get_mac_address"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_mac_address" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_mac_address</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_mac_address" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowPort.get_packets_received">
-<tt class="descname">get_packets_received</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowPort.get_packets_received"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_packets_received" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_packets_received</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_packets_received" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowPort.get_packets_transmitted">
-<tt class="descname">get_packets_transmitted</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowPort.get_packets_transmitted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_packets_transmitted" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_packets_transmitted</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_packets_transmitted" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowPort.get_port_id">
-<tt class="descname">get_port_id</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowPort.get_port_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_port_id" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_port_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_port_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowPort.get_port_name">
-<tt class="descname">get_port_name</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowPort.get_port_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_port_name" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_port_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_port_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowPort.get_port_number">
-<tt class="descname">get_port_number</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowPort.get_port_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_port_number" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_port_number</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.get_port_number" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowPort.to_json">
-<tt class="descname">to_json</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowPort.to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.to_json" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.to_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns JSON representation of this object.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.inventory.OpenFlowPort.to_string">
-<tt class="descname">to_string</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/inventory.html#OpenFlowPort.to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.to_string" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.inventory.OpenFlowPort.to_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns string representation of this object.</p>
 </dd></dl>
 
@@ -1396,48 +1338,17 @@ Helper class of the &#8216;OpenFlowCapableNode&#8217; class</p>
 </div>
 <div class="section" id="module-pybvc.controller.netconfnode">
 <span id="pybvc-controller-netconfnode-module"></span><h2>pybvc.controller.netconfnode module<a class="headerlink" href="#module-pybvc.controller.netconfnode" title="Permalink to this headline">¶</a></h2>
-<p>Copyright (c) 2015</p>
-<p>Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:</p>
-<blockquote>
-<div><ul class="simple">
-<li>Redistributions of source code must retain the above copyright notice,
-this list of conditions and the following disclaimer.</li>
-</ul>
-</div></blockquote>
-<ul class="simple">
-<li>Redistributions in binary form must reproduce the above copyright notice,
-this list of conditions and the following disclaimer in the documentation
-and/or other materials provided with the distribution.</li>
-<li>Neither the name of the copyright holder nor the names of its contributors
-may be used to endorse or promote products derived from this software
-without specific prior written permission.</li>
-</ul>
-<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#8220;AS IS&#8221;
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOS EARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
-<p>&#64;authors: Sergei Garbuzov
-&#64;status: Development
-&#64;version: 1.1.0</p>
-<p>netconfnode.py: Controller&#8217;s NETCONF node specific properties</p>
 <dl class="class">
 <dt id="pybvc.controller.netconfnode.NetconfNode">
-<em class="property">class </em><tt class="descclassname">pybvc.controller.netconfnode.</tt><tt class="descname">NetconfNode</tt><big>(</big><em>controller=None</em>, <em>nodeName=None</em>, <em>ipAddr=None</em>, <em>portNum=None</em>, <em>adminName=None</em>, <em>adminPassword=None</em>, <em>tcpOnly=False</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/netconfnode.html#NetconfNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.netconfnode.NetconfNode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<em class="property">class </em><code class="descclassname">pybvc.controller.netconfnode.</code><code class="descname">NetconfNode</code><span class="sig-paren">(</span><em>controller=None</em>, <em>nodeName=None</em>, <em>ipAddr=None</em>, <em>portNum=None</em>, <em>adminName=None</em>, <em>adminPassword=None</em>, <em>tcpOnly=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.netconfnode.NetconfNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Class that represents a NETCONF capable server device.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>controller</strong> &#8211; <a class="reference internal" href="#pybvc.controller.controller.Controller" title="pybvc.controller.controller.Controller"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.controller.controller.Controller</span></tt></a></li>
+<li><strong>controller</strong> &#8211; <a class="reference internal" href="#pybvc.controller.controller.Controller" title="pybvc.controller.controller.Controller"><code class="xref py py-class docutils literal"><span class="pre">pybvc.controller.controller.Controller</span></code></a></li>
 <li><strong>nodeName</strong> (<em>string</em>) &#8211; The name of the node</li>
 <li><strong>ipAddr</strong> (<em>string</em>) &#8211; The ip address for the netconf device</li>
 <li><strong>portNum</strong> (<em>int</em>) &#8211; The port number to communicate NETCONF to the device</li>
@@ -1450,20 +1361,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The newly created NetconfNode instance.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#pybvc.controller.netconfnode.NetconfNode" title="pybvc.controller.netconfnode.NetconfNode"><tt class="xref py py-class docutils literal"><span class="pre">pybvc.controller.netconfnode.NetconfNode</span></tt></a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#pybvc.controller.netconfnode.NetconfNode" title="pybvc.controller.netconfnode.NetconfNode"><code class="xref py py-class docutils literal"><span class="pre">pybvc.controller.netconfnode.NetconfNode</span></code></a></p>
 </td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
 <dt id="pybvc.controller.netconfnode.NetconfNode.to_json">
-<tt class="descname">to_json</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/netconfnode.html#NetconfNode.to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.netconfnode.NetconfNode.to_json" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.netconfnode.NetconfNode.to_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns JSON representation of this object.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.netconfnode.NetconfNode.to_string">
-<tt class="descname">to_string</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/netconfnode.html#NetconfNode.to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.netconfnode.NetconfNode.to_string" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.netconfnode.NetconfNode.to_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns string representation of this object.</p>
 </dd></dl>
 
@@ -1472,210 +1383,148 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 </div>
 <div class="section" id="module-pybvc.controller.notification">
 <span id="pybvc-controller-notification-module"></span><h2>pybvc.controller.notification module<a class="headerlink" href="#module-pybvc.controller.notification" title="Permalink to this headline">¶</a></h2>
-<p>Copyright (c) 2015</p>
-<p>Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:</p>
-<blockquote>
-<div><ul class="simple">
-<li>Redistributions of source code must retain the above copyright notice,
-this list of conditions and the following disclaimer.</li>
-</ul>
-</div></blockquote>
-<ul class="simple">
-<li>Redistributions in binary form must reproduce the above copyright notice,
-this list of conditions and the following disclaimer in the documentation
-and/or other materials provided with the distribution.</li>
-<li>Neither the name of the copyright holder nor the names of its contributors
-may be used to endorse or promote products derived from this software
-without specific prior written permission.</li>
-</ul>
-<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#8220;AS IS&#8221;
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOS EARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
-<p>&#64;authors: Sergei Garbuzov
-&#64;status: Development
-&#64;version: 1.1.0</p>
-<p>notification.py: Parser for notification events received from Controller</p>
 <dl class="class">
 <dt id="pybvc.controller.notification.NetworkTopologyChangeNotification">
-<em class="property">class </em><tt class="descclassname">pybvc.controller.notification.</tt><tt class="descname">NetworkTopologyChangeNotification</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#NetworkTopologyChangeNotification"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.controller.notification.</code><code class="descname">NetworkTopologyChangeNotification</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
 <dt id="pybvc.controller.notification.NetworkTopologyChangeNotification.get_time">
-<tt class="descname">get_time</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#NetworkTopologyChangeNotification.get_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification.get_time" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification.get_time" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.notification.NetworkTopologyChangeNotification.hosts_added">
-<tt class="descname">hosts_added</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#NetworkTopologyChangeNotification.hosts_added"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification.hosts_added" title="Permalink to this definition">¶</a></dt>
+<code class="descname">hosts_added</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification.hosts_added" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.notification.NetworkTopologyChangeNotification.hosts_removed">
-<tt class="descname">hosts_removed</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#NetworkTopologyChangeNotification.hosts_removed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification.hosts_removed" title="Permalink to this definition">¶</a></dt>
+<code class="descname">hosts_removed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification.hosts_removed" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.notification.NetworkTopologyChangeNotification.links_added">
-<tt class="descname">links_added</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#NetworkTopologyChangeNotification.links_added"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification.links_added" title="Permalink to this definition">¶</a></dt>
+<code class="descname">links_added</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification.links_added" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.notification.NetworkTopologyChangeNotification.links_removed">
-<tt class="descname">links_removed</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#NetworkTopologyChangeNotification.links_removed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification.links_removed" title="Permalink to this definition">¶</a></dt>
+<code class="descname">links_removed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification.links_removed" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.notification.NetworkTopologyChangeNotification.print_events">
-<tt class="descname">print_events</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#NetworkTopologyChangeNotification.print_events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification.print_events" title="Permalink to this definition">¶</a></dt>
+<code class="descname">print_events</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification.print_events" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.notification.NetworkTopologyChangeNotification.switches_added">
-<tt class="descname">switches_added</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#NetworkTopologyChangeNotification.switches_added"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification.switches_added" title="Permalink to this definition">¶</a></dt>
+<code class="descname">switches_added</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification.switches_added" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.notification.NetworkTopologyChangeNotification.switches_removed">
-<tt class="descname">switches_removed</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#NetworkTopologyChangeNotification.switches_removed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification.switches_removed" title="Permalink to this definition">¶</a></dt>
+<code class="descname">switches_removed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification.switches_removed" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="pybvc.controller.notification.PathInfo">
-<em class="property">class </em><tt class="descclassname">pybvc.controller.notification.</tt><tt class="descname">PathInfo</tt><big>(</big><em>info</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#PathInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.PathInfo" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.controller.notification.</code><code class="descname">PathInfo</code><span class="sig-paren">(</span><em>info</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.PathInfo" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
 <dt id="pybvc.controller.notification.PathInfo.do_print">
-<tt class="descname">do_print</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#PathInfo.do_print"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.PathInfo.do_print" title="Permalink to this definition">¶</a></dt>
+<code class="descname">do_print</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.PathInfo.do_print" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="pybvc.controller.notification.TopoChangeEvent">
-<em class="property">class </em><tt class="descclassname">pybvc.controller.notification.</tt><tt class="descname">TopoChangeEvent</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#TopoChangeEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.controller.notification.</code><code class="descname">TopoChangeEvent</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
 <dt id="pybvc.controller.notification.TopoChangeEvent.created">
-<tt class="descname">created</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#TopoChangeEvent.created"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.created" title="Permalink to this definition">¶</a></dt>
+<code class="descname">created</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.created" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.notification.TopoChangeEvent.deleted">
-<tt class="descname">deleted</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#TopoChangeEvent.deleted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.deleted" title="Permalink to this definition">¶</a></dt>
+<code class="descname">deleted</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.deleted" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.notification.TopoChangeEvent.do_print">
-<tt class="descname">do_print</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#TopoChangeEvent.do_print"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.do_print" title="Permalink to this definition">¶</a></dt>
+<code class="descname">do_print</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.do_print" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.notification.TopoChangeEvent.get_link_id">
-<tt class="descname">get_link_id</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#TopoChangeEvent.get_link_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.get_link_id" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_link_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.get_link_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.notification.TopoChangeEvent.get_node_id">
-<tt class="descname">get_node_id</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#TopoChangeEvent.get_node_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.get_node_id" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_node_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.get_node_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.notification.TopoChangeEvent.get_path">
-<tt class="descname">get_path</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#TopoChangeEvent.get_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.get_path" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_path</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.get_path" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.notification.TopoChangeEvent.is_host">
-<tt class="descname">is_host</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#TopoChangeEvent.is_host"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.is_host" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_host</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.is_host" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.notification.TopoChangeEvent.is_link">
-<tt class="descname">is_link</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#TopoChangeEvent.is_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.is_link" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_link</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.is_link" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.notification.TopoChangeEvent.is_node">
-<tt class="descname">is_node</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#TopoChangeEvent.is_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.is_node" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_node</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.is_node" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.notification.TopoChangeEvent.is_switch">
-<tt class="descname">is_switch</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#TopoChangeEvent.is_switch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.is_switch" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_switch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.is_switch" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.notification.TopoChangeEvent.updated">
-<tt class="descname">updated</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#TopoChangeEvent.updated"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.updated" title="Permalink to this definition">¶</a></dt>
+<code class="descname">updated</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.updated" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="pybvc.controller.notification.yang_nsname_to_prefix">
-<tt class="descclassname">pybvc.controller.notification.</tt><tt class="descname">yang_nsname_to_prefix</tt><big>(</big><em>nsname</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#yang_nsname_to_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.yang_nsname_to_prefix" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pybvc.controller.notification.</code><code class="descname">yang_nsname_to_prefix</code><span class="sig-paren">(</span><em>nsname</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.yang_nsname_to_prefix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="pybvc.controller.notification.yang_prefix_to_nsname">
-<tt class="descclassname">pybvc.controller.notification.</tt><tt class="descname">yang_prefix_to_nsname</tt><big>(</big><em>prefix</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/notification.html#yang_prefix_to_nsname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.notification.yang_prefix_to_nsname" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pybvc.controller.notification.</code><code class="descname">yang_prefix_to_nsname</code><span class="sig-paren">(</span><em>prefix</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.yang_prefix_to_nsname" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 <div class="section" id="module-pybvc.controller.openflownode">
 <span id="pybvc-controller-openflownode-module"></span><h2>pybvc.controller.openflownode module<a class="headerlink" href="#module-pybvc.controller.openflownode" title="Permalink to this headline">¶</a></h2>
-<p>Copyright (c) 2015</p>
-<p>Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:</p>
-<blockquote>
-<div><ul class="simple">
-<li>Redistributions of source code must retain the above copyright notice,
-this list of conditions and the following disclaimer.</li>
-</ul>
-</div></blockquote>
-<ul class="simple">
-<li>Redistributions in binary form must reproduce the above copyright notice,
-this list of conditions and the following disclaimer in the documentation
-and/or other materials provided with the distribution.</li>
-<li>Neither the name of the copyright holder nor the names of its contributors
-may be used to endorse or promote products derived from this software
-without specific prior written permission.</li>
-</ul>
-<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#8220;AS IS&#8221;
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
-<p>&#64;authors: Sergei Garbuzov
-&#64;status: Development
-&#64;version: 1.1.0</p>
-<p>openflownode.py: Controller&#8217;s OpenFlow node specific properties</p>
 <dl class="class">
 <dt id="pybvc.controller.openflownode.OpenflowNode">
-<em class="property">class </em><tt class="descclassname">pybvc.controller.openflownode.</tt><tt class="descname">OpenflowNode</tt><big>(</big><em>controller=None</em>, <em>nodeName=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/openflownode.html#OpenflowNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.openflownode.OpenflowNode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<em class="property">class </em><code class="descclassname">pybvc.controller.openflownode.</code><code class="descname">OpenflowNode</code><span class="sig-paren">(</span><em>controller=None</em>, <em>nodeName=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.openflownode.OpenflowNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Class that represents a NETCONF capable server device.</p>
 <dl class="method">
 <dt id="pybvc.controller.openflownode.OpenflowNode.to_json">
-<tt class="descname">to_json</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/openflownode.html#OpenflowNode.to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.openflownode.OpenflowNode.to_json" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.openflownode.OpenflowNode.to_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns JSON representation of this object.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.openflownode.OpenflowNode.to_string">
-<tt class="descname">to_string</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/openflownode.html#OpenflowNode.to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.openflownode.OpenflowNode.to_string" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.openflownode.OpenflowNode.to_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns string representation of this object.</p>
 </dd></dl>
 
@@ -1686,52 +1535,52 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 <span id="pybvc-controller-topology-module"></span><h2>pybvc.controller.topology module<a class="headerlink" href="#module-pybvc.controller.topology" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pybvc.controller.topology.Link">
-<em class="property">class </em><tt class="descclassname">pybvc.controller.topology.</tt><tt class="descname">Link</tt><big>(</big><em>d</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Link" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.controller.topology.</code><code class="descname">Link</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Link" title="Permalink to this definition">¶</a></dt>
 <dd><p>A link in the topology instance.
 Helper class of the &#8216;Topology&#8217; class</p>
 <dl class="method">
 <dt id="pybvc.controller.topology.Link.get_id">
-<tt class="descname">get_id</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Link.get_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Link.get_id" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Link.get_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Link.get_src_node_id">
-<tt class="descname">get_src_node_id</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Link.get_src_node_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Link.get_src_node_id" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_src_node_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Link.get_src_node_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Link.is_dst_node">
-<tt class="descname">is_dst_node</tt><big>(</big><em>node</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Link.is_dst_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Link.is_dst_node" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_dst_node</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Link.is_dst_node" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Link.is_dst_node_port">
-<tt class="descname">is_dst_node_port</tt><big>(</big><em>node</em>, <em>pnum</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Link.is_dst_node_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Link.is_dst_node_port" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_dst_node_port</code><span class="sig-paren">(</span><em>node</em>, <em>pnum</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Link.is_dst_node_port" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Link.is_host_to_switch">
-<tt class="descname">is_host_to_switch</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Link.is_host_to_switch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Link.is_host_to_switch" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_host_to_switch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Link.is_host_to_switch" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Link.is_loopback">
-<tt class="descname">is_loopback</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Link.is_loopback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Link.is_loopback" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_loopback</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Link.is_loopback" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Link.is_switch_to_host">
-<tt class="descname">is_switch_to_host</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Link.is_switch_to_host"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Link.is_switch_to_host" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_switch_to_host</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Link.is_switch_to_host" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Link.is_switch_to_switch">
-<tt class="descname">is_switch_to_switch</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Link.is_switch_to_switch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Link.is_switch_to_switch" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_switch_to_switch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Link.is_switch_to_switch" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Link.to_string">
-<tt class="descname">to_string</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Link.to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Link.to_string" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Link.to_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns string representation of this object.</p>
 </dd></dl>
 
@@ -1739,58 +1588,58 @@ Helper class of the &#8216;Topology&#8217; class</p>
 
 <dl class="class">
 <dt id="pybvc.controller.topology.Node">
-<em class="property">class </em><tt class="descclassname">pybvc.controller.topology.</tt><tt class="descname">Node</tt><big>(</big><em>d</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Node" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.controller.topology.</code><code class="descname">Node</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Node" title="Permalink to this definition">¶</a></dt>
 <dd><p>A node in the topology instance.
 Helper class of the &#8216;Topology&#8217; class</p>
 <dl class="method">
 <dt id="pybvc.controller.topology.Node.get_id">
-<tt class="descname">get_id</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Node.get_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Node.get_id" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Node.get_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Node.get_ip_address_for_mac">
-<tt class="descname">get_ip_address_for_mac</tt><big>(</big><em>mac_addr</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Node.get_ip_address_for_mac"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Node.get_ip_address_for_mac" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_ip_address_for_mac</code><span class="sig-paren">(</span><em>mac_addr</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Node.get_ip_address_for_mac" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Node.get_mac_address">
-<tt class="descname">get_mac_address</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Node.get_mac_address"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Node.get_mac_address" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_mac_address</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Node.get_mac_address" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Node.get_openflow_id">
-<tt class="descname">get_openflow_id</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Node.get_openflow_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Node.get_openflow_id" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_openflow_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Node.get_openflow_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Node.get_port_numbers">
-<tt class="descname">get_port_numbers</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Node.get_port_numbers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Node.get_port_numbers" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_port_numbers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Node.get_port_numbers" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Node.get_type_str">
-<tt class="descname">get_type_str</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Node.get_type_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Node.get_type_str" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_type_str</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Node.get_type_str" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Node.is_host">
-<tt class="descname">is_host</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Node.is_host"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Node.is_host" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_host</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Node.is_host" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Node.is_switch">
-<tt class="descname">is_switch</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Node.is_switch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Node.is_switch" title="Permalink to this definition">¶</a></dt>
+<code class="descname">is_switch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Node.is_switch" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Node.to_json">
-<tt class="descname">to_json</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Node.to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Node.to_json" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Node.to_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns JSON representation of this object.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Node.to_string">
-<tt class="descname">to_string</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Node.to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Node.to_string" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Node.to_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns string representation of this object.</p>
 </dd></dl>
 
@@ -1798,86 +1647,86 @@ Helper class of the &#8216;Topology&#8217; class</p>
 
 <dl class="class">
 <dt id="pybvc.controller.topology.Topology">
-<em class="property">class </em><tt class="descclassname">pybvc.controller.topology.</tt><tt class="descname">Topology</tt><big>(</big><em>topo_json=None</em>, <em>topo_dict=None</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Topology"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Topology" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.controller.topology.</code><code class="descname">Topology</code><span class="sig-paren">(</span><em>topo_json=None</em>, <em>topo_dict=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Topology" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class that represents Controller&#8217;s view on a Network Topology instance.</p>
 <dl class="method">
 <dt id="pybvc.controller.topology.Topology.add_link">
-<tt class="descname">add_link</tt><big>(</big><em>link</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Topology.add_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Topology.add_link" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_link</code><span class="sig-paren">(</span><em>link</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Topology.add_link" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Topology.add_node">
-<tt class="descname">add_node</tt><big>(</big><em>node</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Topology.add_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Topology.add_node" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_node</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Topology.add_node" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Topology.get_host_ids">
-<tt class="descname">get_host_ids</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Topology.get_host_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Topology.get_host_ids" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_host_ids</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Topology.get_host_ids" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Topology.get_hosts">
-<tt class="descname">get_hosts</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Topology.get_hosts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Topology.get_hosts" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_hosts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Topology.get_hosts" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Topology.get_hosts_cnt">
-<tt class="descname">get_hosts_cnt</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Topology.get_hosts_cnt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Topology.get_hosts_cnt" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_hosts_cnt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Topology.get_hosts_cnt" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Topology.get_id">
-<tt class="descname">get_id</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Topology.get_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Topology.get_id" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Topology.get_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Topology.get_inter_switch_links_cnt">
-<tt class="descname">get_inter_switch_links_cnt</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Topology.get_inter_switch_links_cnt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Topology.get_inter_switch_links_cnt" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_inter_switch_links_cnt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Topology.get_inter_switch_links_cnt" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Topology.get_node_by_id">
-<tt class="descname">get_node_by_id</tt><big>(</big><em>node_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Topology.get_node_by_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Topology.get_node_by_id" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_node_by_id</code><span class="sig-paren">(</span><em>node_id</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Topology.get_node_by_id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Topology.get_nodes">
-<tt class="descname">get_nodes</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Topology.get_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Topology.get_nodes" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_nodes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Topology.get_nodes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Topology.get_peer_list_for_node">
-<tt class="descname">get_peer_list_for_node</tt><big>(</big><em>node</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Topology.get_peer_list_for_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Topology.get_peer_list_for_node" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_peer_list_for_node</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Topology.get_peer_list_for_node" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Topology.get_peer_list_for_node_port_">
-<tt class="descname">get_peer_list_for_node_port_</tt><big>(</big><em>node</em>, <em>pnum</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Topology.get_peer_list_for_node_port_"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Topology.get_peer_list_for_node_port_" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_peer_list_for_node_port_</code><span class="sig-paren">(</span><em>node</em>, <em>pnum</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Topology.get_peer_list_for_node_port_" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Topology.get_switch">
-<tt class="descname">get_switch</tt><big>(</big><em>switch_id</em><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Topology.get_switch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Topology.get_switch" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_switch</code><span class="sig-paren">(</span><em>switch_id</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Topology.get_switch" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Topology.get_switch_ids">
-<tt class="descname">get_switch_ids</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Topology.get_switch_ids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Topology.get_switch_ids" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_switch_ids</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Topology.get_switch_ids" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Topology.get_switches">
-<tt class="descname">get_switches</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Topology.get_switches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Topology.get_switches" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_switches</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Topology.get_switches" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Topology.get_switches_cnt">
-<tt class="descname">get_switches_cnt</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Topology.get_switches_cnt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Topology.get_switches_cnt" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_switches_cnt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Topology.get_switches_cnt" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.topology.Topology.to_string">
-<tt class="descname">to_string</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/pybvc/controller/topology.html#Topology.to_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybvc.controller.topology.Topology.to_string" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.topology.Topology.to_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns string representation of this object.</p>
 </dd></dl>
 
@@ -1893,7 +1742,7 @@ Helper class of the &#8216;Topology&#8217; class</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -1916,12 +1765,14 @@ Helper class of the &#8216;Topology&#8217; class</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="pybvc.netconfdev.html"
                         title="next chapter">pybvc.netconfdev package</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/pybvc.controller.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pybvc.controller.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -1938,7 +1789,7 @@ Helper class of the &#8216;Topology&#8217; class</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -1953,13 +1804,12 @@ Helper class of the &#8216;Topology&#8217; class</p>
         <li class="right" >
           <a href="pybvc.common.html" title="pybvc.common package"
              >previous</a> |</li>
-        <li><a href="index.html">pybvc 1.2.0 documentation</a> &raquo;</li>
-          <li><a href="pybvc.html" >pybvc package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2015, Author.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Sergei Garbuzov.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
     </div>
   </body>
 </html>
