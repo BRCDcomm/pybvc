@@ -1,3 +1,5 @@
 docsForGhPagesBranch
 howToUpdateDocs.txt
 dist
+*.swp
+docs
