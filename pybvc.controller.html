@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pybvc.controller package &mdash; pybvc 1.3.0 documentation</title>
+    <title>pybvc.controller package &mdash; pybvc 1.3.1 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.3.0',
+        VERSION:     '1.3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="pybvc 1.3.0 documentation" href="index.html" />
+    <link rel="top" title="pybvc 1.3.1 documentation" href="index.html" />
     <link rel="next" title="pybvc.netconfdev package" href="pybvc.netconfdev.html" />
     <link rel="prev" title="pybvc.common package" href="pybvc.common.html" /> 
   </head>
@@ -43,7 +43,7 @@
         <li class="right" >
           <a href="pybvc.common.html" title="pybvc.common package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -385,6 +385,11 @@ JSON listing modules and their operational state</td>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="pybvc.controller.controller.Controller.get_inventory_nodes_yang_schema_path">
+<code class="descname">get_inventory_nodes_yang_schema_path</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_inventory_nodes_yang_schema_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_module_operational_state">
 <code class="descname">get_module_operational_state</code><span class="sig-paren">(</span><em>moduleType</em>, <em>moduleName</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_module_operational_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return operational state for specified module.</p>
@@ -554,6 +559,11 @@ Operations info is empty.</p>
 </li>
 </ul>
 </dd></dl>
+
+<dl class="method">
+<dt id="pybvc.controller.controller.Controller.get_network_topology_yang_schema_path">
+<code class="descname">get_network_topology_yang_schema_path</code><span class="sig-paren">(</span><em>topo_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.controller.Controller.get_network_topology_yang_schema_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="pybvc.controller.controller.Controller.get_node_config_url">
@@ -1384,9 +1394,116 @@ Helper class of the &#8216;OpenFlowCapableNode&#8217; class</p>
 <div class="section" id="module-pybvc.controller.notification">
 <span id="pybvc-controller-notification-module"></span><h2>pybvc.controller.notification module<a class="headerlink" href="#module-pybvc.controller.notification" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
+<dt id="pybvc.controller.notification.FlowInfo">
+<em class="property">class </em><code class="descclassname">pybvc.controller.notification.</code><code class="descname">FlowInfo</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.FlowInfo" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pybvc.controller.notification.FlowInfo.to_string">
+<code class="descname">to_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.FlowInfo.to_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pybvc.controller.notification.InventoryChangeEvent">
+<em class="property">class </em><code class="descclassname">pybvc.controller.notification.</code><code class="descname">InventoryChangeEvent</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.InventoryChangeEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parser for the data change event located in the inventory change
+notification message received from the Controller.
+Helper subclass for the &#8216;InventoryChangeNotification&#8217; class</p>
+<dl class="method">
+<dt id="pybvc.controller.notification.InventoryChangeEvent.created">
+<code class="descname">created</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.InventoryChangeEvent.created" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.controller.notification.InventoryChangeEvent.deleted">
+<code class="descname">deleted</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.InventoryChangeEvent.deleted" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.controller.notification.InventoryChangeEvent.do_print">
+<code class="descname">do_print</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.InventoryChangeEvent.do_print" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.controller.notification.InventoryChangeEvent.get_flow_entry_id">
+<code class="descname">get_flow_entry_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.InventoryChangeEvent.get_flow_entry_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.controller.notification.InventoryChangeEvent.get_node_id">
+<code class="descname">get_node_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.InventoryChangeEvent.get_node_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.controller.notification.InventoryChangeEvent.get_path">
+<code class="descname">get_path</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.InventoryChangeEvent.get_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.controller.notification.InventoryChangeEvent.is_flow_entry">
+<code class="descname">is_flow_entry</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.InventoryChangeEvent.is_flow_entry" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.controller.notification.InventoryChangeEvent.is_node">
+<code class="descname">is_node</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.InventoryChangeEvent.is_node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.controller.notification.InventoryChangeEvent.is_switch">
+<code class="descname">is_switch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.InventoryChangeEvent.is_switch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.controller.notification.InventoryChangeEvent.updated">
+<code class="descname">updated</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.InventoryChangeEvent.updated" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pybvc.controller.notification.InventoryChangeNotification">
+<em class="property">class </em><code class="descclassname">pybvc.controller.notification.</code><code class="descname">InventoryChangeNotification</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.InventoryChangeNotification" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parser for notification messages generated by the Controller
+when it detects changes in its internal inventory data store</p>
+<dl class="method">
+<dt id="pybvc.controller.notification.InventoryChangeNotification.flows_added">
+<code class="descname">flows_added</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.InventoryChangeNotification.flows_added" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.controller.notification.InventoryChangeNotification.flows_removed">
+<code class="descname">flows_removed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.InventoryChangeNotification.flows_removed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.controller.notification.InventoryChangeNotification.get_time">
+<code class="descname">get_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.InventoryChangeNotification.get_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.controller.notification.InventoryChangeNotification.nodes_added">
+<code class="descname">nodes_added</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.InventoryChangeNotification.nodes_added" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.controller.notification.InventoryChangeNotification.nodes_removed">
+<code class="descname">nodes_removed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.InventoryChangeNotification.nodes_removed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.controller.notification.InventoryChangeNotification.print_events">
+<code class="descname">print_events</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.InventoryChangeNotification.print_events" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="pybvc.controller.notification.NetworkTopologyChangeNotification">
 <em class="property">class </em><code class="descclassname">pybvc.controller.notification.</code><code class="descname">NetworkTopologyChangeNotification</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><p>Parser for notification messages generated by the Controller
+when it detects changes in the network topology data tree</p>
+<dl class="method">
 <dt id="pybvc.controller.notification.NetworkTopologyChangeNotification.get_time">
 <code class="descname">get_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.NetworkTopologyChangeNotification.get_time" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1431,7 +1548,13 @@ Helper class of the &#8216;OpenFlowCapableNode&#8217; class</p>
 <dl class="class">
 <dt id="pybvc.controller.notification.PathInfo">
 <em class="property">class </em><code class="descclassname">pybvc.controller.notification.</code><code class="descname">PathInfo</code><span class="sig-paren">(</span><em>info</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.PathInfo" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><dl class="docutils">
+<dt>Represents the path to the node in the Controller&#8217;s internal data tree</dt>
+<dd>where the change has been detected.
+Helper subclass for the &#8216;NetworkTopologyChangeNotification&#8217; and</dd>
+</dl>
+<p>&#8216;InventoryChangeNotification&#8217; classes</p>
+<dl class="method">
 <dt id="pybvc.controller.notification.PathInfo.do_print">
 <code class="descname">do_print</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.PathInfo.do_print" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1441,7 +1564,10 @@ Helper class of the &#8216;OpenFlowCapableNode&#8217; class</p>
 <dl class="class">
 <dt id="pybvc.controller.notification.TopoChangeEvent">
 <em class="property">class </em><code class="descclassname">pybvc.controller.notification.</code><code class="descname">TopoChangeEvent</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><p>Parser for the data change event located in the network topology change
+notification message received from the Controller.
+Helper subclass for the &#8216;NetworkTopologyChangeNotification&#8217; class</p>
+<dl class="method">
 <dt id="pybvc.controller.notification.TopoChangeEvent.created">
 <code class="descname">created</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.controller.notification.TopoChangeEvent.created" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1804,7 +1930,7 @@ Helper class of the &#8216;Topology&#8217; class</p>
         <li class="right" >
           <a href="pybvc.common.html" title="pybvc.common package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

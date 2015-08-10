@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pybvc.openflowdev package &mdash; pybvc 1.3.0 documentation</title>
+    <title>pybvc.openflowdev package &mdash; pybvc 1.3.1 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.3.0',
+        VERSION:     '1.3.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="pybvc 1.3.0 documentation" href="index.html" />
+    <link rel="top" title="pybvc 1.3.1 documentation" href="index.html" />
     <link rel="prev" title="pybvc.netconfdev.vrouter package" href="pybvc.netconfdev.vrouter.html" /> 
   </head>
   <body role="document">
@@ -39,7 +39,7 @@
         <li class="right" >
           <a href="pybvc.netconfdev.vrouter.html" title="pybvc.netconfdev.vrouter package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -135,7 +135,7 @@ checksum. Only applies to IPv4 and IPv6 packets.</p>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.DropAction">
-<em class="property">class </em><code class="descclassname">pybvc.openflowdev.ofswitch.</code><code class="descname">DropAction</code><span class="sig-paren">(</span><em>action_order=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.DropAction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.openflowdev.ofswitch.</code><code class="descname">DropAction</code><span class="sig-paren">(</span><em>order=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.DropAction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><code class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></code></a></p>
 <p>There is no explicit action to represent drops. Instead, packets whose
 action sets have no output actions should be dropped. This result could
@@ -483,7 +483,7 @@ output port. A value of OFPP_ANY indicates no restriction.</p>
 
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.FlowEntry.to_yang_json">
-<code class="descname">to_yang_json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.to_yang_json" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_yang_json</code><span class="sig-paren">(</span><em>strip=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.FlowEntry.to_yang_json" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -586,6 +586,11 @@ The exact interpretation depends on group type.</p>
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.Instruction.add_apply_action">
 <code class="descname">add_apply_action</code><span class="sig-paren">(</span><em>action</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Instruction.add_apply_action" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.Instruction.create_action_from_dict">
+<code class="descname">create_action_from_dict</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Instruction.create_action_from_dict" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -993,12 +998,13 @@ packet received on a logical port)</p>
 <dl class="attribute">
 <dt id="pybvc.openflowdev.ofswitch.Match.ipv4_destination">
 <code class="descname">ipv4_destination</code><em class="property"> = None</em><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.ipv4_destination" title="Permalink to this definition">¶</a></dt>
-<dd><p>IP match fields:</p>
+<dd><p>IP match fields:
+- Differentiated Service Code Point (DSCP). Part of the IPv4 ToS field or</p>
+<blockquote>
+<div>the IPv6 Traffic Class field.</div></blockquote>
 <ul class="simple">
-<li>Differentiated Service Code Point (DSCP). Part of the IPv4 ToS
-field or the IPv6 Traffic Class field.</li>
-<li>ECN bits of the IP header. Part of the IPv4 ToS field or the IPv6
-Traffic Class field</li>
+<li>ECN bits of the IP header. Part of the IPv4 ToS field or
+the IPv6 Traffic Class field</li>
 <li>IPv4 or IPv6 protocol number</li>
 </ul>
 </dd></dl>
@@ -1337,6 +1343,11 @@ Traffic Class field</li>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.OFSwitch.add_modify_flow_json">
+<code class="descname">add_modify_flow_json</code><span class="sig-paren">(</span><em>table_id</em>, <em>flow_id</em>, <em>flow_json</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.add_modify_flow_json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.OFSwitch.delete_flow">
 <code class="descname">delete_flow</code><span class="sig-paren">(</span><em>table_id</em>, <em>flow_id</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OFSwitch.delete_flow" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1452,10 +1463,10 @@ Traffic Class field</li>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.OutputAction">
-<em class="property">class </em><code class="descclassname">pybvc.openflowdev.ofswitch.</code><code class="descname">OutputAction</code><span class="sig-paren">(</span><em>action_order=0</em>, <em>port=None</em>, <em>max_len=None</em>, <em>d=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OutputAction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.openflowdev.ofswitch.</code><code class="descname">OutputAction</code><span class="sig-paren">(</span><em>order=None</em>, <em>port=None</em>, <em>max_len=None</em>, <em>d=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.OutputAction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><code class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></code></a></p>
 <p>The Output action forwards a packet to a specified OpenFlow port
-OpenFlow switches must support forwarding to physical ports, 
+OpenFlow switches must support forwarding to physical ports,
 switch-defined logical ports and the required reserved ports</p>
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.OutputAction.get_max_len">
@@ -1503,7 +1514,7 @@ switch-defined logical ports and the required reserved ports</p>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.PopMplsHeaderAction">
-<em class="property">class </em><code class="descclassname">pybvc.openflowdev.ofswitch.</code><code class="descname">PopMplsHeaderAction</code><span class="sig-paren">(</span><em>action_order=0</em>, <em>ethernet_type=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PopMplsHeaderAction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.openflowdev.ofswitch.</code><code class="descname">PopMplsHeaderAction</code><span class="sig-paren">(</span><em>order=0</em>, <em>ethernet_type=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PopMplsHeaderAction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><code class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></code></a></p>
 <p>Pop the outer-most MPLS tag or shim header from the packet.
 The &#8216;ethernet_type&#8217; is used as the Ethernet Type for the resulting packet
@@ -1521,18 +1532,16 @@ The &#8216;ethernet_type&#8217; is used as the Ethernet Type for the resulting p
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><code class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></code></a></p>
 <p>Pop the outer-most PBB service instance header (I-TAG TCI)
 from the packet
-PBB</p>
-<ul class="simple">
-<li>Provider Backbone Bridges is an Ethernet data-plane technology
-(also known as MAC-in-MAC) that involves encapsulating an
+PBB - Provider Backbone Bridges is an Ethernet data-plane technology</p>
+<blockquote>
+<div>(also known as MAC-in-MAC) that involves encapsulating an
 Ethernet datagram inside another one with new source and
-destination addresses.</li>
-</ul>
+destination addresses.</div></blockquote>
 </dd></dl>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.PopVlanHeaderAction">
-<em class="property">class </em><code class="descclassname">pybvc.openflowdev.ofswitch.</code><code class="descname">PopVlanHeaderAction</code><span class="sig-paren">(</span><em>action_order=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PopVlanHeaderAction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.openflowdev.ofswitch.</code><code class="descname">PopVlanHeaderAction</code><span class="sig-paren">(</span><em>order=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PopVlanHeaderAction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><code class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></code></a></p>
 <p>Pop the outer-most VLAN header from the packet</p>
 </dd></dl>
@@ -1594,7 +1603,7 @@ destination addresses.</li>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.PushMplsHeaderAction">
-<em class="property">class </em><code class="descclassname">pybvc.openflowdev.ofswitch.</code><code class="descname">PushMplsHeaderAction</code><span class="sig-paren">(</span><em>action_order=None</em>, <em>ethernet_type=None</em>, <em>d=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PushMplsHeaderAction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.openflowdev.ofswitch.</code><code class="descname">PushMplsHeaderAction</code><span class="sig-paren">(</span><em>order=None</em>, <em>ethernet_type=None</em>, <em>d=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PushMplsHeaderAction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><code class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></code></a></p>
 <p>Push a new MPLS shim header onto the packet. The &#8216;ethernet_type&#8217; is used
 as the Ethernet Type for the tag, only 0x8847 or 0x8848 values should be
@@ -1617,17 +1626,12 @@ used.</p>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><code class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></code></a></p>
 <p>Push a new PBB service instance header (I-TAG TCI) onto the packet.
 The &#8216;ethernet_type&#8217; is used as the Ethernet Type for the tag. Only
-Ethernet Type  0x88E7 should be used</p>
-<ul>
-<li><dl class="first docutils">
-<dt>PBB  Provider Backbone Bridges is an Ethernet data-plane technology</dt>
-<dd><p class="first last">(also known as MAC-in-MAC) that involves encapsulating an
+Ethernet Type  0x88E7 should be used 
+PBB - Provider Backbone Bridges is an Ethernet data-plane technology</p>
+<blockquote>
+<div>(also known as MAC-in-MAC) that involves encapsulating an
 Ethernet datagram inside another one with new source and
-destination addresses.</p>
-</dd>
-</dl>
-</li>
-</ul>
+destination addresses.</div></blockquote>
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.PushPBBHeaderAction.set_eth_type">
 <code class="descname">set_eth_type</code><span class="sig-paren">(</span><em>ethernet_type</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PushPBBHeaderAction.set_eth_type" title="Permalink to this definition">¶</a></dt>
@@ -1637,7 +1641,7 @@ destination addresses.</p>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.PushVlanHeaderAction">
-<em class="property">class </em><code class="descclassname">pybvc.openflowdev.ofswitch.</code><code class="descname">PushVlanHeaderAction</code><span class="sig-paren">(</span><em>action_order=None</em>, <em>eth_type=None</em>, <em>tag=None</em>, <em>pcp=None</em>, <em>cfi=None</em>, <em>vid=None</em>, <em>d=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PushVlanHeaderAction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.openflowdev.ofswitch.</code><code class="descname">PushVlanHeaderAction</code><span class="sig-paren">(</span><em>order=None</em>, <em>eth_type=None</em>, <em>tag=None</em>, <em>pcp=None</em>, <em>cfi=None</em>, <em>vid=None</em>, <em>d=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PushVlanHeaderAction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><code class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></code></a></p>
 <p>Push a new VLAN header onto the packet. The &#8216;ethernet_type&#8217; is used as
 the Ethernet Type for the tag, only 0x8100 or 0x88a8 values should be
@@ -1705,7 +1709,7 @@ used.</p>
 
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.SetFieldAction">
-<em class="property">class </em><code class="descclassname">pybvc.openflowdev.ofswitch.</code><code class="descname">SetFieldAction</code><span class="sig-paren">(</span><em>action_order=None</em>, <em>d=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetFieldAction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.openflowdev.ofswitch.</code><code class="descname">SetFieldAction</code><span class="sig-paren">(</span><em>order=None</em>, <em>d=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetFieldAction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><code class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></code></a></p>
 <p>The Extensible set_field action reuses the OXM encoding defined for
 matches, and enables to rewrite any header field in a single action.
@@ -1797,7 +1801,7 @@ checksum. Only applies to IPv4 and IPv6 packets.</p>
 <em class="property">class </em><code class="descclassname">pybvc.openflowdev.ofswitch.</code><code class="descname">SetQueueAction</code><span class="sig-paren">(</span><em>order=None</em>, <em>queue=None</em>, <em>queue_id=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetQueueAction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><code class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></code></a></p>
 <p>The set-queue action sets the queue id for a packet. When the packet is
-forwarded to a port using the output action, the queue id determines 
+forwarded to a port using the output action, the queue id determines
 which queue attached to this port is used for scheduling and forwarding
 the packet. Forwarding behavior is dictated by the configuration of the
 queue and is used to provide basic Quality-of-Service (QoS) support</p>
@@ -2037,7 +2041,7 @@ only for packets with VID equal to &#8216;vlan_id&#8217; value</p>
         <li class="right" >
           <a href="pybvc.netconfdev.vrouter.html" title="pybvc.netconfdev.vrouter package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
