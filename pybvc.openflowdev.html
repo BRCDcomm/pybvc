@@ -55,30 +55,6 @@
 </div>
 <div class="section" id="module-pybvc.openflowdev.ofswitch">
 <span id="pybvc-openflowdev-ofswitch-module"></span><h2>pybvc.openflowdev.ofswitch module<a class="headerlink" href="#module-pybvc.openflowdev.ofswitch" title="Permalink to this headline">¶</a></h2>
-<p>Copyright (c) 2015</p>
-<p>Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
--  Redistributions of source code must retain the above copyright notice,</p>
-<blockquote>
-<div>this list of conditions and the following disclaimer.</div></blockquote>
-<ul class="simple">
-<li>Redistributions in binary form must reproduce the above copyright notice,
-this list of conditions and the following disclaimer in the documentation
-and/or other materials provided with the distribution.</li>
-<li>Neither the name of the copyright holder nor the names of its contributors
-may be used to endorse or promote products derived from this software
-without specific prior written permission.</li>
-</ul>
-<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#8220;AS IS&#8221;
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 <p>&#64;authors: Sergei Garbuzov
 &#64;status: Development
 &#64;version: 1.1.0</p>
@@ -1006,14 +982,11 @@ packet received on a logical port)</p>
 <dt id="pybvc.openflowdev.ofswitch.Match.ipv4_destination">
 <code class="descname">ipv4_destination</code><em class="property"> = None</em><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Match.ipv4_destination" title="Permalink to this definition">¶</a></dt>
 <dd><p>IP match fields:
-- Differentiated Service Code Point (DSCP). Part of the IPv4 ToS field or</p>
-<blockquote>
-<div>the IPv6 Traffic Class field.</div></blockquote>
-<ul class="simple">
-<li>ECN bits of the IP header. Part of the IPv4 ToS field or
-the IPv6 Traffic Class field</li>
-<li>IPv4 or IPv6 protocol number</li>
-</ul>
+- Differentiated Service Code Point (DSCP). Part of the IPv4 ToS field or
+. the IPv6 Traffic Class field.
+- ECN bits of the IP header. Part of the IPv4 ToS field or
+. the IPv6 Traffic Class field
+- IPv4 or IPv6 protocol number</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1539,11 +1512,10 @@ The &#8216;ethernet_type&#8217; is used as the Ethernet Type for the resulting p
 <dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><code class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></code></a></p>
 <p>Pop the outer-most PBB service instance header (I-TAG TCI)
 from the packet
-PBB - Provider Backbone Bridges is an Ethernet data-plane technology</p>
-<blockquote>
-<div>(also known as MAC-in-MAC) that involves encapsulating an
-Ethernet datagram inside another one with new source and
-destination addresses.</div></blockquote>
+PBB - Provider Backbone Bridges is an Ethernet data-plane technology
+.     (also known as MAC-in-MAC) that involves encapsulating an
+.     Ethernet datagram inside another one with new source and
+.     destination addresses.</p>
 </dd></dl>
 
 <dl class="class">
@@ -1634,11 +1606,10 @@ used.</p>
 <p>Push a new PBB service instance header (I-TAG TCI) onto the packet.
 The &#8216;ethernet_type&#8217; is used as the Ethernet Type for the tag. Only
 Ethernet Type  0x88E7 should be used 
-PBB - Provider Backbone Bridges is an Ethernet data-plane technology</p>
-<blockquote>
-<div>(also known as MAC-in-MAC) that involves encapsulating an
-Ethernet datagram inside another one with new source and
-destination addresses.</div></blockquote>
+PBB - Provider Backbone Bridges is an Ethernet data-plane technology
+.     (also known as MAC-in-MAC) that involves encapsulating an
+.     Ethernet datagram inside another one with new source and
+.     destination addresses.</p>
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.PushPBBHeaderAction.set_eth_type">
 <code class="descname">set_eth_type</code><span class="sig-paren">(</span><em>ethernet_type</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.PushPBBHeaderAction.set_eth_type" title="Permalink to this definition">¶</a></dt>
