@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pybvc.openflowdev package &mdash; pybvc 1.3.1 documentation</title>
+    <title>pybvc.openflowdev package &mdash; pybvc 1.3.2 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.3.1',
+        VERSION:     '1.3.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="pybvc 1.3.1 documentation" href="index.html" />
+    <link rel="top" title="pybvc 1.3.2 documentation" href="index.html" />
     <link rel="prev" title="pybvc.netconfdev.vrouter package" href="pybvc.netconfdev.vrouter.html" /> 
   </head>
   <body role="document">
@@ -39,7 +39,7 @@
         <li class="right" >
           <a href="pybvc.netconfdev.vrouter.html" title="pybvc.netconfdev.vrouter package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -55,6 +55,34 @@
 </div>
 <div class="section" id="module-pybvc.openflowdev.ofswitch">
 <span id="pybvc-openflowdev-ofswitch-module"></span><h2>pybvc.openflowdev.ofswitch module<a class="headerlink" href="#module-pybvc.openflowdev.ofswitch" title="Permalink to this headline">¶</a></h2>
+<p>Copyright (c) 2015</p>
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+-  Redistributions of source code must retain the above copyright notice,</p>
+<blockquote>
+<div>this list of conditions and the following disclaimer.</div></blockquote>
+<ul class="simple">
+<li>Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors
+may be used to endorse or promote products derived from this software
+without specific prior written permission.</li>
+</ul>
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#8220;AS IS&#8221;
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES;LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<p>&#64;authors: Sergei Garbuzov
+&#64;status: Development
+&#64;version: 1.1.0</p>
+<p>ofswitch.py: OpenFlow switch properties and methods</p>
 <dl class="class">
 <dt id="pybvc.openflowdev.ofswitch.Action">
 <em class="property">class </em><code class="descclassname">pybvc.openflowdev.ofswitch.</code><code class="descname">Action</code><span class="sig-paren">(</span><em>order=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Action" title="Permalink to this definition">¶</a></dt>
@@ -62,27 +90,6 @@
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.Action.set_order">
 <code class="descname">set_order</code><span class="sig-paren">(</span><em>order</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.Action.set_order" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="pybvc.openflowdev.ofswitch.ActionOutput">
-<em class="property">class </em><code class="descclassname">pybvc.openflowdev.ofswitch.</code><code class="descname">ActionOutput</code><span class="sig-paren">(</span><em>port=None</em>, <em>length=None</em>, <em>order=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.ActionOutput" title="Permalink to this definition">¶</a></dt>
-<dd><p>OpenFlow &#8216;Output&#8217; action type</p>
-<dl class="method">
-<dt id="pybvc.openflowdev.ofswitch.ActionOutput.to_string">
-<code class="descname">to_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.ActionOutput.to_string" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pybvc.openflowdev.ofswitch.ActionOutput.update">
-<code class="descname">update</code><span class="sig-paren">(</span><em>port=None</em>, <em>length=None</em>, <em>order=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.ActionOutput.update" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pybvc.openflowdev.ofswitch.ActionOutput.update_from_list">
-<code class="descname">update_from_list</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.ActionOutput.update_from_list" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1725,6 +1732,16 @@ always be applied to the outermost-possible header (e.g. a &#8216;Set VLAN ID&#8
 action always sets the ID of the outermost VLAN tag), unless the field
 type specifies otherwise.</p>
 <dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.SetFieldAction.get_ip_dscp">
+<code class="descname">get_ip_dscp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetFieldAction.get_ip_dscp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.SetFieldAction.get_ip_ecn">
+<code class="descname">get_ip_ecn</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetFieldAction.get_ip_ecn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.SetFieldAction.get_mpls_label">
 <code class="descname">get_mpls_label</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetFieldAction.get_mpls_label" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1732,6 +1749,16 @@ type specifies otherwise.</p>
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.SetFieldAction.get_vlan_id">
 <code class="descname">get_vlan_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetFieldAction.get_vlan_id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.SetFieldAction.set_ip_dscp">
+<code class="descname">set_ip_dscp</code><span class="sig-paren">(</span><em>dscp</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetFieldAction.set_ip_dscp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.SetFieldAction.set_ip_ecn">
+<code class="descname">set_ip_ecn</code><span class="sig-paren">(</span><em>ecn</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetFieldAction.set_ip_ecn" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1792,6 +1819,26 @@ checksum. Only applies to IPv4 and IPv6 packets.</p>
 <dl class="method">
 <dt id="pybvc.openflowdev.ofswitch.SetNwTTLAction.set_ip_ttl">
 <code class="descname">set_ip_ttl</code><span class="sig-paren">(</span><em>ip_ttl</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetNwTTLAction.set_ip_ttl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pybvc.openflowdev.ofswitch.SetNwTosAction">
+<em class="property">class </em><code class="descclassname">pybvc.openflowdev.ofswitch.</code><code class="descname">SetNwTosAction</code><span class="sig-paren">(</span><em>order=None</em>, <em>d=None</em>, <em>tos=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetNwTosAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#pybvc.openflowdev.ofswitch.Action" title="pybvc.openflowdev.ofswitch.Action"><code class="xref py py-class docutils literal"><span class="pre">pybvc.openflowdev.ofswitch.Action</span></code></a></p>
+<p>Modify IPv4 ToS bits.
+Replace the existing IP ToS field. This action is only applied
+to IPv4 packets.
+NOTE: This is OpenFlow version 1.0 specific action type</p>
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.SetNwTosAction.get_tos">
+<code class="descname">get_tos</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetNwTosAction.get_tos" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.openflowdev.ofswitch.SetNwTosAction.set_tos">
+<code class="descname">set_tos</code><span class="sig-paren">(</span><em>tos</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.openflowdev.ofswitch.SetNwTosAction.set_tos" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2041,7 +2088,7 @@ only for packets with VID equal to &#8216;vlan_id&#8217; value</p>
         <li class="right" >
           <a href="pybvc.netconfdev.vrouter.html" title="pybvc.netconfdev.vrouter package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

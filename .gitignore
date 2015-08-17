@@ -3,3 +3,4 @@ howToUpdateDocs.txt
 dist
 *.swp
 docs
+*.bak
