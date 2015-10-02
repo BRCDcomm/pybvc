@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pybvc.netconfdev.vrouter package &mdash; pybvc 1.3.2 documentation</title>
+    <title>pybvc.netconfdev.vrouter package &mdash; pybvc 1.3.4 documentation</title>
     
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '1.3.2',
+        VERSION:     '1.3.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,10 +23,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="pybvc 1.3.2 documentation" href="index.html" />
+    <link rel="top" title="pybvc 1.3.4 documentation" href="index.html" />
     <link rel="up" title="pybvc.netconfdev package" href="pybvc.netconfdev.html" />
     <link rel="next" title="pybvc.openflowdev package" href="pybvc.openflowdev.html" />
-    <link rel="prev" title="pybvc.netconfdev package" href="pybvc.netconfdev.html" /> 
+    <link rel="prev" title="pybvc.netconfdev.vdx package" href="pybvc.netconfdev.vdx.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -42,9 +42,9 @@
           <a href="pybvc.openflowdev.html" title="pybvc.openflowdev package"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="pybvc.netconfdev.html" title="pybvc.netconfdev package"
+          <a href="pybvc.netconfdev.vdx.html" title="pybvc.netconfdev.vdx package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.4 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="pybvc.netconfdev.html" accesskey="U">pybvc.netconfdev package</a> &raquo;</li> 
       </ul>
     </div>  
@@ -136,20 +136,15 @@ Helper class of the &#8216;DataplaneInterfaceFirewall&#8217; class</p>
 
 <dl class="class">
 <dt id="pybvc.netconfdev.vrouter.firewall.Firewall">
-<em class="property">class </em><code class="descclassname">pybvc.netconfdev.vrouter.firewall.</code><code class="descname">Firewall</code><a class="headerlink" href="#pybvc.netconfdev.vrouter.firewall.Firewall" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">pybvc.netconfdev.vrouter.firewall.</code><code class="descname">Firewall</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.firewall.Firewall" title="Permalink to this definition">¶</a></dt>
 <dd><p>A class that defines a Firewall.</p>
 <dl class="method">
-<dt id="pybvc.netconfdev.vrouter.firewall.Firewall.add_rules">
-<code class="descname">add_rules</code><span class="sig-paren">(</span><em>rules</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.firewall.Firewall.add_rules" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add rules to Firewall.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rules</strong> &#8211; Rules to be added to Firewall.  <code class="xref py py-class docutils literal"><span class="pre">pybvc.netconfdev.vrouter.vrouter5600.Rules</span></code></td>
-</tr>
-</tbody>
-</table>
+<dt id="pybvc.netconfdev.vrouter.firewall.Firewall.add_rule">
+<code class="descname">add_rule</code><span class="sig-paren">(</span><em>rule</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.firewall.Firewall.add_rule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a rule to Firewall.
+:param rule: Rule to be added to Firewall.</p>
+<blockquote>
+<div><code class="xref py py-class docutils literal"><span class="pre">pybvc.netconfdev.vrouter.vrouter5600.Rule</span></code></div></blockquote>
 </dd></dl>
 
 <dl class="method">
@@ -160,17 +155,9 @@ Helper class of the &#8216;DataplaneInterfaceFirewall&#8217; class</p>
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.firewall.Firewall.get_rules">
 <code class="descname">get_rules</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.firewall.Firewall.get_rules" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the Rules of a Firewall</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Rules of the Firewall</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">pybvc.netconfdev.vrouter.vrouter5600.Rules</span></code></td>
-</tr>
-</tbody>
-</table>
+<dd><p>Return the Rules of a Firewall
+:return: Rules of the Firewall
+:rtype: <code class="xref py py-class docutils literal"><span class="pre">pybvc.netconfdev.vrouter.vrouter5600.Rules</span></code></p>
 </dd></dl>
 
 <dl class="method">
@@ -200,26 +187,20 @@ Helper class of the &#8216;DataplaneInterfaceFirewall&#8217; class</p>
 <dl class="class">
 <dt id="pybvc.netconfdev.vrouter.firewall.Rule">
 <em class="property">class </em><code class="descclassname">pybvc.netconfdev.vrouter.firewall.</code><code class="descname">Rule</code><span class="sig-paren">(</span><em>number</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.firewall.Rule" title="Permalink to this definition">¶</a></dt>
-<dd><p>The class that defines a Rule.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>number</strong> (<em>int</em>) &#8211; The number for the Rule.</td>
-</tr>
-</tbody>
-</table>
+<dd><p>The class that defines a Rule.
+:param int number: The number for the Rule.</p>
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.firewall.Rule.add_action">
 <code class="descname">add_action</code><span class="sig-paren">(</span><em>action</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.firewall.Rule.add_action" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add an action to the Rule.</p>
+<dd><p>Add an action to the Rule.
+:param string action: The action to be taken for the Rule:  accept,</p>
+<blockquote>
+<div>drop</div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>action</strong> (<em>string</em>) &#8211; The action to be taken for the Rule:  accept, drop</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">No return value</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">No return value</td>
 </tr>
 </tbody>
 </table>
@@ -228,7 +209,10 @@ Helper class of the &#8216;DataplaneInterfaceFirewall&#8217; class</p>
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.firewall.Rule.add_icmp_typename">
 <code class="descname">add_icmp_typename</code><span class="sig-paren">(</span><em>typeName</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.firewall.Rule.add_icmp_typename" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add typename for ICMP to Rule.  If the packet matches this then the action is taken.</p>
+<dd><dl class="docutils">
+<dt>Add typename for ICMP to Rule.  If the packet matches this then the</dt>
+<dd>action is taken.</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -244,12 +228,16 @@ Helper class of the &#8216;DataplaneInterfaceFirewall&#8217; class</p>
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.firewall.Rule.add_source_address">
 <code class="descname">add_source_address</code><span class="sig-paren">(</span><em>srcAddr</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.firewall.Rule.add_source_address" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add source address to Rule. If the packet matches this then the action is taken.</p>
+<dd><dl class="docutils">
+<dt>Add source address to Rule. If the packet matches this then the</dt>
+<dd>action is taken.</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>srcAddr</strong> (<em>string</em>) &#8211; The IP address to match against the source IP of packet.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>srcAddr</strong> (<em>string</em>) &#8211; The IP address to match against the source IP
+of packet.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">No return value</td>
 </tr>
@@ -271,71 +259,13 @@ Helper class of the &#8216;DataplaneInterfaceFirewall&#8217; class</p>
 
 </dd></dl>
 
-<dl class="class">
-<dt id="pybvc.netconfdev.vrouter.firewall.Rules">
-<em class="property">class </em><code class="descclassname">pybvc.netconfdev.vrouter.firewall.</code><code class="descname">Rules</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.firewall.Rules" title="Permalink to this definition">¶</a></dt>
-<dd><p>The class that defines the Firewall Rules.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<em>string</em>) &#8211; The name for the Firewall Rule</td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="pybvc.netconfdev.vrouter.firewall.Rules.add_rule">
-<code class="descname">add_rule</code><span class="sig-paren">(</span><em>rule</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.firewall.Rules.add_rule" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a single firewall rule to Rules.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rule</strong> &#8211; The rule to add to this Rules instance.  <code class="xref py py-class docutils literal"><span class="pre">pybvc.netconfdev.vrouter.vrouter5600.Rule</span></code></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pybvc.netconfdev.vrouter.firewall.Rules.get_name">
-<code class="descname">get_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.firewall.Rules.get_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the name of the Rules instance.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The name of the Rules instance.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">string</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="pybvc.netconfdev.vrouter.firewall.Rules.to_json">
-<code class="descname">to_json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.firewall.Rules.to_json" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the firewall Rules as JSON</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="pybvc.netconfdev.vrouter.firewall.Rules.to_string">
-<code class="descname">to_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.firewall.Rules.to_string" title="Permalink to this definition">¶</a></dt>
-<dd><p>return the firewall Rules as a string</p>
-</dd></dl>
-
-</dd></dl>
-
 </div>
 <div class="section" id="module-pybvc.netconfdev.vrouter.interfaces">
 <span id="pybvc-netconfdev-vrouter-interfaces-module"></span><h2>pybvc.netconfdev.vrouter.interfaces module<a class="headerlink" href="#module-pybvc.netconfdev.vrouter.interfaces" title="Permalink to this headline">¶</a></h2>
 <p>&#64;authors: Sergei Garbuzov
 &#64;status: Development
 &#64;version: 1.1.0</p>
-<p>firewall.py: Firewall specific properties and access methods</p>
+<p>interfaces.py: Interface specific properties and access methods</p>
 <dl class="class">
 <dt id="pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface">
 <em class="property">class </em><code class="descclassname">pybvc.netconfdev.vrouter.interfaces.</code><code class="descname">DataPlaneInterface</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.DataPlaneInterface" title="Permalink to this definition">¶</a></dt>
@@ -527,6 +457,11 @@ enumeration: &#8216;md5&#8217;, &#8216;sha1&#8217;, &#8216;sha256&#8217;, &#8216
 <dd><p>Return this object as a payload for HTTP request</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.get_url_extension">
+<code class="descname">get_url_extension</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.get_url_extension" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.hash">
 <code class="descname">hash</code><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.hash" title="Permalink to this definition">¶</a></dt>
@@ -670,7 +605,9 @@ enumeration: &#8216;udp&#8217;, &#8216;tcp-passive&#8217;, &#8216;tcp-active&#82
 <dt id="pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.shared_secret_key_file">
 <code class="descname">shared_secret_key_file</code><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.OpenVpnInterface.shared_secret_key_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Data encryption algorithm option
-enumeration: &#8216;des&#8217;, &#8216;3des&#8217;, &#8216;bf128&#8217;, &#8216;bf256&#8217;, &#8216;aes128&#8217;, &#8216;aes192&#8217;, &#8216;aes256&#8217;</p>
+enumeration: &#8216;des&#8217;, &#8216;3des&#8217;, &#8216;bf128&#8217;, &#8216;bf256&#8217;, &#8216;aes128&#8217;, &#8216;aes192&#8217;,</p>
+<blockquote>
+<div>&#8216;aes256&#8217;</div></blockquote>
 </dd></dl>
 
 <dl class="attribute">
@@ -703,7 +640,7 @@ enumeration: &#8216;site-to-site&#8217;, &#8216;client&#8217;, &#8216;server&#82
 <dl class="class">
 <dt id="pybvc.netconfdev.vrouter.interfaces.TlsOptions">
 <em class="property">class </em><code class="descclassname">pybvc.netconfdev.vrouter.interfaces.</code><code class="descname">TlsOptions</code><a class="headerlink" href="#pybvc.netconfdev.vrouter.interfaces.TlsOptions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Transport Layer Security (TLS) options 
+<dd><p>Transport Layer Security (TLS) options
 Helper class of the &#8216;OpenVpnInterface&#8217; class</p>
 <dl class="attribute">
 <dt id="pybvc.netconfdev.vrouter.interfaces.TlsOptions.ca_cert_file">
@@ -847,7 +784,7 @@ Helper class of the &#8216;OpenVpnInterface&#8217; class</p>
 <p>&#64;authors: Sergei Garbuzov
 &#64;status: Development
 &#64;version: 1.1.0</p>
-<p>firewall.py: Firewall specific properties and access methods</p>
+<p>protocols.py: Protocols specific properties and access methods</p>
 <dl class="class">
 <dt id="pybvc.netconfdev.vrouter.protocols.InterfaceRoute">
 <em class="property">class </em><code class="descclassname">pybvc.netconfdev.vrouter.protocols.</code><code class="descname">InterfaceRoute</code><span class="sig-paren">(</span><em>ip_prefix</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.protocols.InterfaceRoute" title="Permalink to this definition">¶</a></dt>
@@ -923,6 +860,11 @@ Next-hop interface</p>
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.protocols.StaticRoute.get_payload">
 <code class="descname">get_payload</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.protocols.StaticRoute.get_payload" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.protocols.StaticRoute.get_url_extension">
+<code class="descname">get_url_extension</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.protocols.StaticRoute.get_url_extension" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -1099,13 +1041,15 @@ Next-hop interface</p>
 <dl class="attribute">
 <dt id="pybvc.netconfdev.vrouter.vpn.IpSecCertificate.crl_file">
 <code class="descname">crl_file</code><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.vpn.IpSecCertificate.crl_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>File containing the X.509 certificate for the remote access VPN server</p>
+<dd><p>File containing the X.509 certificate for the remote access VPN
+server</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="pybvc.netconfdev.vrouter.vpn.IpSecCertificate.server_cert_file">
 <code class="descname">server_cert_file</code><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.vpn.IpSecCertificate.server_cert_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>File containing the private key for the X.509 certificate for the remote access VPN server</p>
+<dd><p>File containing the private key for the X.509 certificate for the
+remote access VPN server</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1167,7 +1111,8 @@ Helper sub-class of the &#8216;Vpn&#8217; class</p>
 <dl class="attribute">
 <dt id="pybvc.netconfdev.vrouter.vpn.Ipsec.auto_update">
 <code class="descname">auto_update</code><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.vpn.Ipsec.auto_update" title="Permalink to this definition">¶</a></dt>
-<dd><p>Option to disable requirement for unique IDs in the Security Database</p>
+<dd><p>Option to disable requirement for unique IDs in the Security
+Database</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1188,7 +1133,8 @@ Helper sub-class of the &#8216;Vpn&#8217; class</p>
 <dt id="pybvc.netconfdev.vrouter.vpn.Ipsec.ike_group">
 <code class="descname">ike_group</code><em class="property"> = None</em><a class="headerlink" href="#pybvc.netconfdev.vrouter.vpn.Ipsec.ike_group" title="Permalink to this definition">¶</a></dt>
 <dd><p>IPsec logging
-&#8216;enumeration: raw&#8217;, &#8216;crypt&#8217;, &#8216;parsing&#8217;, &#8216;emitting&#8217;, &#8216;control&#8217;, &#8216;private&#8217;, &#8216;all&#8217;</p>
+&#8216;enumeration: raw&#8217;, &#8216;crypt&#8217;, &#8216;parsing&#8217;, &#8216;emitting&#8217;, &#8216;control&#8217;,
+&#8216;private&#8217;, &#8216;all&#8217;</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1549,7 +1495,7 @@ Helper sub-class of the &#8216;Vpn&#8217; class</p>
 <dt id="pybvc.netconfdev.vrouter.vpn.RsaKeys">
 <em class="property">class </em><code class="descclassname">pybvc.netconfdev.vrouter.vpn.</code><code class="descname">RsaKeys</code><a class="headerlink" href="#pybvc.netconfdev.vrouter.vpn.RsaKeys" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pybvc.netconfdev.vrouter.vpn.Vpn" title="pybvc.netconfdev.vrouter.vpn.Vpn"><code class="xref py py-class docutils literal"><span class="pre">pybvc.netconfdev.vrouter.vpn.Vpn</span></code></a></p>
-<p>Class representing RSA keys for VPN configuration 
+<p>Class representing RSA keys for VPN configuration
 Helper sub-class of the &#8216;Vpn&#8217; class</p>
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.vpn.RsaKeys.set_local_key">
@@ -1664,6 +1610,11 @@ Helper sub-class of the &#8216;Vpn&#8217; class</p>
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.vpn.Vpn.get_payload">
 <code class="descname">get_payload</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vpn.Vpn.get_payload" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vrouter.vpn.Vpn.get_url_extension">
+<code class="descname">get_url_extension</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vpn.Vpn.get_url_extension" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1924,17 +1875,26 @@ Helper sub-class of the &#8216;Vpn&#8217; class</p>
 <dt id="pybvc.netconfdev.vrouter.vrouter5600.VRouter5600">
 <em class="property">class </em><code class="descclassname">pybvc.netconfdev.vrouter.vrouter5600.</code><code class="descname">VRouter5600</code><span class="sig-paren">(</span><em>ctrl</em>, <em>name</em>, <em>ipAddr</em>, <em>portNum</em>, <em>adminName</em>, <em>adminPassword</em>, <em>tcpOnly=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="pybvc.controller.html#pybvc.controller.netconfnode.NetconfNode" title="pybvc.controller.netconfnode.NetconfNode"><code class="xref py py-class docutils literal"><span class="pre">pybvc.controller.netconfnode.NetconfNode</span></code></a></p>
-<p>Class that represents an instance of vRouter5600 
+<p>Class that represents an instance of vRouter5600
 (NETCONF capable server device).</p>
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param ctrl:</th><td class="field-body"><a class="reference internal" href="pybvc.controller.html#pybvc.controller.controller.Controller" title="pybvc.controller.controller.Controller"><code class="xref py py-class docutils literal"><span class="pre">pybvc.controller.controller.Controller</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ctrl</strong> &#8211; <a class="reference internal" href="pybvc.controller.html#pybvc.controller.controller.Controller" title="pybvc.controller.controller.Controller"><code class="xref py py-class docutils literal"><span class="pre">pybvc.controller.controller.Controller</span></code></a></li>
 <li><strong>name</strong> (<em>string</em>) &#8211; The name of the vrouter5600</li>
 <li><strong>ipAddr</strong> (<em>string</em>) &#8211; The ip address for the vrouter5600</li>
-<li><strong>portNum</strong> (<em>int</em>) &#8211; The port number to communicate NETCONF 
+<li><strong>portNum</strong> (<em>int</em>) &#8211; The port number to communicate NETCONF
 to the vrouter5600</li>
 <li><strong>adminName</strong> (<em>string</em>) &#8211; The username to authenticate setup
 of the NETCONF communication</li>
@@ -1958,24 +1918,33 @@ of the NETCONF communication</li>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.create_firewall_instance">
-<code class="descname">create_firewall_instance</code><span class="sig-paren">(</span><em>fwInstance</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.create_firewall_instance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a firewall on the VRouter5600.</p>
+<dt id="pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.add_modify_firewall_instance">
+<code class="descname">add_modify_firewall_instance</code><span class="sig-paren">(</span><em>fwInstance</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.add_modify_firewall_instance" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Create a firewall on the VRouter5600.</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param fwInstance:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">instance of the &#8216;Firewall&#8217; class</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fwInstance</strong> &#8211; instance of the &#8216;Firewall&#8217; class</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple:  Status, None.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A tuple:  Status, None.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class
+- STATUS.CONN_ERROR: If the controller did not respond.</td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><p class="first">STATUS.CONN_ERROR: If the controller did not respond.</p>
-</li>
 <li><dl class="first docutils">
 <dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</dt>
 <dd><p class="first last">provide any status.</p>
@@ -1998,23 +1967,31 @@ of the NETCONF communication</li>
 <code class="descname">delete_dataplane_interface_firewall</code><span class="sig-paren">(</span><em>ifName</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.delete_dataplane_interface_firewall" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Delete both inbound and outbound firewalls for a</dt>
-<dd>dataplane interface on the VRouter5600.</dd>
+<dd><blockquote class="first">
+<div>dataplane interface on the VRouter5600.</div></blockquote>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param string ifName:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">The dataplane interface to attach a firewall.</td>
+</tr>
+</tbody>
+</table>
+</dd>
 </dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ifName</strong> (<em>string</em>) &#8211; The dataplane interface to attach a firewall.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple:  Status, Response from VRouter5600.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A tuple:  Status, Response from VRouter5600.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class
+- STATUS.CONN_ERROR: If the controller did not respond.</td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><p class="first">STATUS.CONN_ERROR: If the controller did not respond.</p>
-</li>
 <li><dl class="first docutils">
 <dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did</dt>
 <dd><p class="first last">not provide any status.</p>
@@ -2035,22 +2012,31 @@ of the NETCONF communication</li>
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.delete_firewall_instance">
 <code class="descname">delete_firewall_instance</code><span class="sig-paren">(</span><em>fwInstance</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.delete_firewall_instance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Delete a firewall from the VRouter5600.</p>
+<dd><dl class="docutils">
+<dt>Delete a firewall from the VRouter5600.</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param fwInstance:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">Firewall :class:</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fwInstance</strong> &#8211; Firewall :class:</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple: Status, None.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A tuple: Status, None.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class
+- STATUS.CONN_ERROR: If the controller did not respond.</td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><p class="first">STATUS.CONN_ERROR: If the controller did not respond.</p>
-</li>
 <li><dl class="first docutils">
 <dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</dt>
 <dd><p class="first last">provide any status.</p>
@@ -2059,9 +2045,10 @@ of the NETCONF communication</li>
 </li>
 <li><p class="first">STATUS.OK: Success. Result is valid.</p>
 </li>
-<li><p class="first">STATUS.HTTP_ERROR:  if the controller responded with an error status code.</p>
+<li><p class="first">STATUS.HTTP_ERROR:  if the controller responded with an error status</p>
 </li>
 </ul>
+<p>.  code.</p>
 </dd></dl>
 
 <dl class="method">
@@ -2094,35 +2081,34 @@ of the NETCONF communication</li>
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_cfg">
 <code class="descname">get_cfg</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_cfg" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return configuration of the VRouter5600.</p>
+<dd><dl class="docutils">
+<dt>Return configuration of the VRouter5600.</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">A tuple: Status, JSON for configuration.</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple: Status, JSON for configuration.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class (containing configuration data)</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class (containing configuration data)</td>
 </tr>
 </tbody>
 </table>
-<ul>
-<li><p class="first">STATUS.CONN_ERROR: If the controller did not respond.</p>
-</li>
-<li><dl class="first docutils">
-<dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</dt>
-<dd><p class="first last">provide any status.</p>
-</dd>
-</dl>
-</li>
-<li><p class="first">STATUS.OK: Success. Result is valid.</p>
-</li>
-<li><dl class="first docutils">
-<dt>STATUS.HTTP_ERROR: If the controller responded with an error</dt>
-<dd><p class="first last">status code.</p>
-</dd>
-</dl>
-</li>
+<ul class="simple">
+<li>STATUS.CONN_ERROR: If the controller did not respond.</li>
+<li>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</li>
 </ul>
+<p>.                             provide any status.
+- STATUS.OK: Success. Result is valid.
+- STATUS.HTTP_ERROR: If the controller responded with an error
+.                    status code.</p>
 </dd></dl>
 
 <dl class="method">
@@ -2130,24 +2116,32 @@ of the NETCONF communication</li>
 <code class="descname">get_dataplane_interface_cfg</code><span class="sig-paren">(</span><em>ifName</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_dataplane_interface_cfg" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Return the configuration for a dataplane interface</dt>
-<dd>on the VRouter5600</dd>
+<dd><blockquote class="first">
+<div>on the VRouter5600</div></blockquote>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param string ifName:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">The interface name of the interface for which
+configuration should be returned</td>
+</tr>
+</tbody>
+</table>
+</dd>
 </dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ifName</strong> (<em>string</em>) &#8211; The interface name of the interface for which
-configuration should be returned</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple: Status, configuration of dataplane interface</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A tuple: Status, configuration of dataplane interface</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class (containing configuration data)</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class (containing configuration data)
+- STATUS.CONN_ERROR: If the controller did not respond.</td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><p class="first">STATUS.CONN_ERROR: If the controller did not respond.</p>
-</li>
 <li><dl class="first docutils">
 <dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</dt>
 <dd><p class="first last">provide any status.</p>
@@ -2170,24 +2164,35 @@ configuration should be returned</td>
 <code class="descname">get_dataplane_interfaces_cfg</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_dataplane_interfaces_cfg" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Return the configuration for the dataplane interfaces</dt>
-<dd>on the VRouter5600</dd>
+<dd><blockquote class="first">
+<div>on the VRouter5600</div></blockquote>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">A tuple: Status, configuration of dataplane interfaces</td>
+</tr>
+</tbody>
+</table>
+</dd>
 </dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple: Status, configuration of dataplane interfaces</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class (containing configuration data)</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class (containing configuration data)
+- STATUS.CONN_ERROR: If the controller did not respond.</td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><p class="first">STATUS.CONN_ERROR: If the controller did not respond.</p>
-</li>
 <li><dl class="first docutils">
-<dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not provide</dt>
+<dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</dt>
+<dd><dl class="first last docutils">
+<dt>provide</dt>
 <dd><p class="first last">any status.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </li>
@@ -2205,20 +2210,28 @@ configuration should be returned</td>
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_dataplane_interfaces_list">
 <code class="descname">get_dataplane_interfaces_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_dataplane_interfaces_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a list of interfaces on the VRouter5600</p>
+<dd><dl class="docutils">
+<dt>Return a list of interfaces on the VRouter5600</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">A tuple: Status, list of interface names</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple: Status, list of interface names</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class
+- STATUS.CONN_ERROR: If the controller did not respond.</td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><p class="first">STATUS.CONN_ERROR: If the controller did not respond.</p>
-</li>
 <li><dl class="first docutils">
 <dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did</dt>
 <dd><p class="first last">not provide any status.</p>
@@ -2239,13 +2252,22 @@ configuration should be returned</td>
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_firewall_instance_cfg">
 <code class="descname">get_firewall_instance_cfg</code><span class="sig-paren">(</span><em>instance</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_firewall_instance_cfg" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return configuration for a specific firewall on the VRouter5600.</p>
-<p>:param instance of the &#8216;Firewall&#8217; class
-:return: A tuple: Status, JSON for firewall configuration.
-:rtype: instance of the <cite>Result</cite> class (containing configuration data)</p>
+<dd><dl class="docutils">
+<dt>Return configuration for a specific firewall on the VRouter5600.</dt>
+<dd>:param instance of the &#8216;Firewall&#8217; class</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple: Status, JSON for firewall configuration.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class (containing configuration data)
+- STATUS.CONN_ERROR: If the controller did not respond.</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li><p class="first">STATUS.CONN_ERROR: If the controller did not respond.</p>
-</li>
 <li><dl class="first docutils">
 <dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</dt>
 <dd><p class="first last">provide any status.</p>
@@ -2266,20 +2288,28 @@ configuration should be returned</td>
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_firewalls_cfg">
 <code class="descname">get_firewalls_cfg</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_firewalls_cfg" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return firewall configuration of the VRouter5600.</p>
+<dd><dl class="docutils">
+<dt>Return firewall configuration of the VRouter5600.</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">A tuple: Status, JSON for firewall configuration.</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple: Status, JSON for firewall configuration.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class (containing configuration data)</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class (containing configuration data)
+- STATUS.CONN_ERROR: If the controller did not respond.</td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><p class="first">STATUS.CONN_ERROR: If the controller did not respond.</p>
-</li>
 <li><dl class="first docutils">
 <dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did</dt>
 <dd><p class="first last">not provide any status.</p>
@@ -2300,20 +2330,28 @@ configuration should be returned</td>
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_interfaces_cfg">
 <code class="descname">get_interfaces_cfg</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_interfaces_cfg" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the configuration for the interfaces on the VRouter5600</p>
+<dd><dl class="docutils">
+<dt>Return the configuration for the interfaces on the VRouter5600</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">A tuple: Status, configuration of the interfaces</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple: Status, configuration of the interfaces</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class (containing configuration data)</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class (containing configuration data)
+- STATUS.CONN_ERROR: If the controller did not respond.</td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><p class="first">STATUS.CONN_ERROR: If the controller did not respond.</p>
-</li>
 <li><dl class="first docutils">
 <dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</dt>
 <dd><p class="first last">provide any status.</p>
@@ -2334,20 +2372,28 @@ configuration should be returned</td>
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_interfaces_list">
 <code class="descname">get_interfaces_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_interfaces_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the list of interfaces on the VRouter5600.</p>
+<dd><dl class="docutils">
+<dt>Get the list of interfaces on the VRouter5600.</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">A tuple: Status, list of interface names.</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple: Status, list of interface names.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class
+- STATUS.CONN_ERROR: If the controller did not respond.</td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><p class="first">STATUS.CONN_ERROR: If the controller did not respond.</p>
-</li>
 <li><dl class="first docutils">
 <dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</dt>
 <dd><p class="first last">provide any status.</p>
@@ -2370,24 +2416,32 @@ configuration should be returned</td>
 <code class="descname">get_loopback_interface_cfg</code><span class="sig-paren">(</span><em>ifName</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_loopback_interface_cfg" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Return the configuration for a single loopback interface</dt>
-<dd>on the VRouter5600</dd>
+<dd><blockquote class="first">
+<div>on the VRouter5600</div></blockquote>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param string ifName:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">The interface name of the interface for which
+configuration should be returned</td>
+</tr>
+</tbody>
+</table>
+</dd>
 </dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ifName</strong> (<em>string</em>) &#8211; The interface name of the interface for which
-configuration should be returned</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple: Status, configuration of dataplane interface</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A tuple: Status, configuration of dataplane interface</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class (containing configuration data)</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class (containing configuration data)
+- STATUS.CONN_ERROR: If the controller did not respond.</td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><p class="first">STATUS.CONN_ERROR: If the controller did not respond.</p>
-</li>
 <li><dl class="first docutils">
 <dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</dt>
 <dd><p class="first last">provide any status.</p>
@@ -2409,22 +2463,29 @@ configuration should be returned</td>
 <dt id="pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_loopback_interfaces_cfg">
 <code class="descname">get_loopback_interfaces_cfg</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_loopback_interfaces_cfg" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
-<dt>Return the configuration for the loopback interfaces </dt>
-<dd>on the VRouter5600</dd>
+<dt>Return the configuration for the loopback interfaces</dt>
+<dd><blockquote class="first">
+<div>on the VRouter5600</div></blockquote>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">A tuple: Status, configuration of loopback interfaces</td>
+</tr>
+</tbody>
+</table>
+</dd>
 </dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple: Status, configuration of loopback interfaces</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class (containing configuration data)</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class (containing configuration data)
+- STATUS.CONN_ERROR: If the controller did not respond.</td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><p class="first">STATUS.CONN_ERROR: If the controller did not respond.</p>
-</li>
 <li><dl class="first docutils">
 <dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</dt>
 <dd><p class="first last">provide any status.</p>
@@ -2445,20 +2506,28 @@ configuration should be returned</td>
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_loopback_interfaces_list">
 <code class="descname">get_loopback_interfaces_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_loopback_interfaces_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a list of loopback interfaces on the VRouter5600</p>
+<dd><dl class="docutils">
+<dt>Return a list of loopback interfaces on the VRouter5600</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">A tuple:  Status, list of loopback interface names</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple:  Status, list of loopback interface names</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class
+- STATUS.CONN_ERROR: If the controller did not respond.</td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><p class="first">STATUS.CONN_ERROR: If the controller did not respond.</p>
-</li>
 <li><dl class="first docutils">
 <dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</dt>
 <dd><p class="first last">provide any status.</p>
@@ -2504,65 +2573,75 @@ configuration should be returned</td>
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_schema">
 <code class="descname">get_schema</code><span class="sig-paren">(</span><em>schemaId</em>, <em>schemaVersion</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_schema" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a YANG model definition for the indicated schema</p>
+<dd><dl class="docutils">
+<dt>Return a YANG model definition for the indicated schema</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param string schemaId:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">id of schema</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>schemaId</strong> (<em>string</em>) &#8211; id of schema</li>
-<li><strong>schemaVersion</strong> (<em>string</em>) &#8211; version of the schema</li>
-</ul>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>schemaVersion</strong> (<em>string</em>) &#8211; version of the schema</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A tuple: Status, YANG model schema.</p>
-</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A tuple: Status, YANG model schema.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">instance of the <cite>Result</cite> class (containing YANG schema)</p>
-</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class (containing YANG schema)</td>
 </tr>
 </tbody>
 </table>
-<ul>
-<li><p class="first">STATUS.CONN_ERROR: If the controller did not respond. Schema is empty.</p>
-</li>
-<li><dl class="first docutils">
-<dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</dt>
-<dd><p class="first last">provide any status. Schema is empty.</p>
-</dd>
-</dl>
-</li>
-<li><p class="first">STATUS.OK: Success. Result is valid.</p>
-</li>
-<li><p class="first">STATUS.DATA_NOT_FOUND: Data missing or in unexpected format.</p>
-</li>
-<li><dl class="first docutils">
-<dt>STATUS.HTTP_ERROR: If the controller responded with an error</dt>
-<dd><p class="first last">status code.</p>
-</dd>
-</dl>
-</li>
+<ul class="simple">
+<li>STATUS.CONN_ERROR: If the controller did not respond. Schema is</li>
 </ul>
+<p>.  empty.
+- STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not
+.                             provide any status. Schema is empty.
+- STATUS.OK: Success. Result is valid.
+- STATUS.DATA_NOT_FOUND: Data missing or in unexpected format.
+- STATUS.HTTP_ERROR: If the controller responded with an error
+.                    status code.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_schemas">
 <code class="descname">get_schemas</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_schemas" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a list of YANG model schemas implemented on this VRouter5600</p>
+<dd><dl class="docutils">
+<dt>Return a list of YANG model schemas implemented on this VRouter5600</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">A tuple: Status, list of YANG model schemas for the
+VRouter5600.</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple: Status, list of YANG model schemas for the VRouter5600.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class (containing JSON listing 
-information about the YANG schemas for the node)</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><dl class="docutils">
+<dt>instance of the <cite>Result</cite> class (containing JSON listing</dt>
+<dd>information about the YANG schemas for the node)</dd>
+</dl>
+<ul class="simple">
+<li>STATUS.CONN_ERROR: If the controller did not respond. List is empty.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><p class="first">STATUS.CONN_ERROR: If the controller did not respond. List is empty.</p>
-</li>
 <li><dl class="first docutils">
 <dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</dt>
 <dd><p class="first last">provide any status. List is empty.</p>
@@ -2583,20 +2662,28 @@ information about the YANG schemas for the node)</td>
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_vpn_cfg">
 <code class="descname">get_vpn_cfg</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.get_vpn_cfg" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return VPN configuration of the VRouter5600.</p>
+<dd><dl class="docutils">
+<dt>Return VPN configuration of the VRouter5600.</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">return:</th><td class="field-body">A tuple: Status, JSON for VPN configuration.</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple: Status, JSON for VPN configuration.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class (containing configuration data)</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class (containing configuration data)
+- STATUS.CONN_ERROR: If the controller did not respond.</td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><p class="first">STATUS.CONN_ERROR: If the controller did not respond.</p>
-</li>
 <li><dl class="first docutils">
 <dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did</dt>
 <dd><p class="first last">not provide any status.</p>
@@ -2618,15 +2705,25 @@ information about the YANG schemas for the node)</td>
 <dt id="pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.set_dataplane_interface_firewall">
 <code class="descname">set_dataplane_interface_firewall</code><span class="sig-paren">(</span><em>ifName</em>, <em>inboundFwName</em>, <em>outboundFwName</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.set_dataplane_interface_firewall" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
-<dt>Set a firewall for inbound, outbound or both for a </dt>
-<dd>dataplane interface on the VRouter5600.</dd>
+<dt>Set a firewall for inbound, outbound or both for a</dt>
+<dd><blockquote class="first">
+<div>dataplane interface on the VRouter5600.</div></blockquote>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param string ifName:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">The dataplane interface to attache a firewall.</td>
+</tr>
+</tbody>
+</table>
+</dd>
 </dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ifName</strong> (<em>string</em>) &#8211; The dataplane interface to attache a firewall.</li>
 <li><strong>inboundFwName</strong> (<em>string</em>) &#8211; None or name of firewall on VRouter5600
 to use for traffic inbound towards router.</li>
 <li><strong>outboundFwName</strong> (<em>string</em>) &#8211; None or name of firewall on VRouter5600
@@ -2637,16 +2734,28 @@ to use for traffic outbound from router.</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A tuple:  Status, None.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">instance of the <cite>Result</cite> class</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><p>instance of the <cite>Result</cite> class
+- STATUS.CONN_ERROR:  if the controller did not respond. schema is</p>
+<blockquote>
+<div><p>empty.</p>
+</div></blockquote>
+</p>
 </td>
 </tr>
 </tbody>
 </table>
-<ul class="simple">
-<li>STATUS.CONN_ERROR:  if the controller did not respond. schema is empty.</li>
-<li>STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not provide any status. schema is empty.</li>
-<li>STATUS.OK:  Success. result is valid.</li>
-<li>STATUS.HTTP_ERROR:  if the controller responded with an error status code.</li>
+<ul>
+<li><dl class="first docutils">
+<dt>STATUS.CTRL_INTERNAL_ERROR:  if the controller responded but did not</dt>
+<dd><p class="first last">provide any status. schema is empty.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">STATUS.OK:  Success. result is valid.</p>
+</li>
+<li><p class="first">STATUS.HTTP_ERROR:  if the controller responded with an error status
+code.</p>
+</li>
 </ul>
 </dd></dl>
 
@@ -2663,22 +2772,30 @@ to use for traffic outbound from router.</li>
 <dl class="method">
 <dt id="pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.set_vpn_cfg">
 <code class="descname">set_vpn_cfg</code><span class="sig-paren">(</span><em>vpn</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vrouter.vrouter5600.VRouter5600.set_vpn_cfg" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create/update VPN configuration</p>
+<dd><dl class="docutils">
+<dt>Create/update VPN configuration</dt>
+<dd><table class="first last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param vpn:</th><td class="field-body">instance of the &#8216;Vpn&#8217; class</td>
+</tr>
+</tbody>
+</table>
+</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vpn</strong> &#8211; instance of the &#8216;Vpn&#8217; class</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple: Status, None</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A tuple: Status, None</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">instance of the <cite>Result</cite> class
+- STATUS.CONN_ERROR: If the controller did not respond.</td>
 </tr>
 </tbody>
 </table>
 <ul>
-<li><p class="first">STATUS.CONN_ERROR: If the controller did not respond.</p>
-</li>
 <li><dl class="first docutils">
 <dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</dt>
 <dd><p class="first last">provide any status.</p>
@@ -2742,8 +2859,8 @@ to use for traffic outbound from router.</li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="pybvc.netconfdev.html"
-                        title="previous chapter">pybvc.netconfdev package</a></p>
+  <p class="topless"><a href="pybvc.netconfdev.vdx.html"
+                        title="previous chapter">pybvc.netconfdev.vdx package</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="pybvc.openflowdev.html"
                         title="next chapter">pybvc.openflowdev package</a></p>
@@ -2784,9 +2901,9 @@ to use for traffic outbound from router.</li>
           <a href="pybvc.openflowdev.html" title="pybvc.openflowdev package"
              >next</a> |</li>
         <li class="right" >
-          <a href="pybvc.netconfdev.html" title="pybvc.netconfdev package"
+          <a href="pybvc.netconfdev.vdx.html" title="pybvc.netconfdev.vdx package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.4 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="pybvc.netconfdev.html" >pybvc.netconfdev package</a> &raquo;</li> 
       </ul>
     </div>

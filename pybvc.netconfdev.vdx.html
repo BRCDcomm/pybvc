@@ -1,0 +1,303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pybvc.netconfdev.vdx package &mdash; pybvc 1.3.4 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.3.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="pybvc 1.3.4 documentation" href="index.html" />
+    <link rel="up" title="pybvc.netconfdev package" href="pybvc.netconfdev.html" />
+    <link rel="next" title="pybvc.netconfdev.vrouter package" href="pybvc.netconfdev.vrouter.html" />
+    <link rel="prev" title="pybvc.netconfdev package" href="pybvc.netconfdev.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pybvc.netconfdev.vrouter.html" title="pybvc.netconfdev.vrouter package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pybvc.netconfdev.html" title="pybvc.netconfdev package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.4 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="pybvc.netconfdev.html" accesskey="U">pybvc.netconfdev package</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pybvc-netconfdev-vdx-package">
+<h1>pybvc.netconfdev.vdx package<a class="headerlink" href="#pybvc-netconfdev-vdx-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pybvc.netconfdev.vdx.nos">
+<span id="pybvc-netconfdev-vdx-nos-module"></span><h2>pybvc.netconfdev.vdx.nos module<a class="headerlink" href="#module-pybvc.netconfdev.vdx.nos" title="Permalink to this headline">¶</a></h2>
+<p>&#64;authors: Sergei Garbuzov, Gary Berger
+&#64;status: Development
+&#64;version: 1.3.1</p>
+<p>nos.py: Brocade VDX specific properties and communication methods</p>
+<dl class="class">
+<dt id="pybvc.netconfdev.vdx.nos.NOS">
+<em class="property">class </em><code class="descclassname">pybvc.netconfdev.vdx.nos.</code><code class="descname">NOS</code><span class="sig-paren">(</span><em>ctrl</em>, <em>name</em>, <em>ip_address</em>, <em>port_number</em>, <em>admin_name</em>, <em>admin_password</em>, <em>tcp_only=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vdx.nos.NOS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="pybvc.controller.html#pybvc.controller.netconfnode.NetconfNode" title="pybvc.controller.netconfnode.NetconfNode"><code class="xref py py-class docutils literal"><span class="pre">pybvc.controller.netconfnode.NetconfNode</span></code></a></p>
+<p>Class that represents an instance of NOS
+(NETCONF capable server device).
+:param ctrl: <a class="reference internal" href="pybvc.controller.html#pybvc.controller.controller.Controller" title="pybvc.controller.controller.Controller"><code class="xref py py-class docutils literal"><span class="pre">pybvc.controller.controller.Controller</span></code></a>
+:param string name: The name
+:param string ipAddr: The ip address
+:param int portNum: The port number to communicate NETCONF
+:param string adminName:  The username to authenticate setup</p>
+<blockquote>
+<div>of the NETCONF communication</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>adminPassword</strong> (<em>string</em>) &#8211; The password to authenticate setup
+of the NETCONF communication</li>
+<li><strong>tcpOnly</strong> (<em>boolean</em>) &#8211; Use TCP only or not.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The newly created instance.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">:class:<a href="#id1"><span class="problematic" id="id2">`</span></a>pybvc.netconfdev.vdx.nos.NOS&#8217;</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="pybvc.netconfdev.vdx.nos.NOS.get_cfg">
+<code class="descname">get_cfg</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vdx.nos.NOS.get_cfg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return configuration
+:return: A tuple: Status, JSON for configuration.
+:rtype: instance of the <cite>Result</cite> class (containing configuration data)
+- STATUS.CONN_ERROR: If the controller did not respond.
+- STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</p>
+<blockquote>
+<div>provide any status.</div></blockquote>
+<ul>
+<li><p class="first">STATUS.OK: Success. Result is valid.</p>
+</li>
+<li><dl class="first docutils">
+<dt>STATUS.HTTP_ERROR: If the controller responded with an error</dt>
+<dd><p class="first last">status code.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vdx.nos.NOS.get_schema">
+<code class="descname">get_schema</code><span class="sig-paren">(</span><em>schema_id</em>, <em>schema_version</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vdx.nos.NOS.get_schema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a YANG model definition for the indicated schema
+:param string schema_id: id of schema
+:param string schema_version: version of the schema
+:return: A tuple: Status, YANG model schema.
+:rtype: instance of the <cite>Result</cite> class (containing YANG schema)
+- STATUS.CONN_ERROR: If the controller did not respond. Schema is
+. empty.
+- STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not
+.                             provide any status. Schema is empty.
+- STATUS.OK: Success. Result is valid.
+- STATUS.DATA_NOT_FOUND: Data missing or in unexpected format.
+- STATUS.HTTP_ERROR: If the controller responded with an error</p>
+<blockquote>
+<div>status code.</div></blockquote>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vdx.nos.NOS.get_schemas">
+<code class="descname">get_schemas</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vdx.nos.NOS.get_schemas" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of YANG model schemas implemented
+:return: A tuple: Status, list of YANG model schemas
+:rtype: instance of the <cite>Result</cite> class (containing JSON listing</p>
+<blockquote>
+<div>information about the YANG schemas for the node)</div></blockquote>
+<ul>
+<li><p class="first">STATUS.CONN_ERROR: If the controller did not respond. List is empty.</p>
+</li>
+<li><dl class="first docutils">
+<dt>STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</dt>
+<dd><p class="first last">provide any status. List is empty.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">STATUS.OK: Success. List is valid.</p>
+</li>
+<li><dl class="first docutils">
+<dt>STATUS.HTTP_ERROR: If the controller responded with an error</dt>
+<dd><p class="first last">status code.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vdx.nos.NOS.to_json">
+<code class="descname">to_json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vdx.nos.NOS.to_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns JSON representation of this object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pybvc.netconfdev.vdx.nos.NOS.to_string">
+<code class="descname">to_string</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vdx.nos.NOS.to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns string representation of this object.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="pybvc.netconfdev.vdx.nos.get_interfaces_cfg">
+<code class="descclassname">pybvc.netconfdev.vdx.nos.</code><code class="descname">get_interfaces_cfg</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vdx.nos.get_interfaces_cfg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the configuration for the interfaces on the VRouter5600
+:return: A tuple: Status, configuration of the interfaces
+:rtype: instance of the <cite>Result</cite> class (containing configuration data)
+- STATUS.CONN_ERROR: If the controller did not respond.
+- STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</p>
+<blockquote>
+<div>provide any status.</div></blockquote>
+<ul>
+<li><p class="first">STATUS.OK:  Success. Result is valid.</p>
+</li>
+<li><dl class="first docutils">
+<dt>STATUS.HTTP_ERROR: If the controller responded with an error</dt>
+<dd><p class="first last">status code.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybvc.netconfdev.vdx.nos.get_interfaces_list">
+<code class="descclassname">pybvc.netconfdev.vdx.nos.</code><code class="descname">get_interfaces_list</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="headerlink" href="#pybvc.netconfdev.vdx.nos.get_interfaces_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the list of interfaces on the VRouter5600.
+:return: A tuple: Status, list of interface names.
+:rtype: instance of the <cite>Result</cite> class
+- STATUS.CONN_ERROR: If the controller did not respond.
+- STATUS.CTRL_INTERNAL_ERROR: If the controller responded but did not</p>
+<blockquote>
+<div>provide any status.</div></blockquote>
+<ul>
+<li><p class="first">STATUS.OK:  Success. Result is valid.</p>
+</li>
+<li><dl class="first docutils">
+<dt>STATUS.HTTP_ERROR: If the controller responded with an error</dt>
+<dd><p class="first last">status code.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pybvc.netconfdev.vdx">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pybvc.netconfdev.vdx" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">pybvc.netconfdev.vdx package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-pybvc.netconfdev.vdx.nos">pybvc.netconfdev.vdx.nos module</a></li>
+<li><a class="reference internal" href="#module-pybvc.netconfdev.vdx">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pybvc.netconfdev.html"
+                        title="previous chapter">pybvc.netconfdev package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pybvc.netconfdev.vrouter.html"
+                        title="next chapter">pybvc.netconfdev.vrouter package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pybvc.netconfdev.vdx.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pybvc.netconfdev.vrouter.html" title="pybvc.netconfdev.vrouter package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pybvc.netconfdev.html" title="pybvc.netconfdev package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pybvc 1.3.4 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="pybvc.netconfdev.html" >pybvc.netconfdev package</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015, Sergei Garbuzov.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>
